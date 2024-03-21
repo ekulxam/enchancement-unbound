@@ -1,0 +1,103 @@
+plugins {
+    id 'fabric-loom' version '1.5-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/enchancement_unbound.accesswidener")
+}
+
+repositories {
+    maven {
+        name "cardinal components"
+        url "https://maven.ladysnake.org/releases"
+    }
+    maven {
+        name "architectury"
+        url "https://maven.shedaniel.me"
+    }
+    maven {
+        name "geckolib"
+        url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven"
+    }
+    maven {
+        name "mod menu"
+        url "https://maven.terraformersmc.com"
+    }
+    maven {
+        name "modrinth"
+        url "https://api.modrinth.com/maven"
+    }
+    maven {
+        name "jitpack"
+        url "https://jitpack.io"
+    }
+}
+
+dependencies {
+    // enchancement
+    modImplementation "maven.modrinth:enchancement:${enchancement_version}"
+
+    // mixin squared
+    include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.1.2-beta.4")))
+
+    // clumps because lot of xp while testing damage
+    modRuntimeOnly "maven.modrinth:clumps:${clumps_version}"
+
+    // minecraft and fabric
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+
+    // literally everything else that enchancement needs or uses
+    // i have no idea what half of these do
+    include modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cardinal_components_version}")
+    include modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${cardinal_components_version}")
+    include modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-world:${cardinal_components_version}")
+    include modApi("maven.modrinth:midnightlib:${midnightlib_version}")
+    include modApi("com.github.emilyploszaj:step-height-entity-attribute:${step_height_entity_attribute_version}")
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    modRuntimeOnly "maven.modrinth:tooltipfix:${tooltipfix_version}"
+    modCompileOnly("com.github.apace100:apoli:${apoli_version}") {
+        exclude(group: "*")
+    }
+    modCompileOnly "maven.modrinth:architectury-api:${architectury_version}+fabric"
+    modCompileOnly "software.bernie.geckolib:geckolib-fabric-${geckolib_version}"
+    modCompileOnly "maven.modrinth:sodium:${sodium_version}"
+    modRuntimeOnly "maven.modrinth:sodium:${sodium_version}"
+    implementation "org.joml:joml:1.10.4"
+    modCompileOnly "maven.modrinth:spectrum:${spectrum_version}"
+    modRuntimeOnly "com.terraformersmc:modmenu:${mod_menu_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+}
+
+java {
+    withSourcesJar()
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+}

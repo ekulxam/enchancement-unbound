@@ -1,0 +1,7 @@
+{
+  "enchancement_unbound.midnightconfig.title": "Enchancement Unbound",
+  "enchancement_unbound.midnightconfig.noCrossbowCooldown": "Remove Crossbow Cooldown",
+  "enchancement_unbound.midnightconfig.brimstoneSelfDamage": "Brimstone Self-Damage",
+  "enchancement_unbound.midnightconfig.maxBrimstoneDamage": "Maximum Brimstone Damage",
+  "enchancement_unbound.midnightconfig.maxBrimstoneSize": "Brimstone Size Limit (scales with damage, this just puts a cap)",
+}

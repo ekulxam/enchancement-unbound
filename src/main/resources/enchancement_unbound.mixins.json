@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "survivalblock.enchancement_unbound.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "brimstone.BrimstoneEntityMixin",
+    "brimstone.CrossbowItemMixinMixin",
+    "scatter.CrossbowItemMixinMixin",
+    "util.enforceconfigmatch.PlayerManagerMixin"
+  ],
+  "client": [
+    "brimstone.BrimstoneEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
