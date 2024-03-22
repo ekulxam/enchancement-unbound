@@ -27,7 +27,15 @@ public class OrbitalStrikeBrimstoneCannonItem extends Item {
 
     @Override
     public int getMaxUseTime(ItemStack stack) {
-        return 72000;
+        return 80;
+    }
+
+    @Override
+    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+        if(world.isClient() || !(user instanceof PlayerEntity player)){
+            return;
+        }
+        player.getItemCooldownManager().set(this, 100);
     }
 
     public void createOrbitalStrike(World world, LivingEntity user, Vec3d pos, float pitch, float yaw, double damage){
@@ -40,7 +48,7 @@ public class OrbitalStrikeBrimstoneCannonItem extends Item {
         brimstone.getDataTracker().set(BrimstoneEntity.FORCED_PITCH, pitch);
         brimstone.getDataTracker().set(BrimstoneEntity.FORCED_YAW, yaw);
         world.spawnEntity(brimstone);
-        world.playSound(null, user.getX(), user.getY(), user.getZ(), ModSoundEvents.ITEM_CROSSBOW_BRIMSTONE_6, SoundCategory.PLAYERS, 1.0F, 1.0F);
+        world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), ModSoundEvents.ITEM_CROSSBOW_BRIMSTONE_6, SoundCategory.PLAYERS, 1.0F, 1.0F);
     }
 
     @Override

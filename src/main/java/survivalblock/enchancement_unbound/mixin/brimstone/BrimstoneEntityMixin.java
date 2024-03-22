@@ -15,4 +15,9 @@ public class BrimstoneEntityMixin {
     private double enforceMyCapNotYours(double doubleValue) {
         return Math.max(doubleValue, UnboundConfig.maxBrimstoneDamage);
     }
+
+    @ModifyExpressionValue(method = "addParticles", at = @At(value = "INVOKE", target = "Lmoriyashiine/enchancement/common/entity/projectile/BrimstoneEntity;getDamage()D"))
+    private double particleLimit(double damage) {
+        return Math.max(damage, 12);
+    }
 }

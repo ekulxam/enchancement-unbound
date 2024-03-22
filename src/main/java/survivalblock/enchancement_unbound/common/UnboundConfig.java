@@ -19,6 +19,8 @@ public class UnboundConfig extends MidnightConfig {
 	public static double maxBrimstoneDamage = Integer.MAX_VALUE;
 	@Entry(min = 15)
 	public static double maxBrimstoneSize = 50.0;
+	@Entry
+	public static boolean betterBrimstoneRendering = true;
 
 	public static int encode() {
 		String forceString = "";
