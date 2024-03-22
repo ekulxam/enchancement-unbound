@@ -6,7 +6,8 @@
     "brimstone.BrimstoneEntityMixin",
     "brimstone.CrossbowItemMixinMixin",
     "scatter.CrossbowItemMixinMixin",
-    "util.enforceconfigmatch.PlayerManagerMixin"
+    "util.enforceconfigmatch.PlayerManagerMixin",
+    "vanillachanges.allcrossbowshavemultishot.CrossbowItemMixin"
   ],
   "client": [
     "brimstone.BrimstoneEntityRendererMixin"

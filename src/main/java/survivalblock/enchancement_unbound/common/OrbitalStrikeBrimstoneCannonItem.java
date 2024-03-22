@@ -27,15 +27,7 @@ public class OrbitalStrikeBrimstoneCannonItem extends Item {
 
     @Override
     public int getMaxUseTime(ItemStack stack) {
-        return 80;
-    }
-
-    @Override
-    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        if(world.isClient() || !(user instanceof PlayerEntity player)){
-            return;
-        }
-        player.getItemCooldownManager().set(this, 100);
+        return 72000;
     }
 
     public void createOrbitalStrike(World world, LivingEntity user, Vec3d pos, float pitch, float yaw, double damage){

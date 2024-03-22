@@ -16,8 +16,7 @@ public class CrossbowItemMixinMixin {
 
     @TargetHandler(
             mixin = "moriyashiine.enchancement.mixin.scatter.CrossbowItemMixin",
-            name = "Lmoriyashiine/enchancement/mixin/scatter/CrossbowItemMixin;enchancement$scatter(Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/util/Hand;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;FZFFFLorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;)V",
-            print = true
+            name = "Lmoriyashiine/enchancement/mixin/scatter/CrossbowItemMixin;enchancement$scatter(Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/util/Hand;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;FZFFFLorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;)V"
     )
     @WrapWithCondition(
             method = "@MixinSquared:Handler",

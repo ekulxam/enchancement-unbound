@@ -16,7 +16,7 @@ public class BrimstoneEntityRendererMixin {
             slice = @Slice(from = @At(shift = At.Shift.AFTER, value = "INVOKE", target = "Lmoriyashiine/enchancement/client/render/entity/BrimstoneEntityRenderer;drawPlane(Lorg/joml/Matrix4f;Lorg/joml/Matrix3f;Lnet/minecraft/client/render/VertexConsumer;FF)V")), at = @At(shift = At.Shift.AFTER, value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;multiply(Lorg/joml/Quaternionf;)V"),
             name = "i")
     private int betterStep(int i) {
-        int whatYouShouldReallyCountBy = 12;
+        int whatYouShouldReallyCountBy = 10;
         return UnboundConfig.betterBrimstoneRendering ? i + (whatYouShouldReallyCountBy - 15) : i;
     }
 

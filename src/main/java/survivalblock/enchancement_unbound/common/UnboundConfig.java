@@ -21,6 +21,8 @@ public class UnboundConfig extends MidnightConfig {
 	public static double maxBrimstoneSize = 50.0;
 	@Entry
 	public static boolean betterBrimstoneRendering = true;
+	@Entry
+	public static boolean allCrossbowsHaveMultishot = true;
 
 	public static int encode() {
 		String forceString = "";
