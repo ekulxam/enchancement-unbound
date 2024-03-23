@@ -6,8 +6,6 @@ package survivalblock.enchancement_unbound.common;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 
-import java.util.Iterator;
-
 
 public class UnboundConfig extends MidnightConfig {
 
@@ -16,17 +14,25 @@ public class UnboundConfig extends MidnightConfig {
 	@Entry
 	public static boolean brimstoneSelfDamage = false;
 	@Entry(min = 50)
-	public static double maxBrimstoneDamage = Integer.MAX_VALUE;
+	public static double maxBrimstoneDamage = (double) Long.MAX_VALUE;
 	@Entry(min = 15)
-	public static double maxBrimstoneSize = 50.0;
+	public static double maxBrimstoneSize = 50; // visual
 	@Entry
-	public static boolean betterBrimstoneRendering = true;
+	public static BrimstoneVisuals brimstoneVisuals = BrimstoneVisuals.DEFAULT; // visual
+	public enum BrimstoneVisuals {
+		VERY_VERY_LOW, VERY_LOW, LOW, DEFAULT, HIGH, VERY_HIGH, VERY_VERY_HIGH
+	}
 	@Entry
 	public static boolean allCrossbowsHaveMultishot = true;
+	@Entry
+	public static boolean superQuickChargeCrossbow = false;
+	@Entry
+	public static boolean sustainExtraDamageWhileSliding = false;
+	// @Entry(min = 0)
+	public static long slideImpactDamage = 4;
 
 	public static int encode() {
-		String forceString = "";
-		String encoding = forceString + noCrossbowCooldown + brimstoneSelfDamage + maxBrimstoneDamage + maxBrimstoneSize;
+		String encoding = "" + noCrossbowCooldown + brimstoneSelfDamage + maxBrimstoneDamage + allCrossbowsHaveMultishot + superQuickChargeCrossbow + sustainExtraDamageWhileSliding + slideImpactDamage;
 		return encoding.hashCode();
 	}
 }

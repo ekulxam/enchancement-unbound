@@ -2,6 +2,7 @@ package survivalblock.enchancement_unbound.mixin.brimstone;
 
 import com.bawnorton.mixinsquared.TargetHandler;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.ItemCooldownManager;
@@ -9,6 +10,8 @@ import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 
 @Mixin(value = CrossbowItem.class, priority = 1500)

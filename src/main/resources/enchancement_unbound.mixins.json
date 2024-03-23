@@ -6,8 +6,14 @@
     "brimstone.BrimstoneEntityMixin",
     "brimstone.CrossbowItemMixinMixin",
     "scatter.CrossbowItemMixinMixin",
+    "slide.LivingEntityMixinMixin",
+    "slide.SlideComponentAccessor",
+    "slide.SlideComponentMixin",
+    "torch.CrossbowItemMixinMixin",
     "util.enforceconfigmatch.PlayerManagerMixin",
-    "vanillachanges.allcrossbowshavemultishot.CrossbowItemMixin"
+    "vanillachanges.TridentEntityAccessor",
+    "vanillachanges.allcrossbowshavemultishot.CrossbowItemMixin",
+    "vanillachanges.superquickcharge.CrossbowItemMixin"
   ],
   "client": [
     "brimstone.BrimstoneEntityRendererMixin"

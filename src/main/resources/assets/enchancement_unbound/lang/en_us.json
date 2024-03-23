@@ -1,7 +1,22 @@
 {
+  "item.enchancement_unbound.orbital_strike_brimstone": "Rain of Fire",
+  "item.enchancement_unbound.amethyst_shard_minigun": "Amethyst Shard Minigun",
   "enchancement_unbound.midnightconfig.title": "Enchancement Unbound",
   "enchancement_unbound.midnightconfig.noCrossbowCooldown": "Remove Crossbow Cooldown",
   "enchancement_unbound.midnightconfig.brimstoneSelfDamage": "Brimstone Self-Damage",
   "enchancement_unbound.midnightconfig.maxBrimstoneDamage": "Maximum Brimstone Damage",
-  "enchancement_unbound.midnightconfig.maxBrimstoneSize": "Brimstone Size Limit (scales with damage, this just puts a cap)",
+  "enchancement_unbound.midnightconfig.maxBrimstoneSize": "Brimstone Size Limit (purely visual)",
+  "enchancement_unbound.midnightconfig.brimstoneVisuals": "Lines of brimstone (purely visual)",
+  "enchancement_unbound.midnightconfig.enum.BrimstoneVisuals.VERY_VERY_LOW": "VERY VERY LOW (8)",
+  "enchancement_unbound.midnightconfig.enum.BrimstoneVisuals.VERY_LOW": "VERY LOW (12)",
+  "enchancement_unbound.midnightconfig.enum.BrimstoneVisuals.LOW": "LOW (18)",
+  "enchancement_unbound.midnightconfig.enum.BrimstoneVisuals.DEFAULT": "DEFAULT (24)",
+  "enchancement_unbound.midnightconfig.enum.BrimstoneVisuals.HIGH": "HIGH (36)",
+  "enchancement_unbound.midnightconfig.enum.BrimstoneVisuals.VERY_HIGH": "VERY HIGH (45)",
+  "enchancement_unbound.midnightconfig.enum.BrimstoneVisuals.VERY_VERY_HIGH": "VERY VERY HIGH (72)",
+  "enchancement_unbound.midnightconfig.allCrossbowsHaveMultishot": "All Crossbows Have Multishot",
+  "enchancement_unbound.midnightconfig.superQuickChargeBow": "Super Quick Charge (Bow)",
+  "enchancement_unbound.midnightconfig.superQuickChargeCrossbow": "Super Quick Charge (Crossbow)",
+  "enchancement_unbound.midnightconfig.sustainExtraDamageWhileSliding": "Take extra damage while sliding",
+  "enchancement_unbound.midnightconfig.slideImpactDamage": "(Slide) Slam Impact Damage"
 }
