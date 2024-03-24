@@ -1,37 +1,23 @@
 package survivalblock.enchancement_unbound.common.item;
 
-import moriyashiine.enchancement.common.Enchancement;
 import moriyashiine.enchancement.common.entity.projectile.AmethystShardEntity;
-import moriyashiine.enchancement.common.entity.projectile.BrimstoneEntity;
-import moriyashiine.enchancement.common.entity.projectile.IceShardEntity;
-import moriyashiine.enchancement.common.entity.projectile.TorchEntity;
-import moriyashiine.enchancement.common.init.ModSoundEvents;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.CrossbowUser;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import survivalblock.enchancement_unbound.common.UnboundConfig;
 import survivalblock.enchancement_unbound.common.init.UnboundItems;
-import survivalblock.enchancement_unbound.mixin.vanillachanges.TridentEntityAccessor;
 
 import java.util.function.Predicate;
 

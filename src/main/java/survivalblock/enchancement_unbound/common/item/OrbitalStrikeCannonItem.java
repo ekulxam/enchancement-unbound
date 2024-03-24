@@ -18,15 +18,13 @@ import net.minecraft.world.World;
 
 public class OrbitalStrikeCannonItem extends Item {
 
-    private int COOLDOWN_MULTIPLIER;
-    public OrbitalStrikeCannonItem(int cooldown_multiplier, Settings settings) {
+    public OrbitalStrikeCannonItem(Settings settings) {
         super(settings);
-        this.COOLDOWN_MULTIPLIER = cooldown_multiplier;
     }
 
     @Override
     public int getMaxUseTime(ItemStack stack) {
-        return 100;
+        return 200;
     }
 
     protected void createOrbitalStrike(World world, LivingEntity user, Vec3d pos, float pitch, float yaw, double damage){
@@ -67,8 +65,8 @@ public class OrbitalStrikeCannonItem extends Item {
         if (blockHitResult.getType() == HitResult.Type.BLOCK) {
             Vec3d pos = blockHitResult.getPos();
             createOrbitalStrike(world, player, pos, 90.0F, player.getYaw(), Integer.MAX_VALUE);
-            world.createExplosion(player, pos.getX(), pos.getY(), pos.getZ(), 1F, false, World.ExplosionSourceType.NONE);
-            player.getItemCooldownManager().set(this, 600 - (remainingUseTicks * COOLDOWN_MULTIPLIER));
+            int cooldownMultiplier = 3;
+            player.getItemCooldownManager().set(this, 600 - Math.max(0, remainingUseTicks * cooldownMultiplier));
         }
         super.usageTick(world, player, stack, remainingUseTicks);
     }
@@ -83,9 +81,8 @@ public class OrbitalStrikeCannonItem extends Item {
         float k = MathHelper.sin(-f * ((float)Math.PI / 180));
         multiplier += 5.0F;
         float l = i * j;
-        float m = k;
         float n = h * j;
-        Vec3d vec3d2 = vec3d.add((double)l * multiplier, (double)m * multiplier, (double)n * multiplier);
+        Vec3d vec3d2 = vec3d.add((double)l * multiplier, (double) k * multiplier, (double)n * multiplier);
         return world.raycast(new RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, player));
     }
 }

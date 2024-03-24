@@ -11,12 +11,13 @@
     "slide.SlideComponentMixin",
     "torch.CrossbowItemMixinMixin",
     "util.enforceconfigmatch.PlayerManagerMixin",
-    "vanillachanges.TridentEntityAccessor",
     "vanillachanges.allcrossbowshavemultishot.CrossbowItemMixin",
-    "vanillachanges.superquickcharge.CrossbowItemMixin"
+    "vanillachanges.superquickcharge.CrossbowItemMixin",
+    "veil.LivingEntityMixin"
   ],
   "client": [
-    "brimstone.BrimstoneEntityRendererMixin"
+    "brimstone.client.BrimstoneEntityRendererMixin",
+    "perception.client.MinecraftClientMixinMixin"
   ],
   "injectors": {
     "defaultRequire": 1

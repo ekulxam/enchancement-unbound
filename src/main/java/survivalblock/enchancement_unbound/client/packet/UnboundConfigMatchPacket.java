@@ -17,6 +17,7 @@ import survivalblock.enchancement_unbound.common.UnboundConfig;
 
 public class UnboundConfigMatchPacket {
     // literally just copied from EnforceConfigMatchPacket
+    // moriya, if you're reading this and you don't want me to copy your code, just tell me to remove it and I will
     public static final Identifier ID = EnchancementUnbound.id("enforce_config_match");
 
     private static final Text DISCONNECT_TEXT = Text.literal("The server you are attempting to connect to has ")
