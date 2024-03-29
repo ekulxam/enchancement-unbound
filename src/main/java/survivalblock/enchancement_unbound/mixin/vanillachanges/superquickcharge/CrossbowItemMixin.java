@@ -34,7 +34,9 @@ public class CrossbowItemMixin {
             method = "@MixinSquared:Handler",
             at = @At(
                     value = "INVOKE",
-                    target = "Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;setReturnValue(Ljava/lang/Object;)V")
+                    target = "Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;setReturnValue(Ljava/lang/Object;)V",
+                    remap = false
+            )
     )
     private static Object rightClickToObliterate(Object original) {
         return UnboundConfig.superQuickChargeCrossbow ? 6 : original;

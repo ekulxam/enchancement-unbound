@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 
-@Debug(export = true)
 @Mixin(value = SlideComponent.class, priority = 1500)
 public class SlideComponentMixin {
 

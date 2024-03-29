@@ -3,6 +3,7 @@
   "package": "survivalblock.enchancement_unbound.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "amphibious.EntityMixin",
     "brimstone.BrimstoneEntityMixin",
     "brimstone.CrossbowItemMixinMixin",
     "scatter.CrossbowItemMixinMixin",
@@ -13,7 +14,9 @@
     "util.enforceconfigmatch.PlayerManagerMixin",
     "vanillachanges.allcrossbowshavemultishot.CrossbowItemMixin",
     "vanillachanges.superquickcharge.CrossbowItemMixin",
-    "veil.LivingEntityMixin"
+    "veil.EntityMixin",
+    "veil.LivingEntityMixin",
+    "veil.PlayerEntityMixin"
   ],
   "client": [
     "brimstone.client.BrimstoneEntityRendererMixin",

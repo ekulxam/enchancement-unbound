@@ -18,7 +18,9 @@ public class CrossbowItemMixinMixin {
             method = "@MixinSquared:Handler",
             at = @At(
                     value = "INVOKE",
-                    target = "Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;setReturnValue(Ljava/lang/Object;)V")
+                    target = "Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;setReturnValue(Ljava/lang/Object;)V",
+                    remap = false
+            )
     )
     private static Object iAmBecomeTorchBurnerOfWorlds(Object original) {
         return UnboundConfig.noCrossbowCooldown || UnboundConfig.superQuickChargeCrossbow ? 1 : original;

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "enchancement_unbound:item/orbital_strike_brimstone"
+  }
+}

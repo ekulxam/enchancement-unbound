@@ -20,7 +20,8 @@ public class UnboundItems {
 
     private static Map<Item, RegistryKey<ItemGroup>> map = new HashMap<>();
     public static final Item ORBITAL_STRIKE_BRIMSTONE = registerItem("orbital_strike_brimstone", new OrbitalStrikeCannonItem(new FabricItemSettings().rarity(Rarity.EPIC).maxCount(1)), null);
-    public static final Item AMETHYST_SHARD_MINIGUN = registerItem("amethyst_shard_minigun", new ShardMinigunItem(new FabricItemSettings().rarity(Rarity.EPIC).maxCount(1)), ItemGroups.COMBAT);
+    public static final Item AMETHYST_SHARD_MINIGUN = registerItem("amethyst_shard_minigun", new ShardMinigunItem(new FabricItemSettings().rarity(Rarity.EPIC).maxCount(1), Items.AMETHYST_SHARD), ItemGroups.COMBAT);
+    public static final Item ICE_SHARD_MINIGUN = registerItem("ice_shard_minigun", new ShardMinigunItem(new FabricItemSettings().rarity(Rarity.EPIC).maxCount(1), Items.BLUE_ICE), ItemGroups.COMBAT);
     private static Item registerItem(String name, Item item, RegistryKey<ItemGroup> group) {
         map.put(item, group);
         return Registry.register(Registries.ITEM, EnchancementUnbound.id(name), item);

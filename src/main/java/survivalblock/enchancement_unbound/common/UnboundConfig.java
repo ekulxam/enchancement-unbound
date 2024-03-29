@@ -34,9 +34,13 @@ public class UnboundConfig extends MidnightConfig {
 	@Entry(min = 0, max = Long.MAX_VALUE)
 	public static double slideImpactDamage = 4;
 	@Entry
-	public static boolean veilUsersAlwaysInvisible = false;
+	public static boolean veilUsersAlwaysInvisible = true;
 	@Entry
-	public static boolean perceptionUsersGetESP = false; // these two are so OP that I'm setting their default to false (but it's an option...)
+	public static boolean veilEqualsGhost = false;
+	@Entry
+	public static boolean perceptionUsersGetESP = true;
+	@Entry
+	public static boolean amphibiousAirSwimming = true;
 	public static int encode() {
 		String encoding = "I can put whatever I want here" + noCrossbowCooldown + brimstoneSelfDamage + maxBrimstoneDamage + allCrossbowsHaveMultishot + superQuickChargeCrossbow + sustainExtraDamageWhileSliding + shouldDealSlamDamage + slideImpactDamage + veilUsersAlwaysInvisible + perceptionUsersGetESP;
 		return encoding.hashCode();
