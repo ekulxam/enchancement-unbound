@@ -41,17 +41,17 @@ public class ShieldboardEntityRenderer extends EntityRenderer<ShieldboardEntity>
     @Override
     public void render(ShieldboardEntity shieldboardEntity, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light) {
         ItemStack stack = shieldboardEntity.asItemStack();
-        boolean bl = BlockItem.getBlockEntityNbt(stack) != null;
+        boolean hasBanner = BlockItem.getBlockEntityNbt(stack) != null;
         int overlay = OverlayTexture.DEFAULT_UV;
         matrixStack.push();
         matrixStack.scale(1.0f, -1.0f, -1.0f);
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yaw));
         matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0F));
         matrixStack.translate(0f, 0f, 0.1f);
-        SpriteIdentifier spriteIdentifier = bl ? ModelLoader.SHIELD_BASE : ModelLoader.SHIELD_BASE_NO_PATTERN;
-        VertexConsumer vertexConsumer = spriteIdentifier.getSprite().getTextureSpecificVertexConsumer(ItemRenderer.getDirectItemGlintConsumer(vertexConsumerProvider, this.modelShield.getLayer(spriteIdentifier.getAtlasId()), true, stack.hasGlint()));
+        SpriteIdentifier spriteIdentifier = hasBanner ? ModelLoader.SHIELD_BASE : ModelLoader.SHIELD_BASE_NO_PATTERN;
+        VertexConsumer vertexConsumer = spriteIdentifier.getSprite().getTextureSpecificVertexConsumer(ItemRenderer.getDirectItemGlintConsumer(vertexConsumerProvider, this.modelShield.getLayer(spriteIdentifier.getAtlasId()), true, shieldboardEntity.isEnchanted()));
         // this.modelShield.getHandle().render(matrixStack, vertexConsumer, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f);
-        if (bl) {
+        if (hasBanner) {
             List<Pair<RegistryEntry<BannerPattern>, DyeColor>> list = BannerBlockEntity.getPatternsFromNbt(ShieldItem.getColor(stack), BannerBlockEntity.getPatternListNbt(stack));
             BannerBlockEntityRenderer.renderCanvas(matrixStack, vertexConsumerProvider, light, overlay, this.modelShield.getPlate(), spriteIdentifier, false, list, stack.hasGlint());
         } else {

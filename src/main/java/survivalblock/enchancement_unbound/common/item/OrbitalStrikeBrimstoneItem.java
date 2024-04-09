@@ -2,7 +2,9 @@ package survivalblock.enchancement_unbound.common.item;
 
 import moriyashiine.enchancement.common.entity.projectile.BrimstoneEntity;
 import moriyashiine.enchancement.common.init.ModSoundEvents;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -62,7 +64,7 @@ public class OrbitalStrikeBrimstoneItem extends Item {
         if(!(user instanceof PlayerEntity player)){
             return;
         }
-        BlockHitResult blockHitResult = OrbitalStrikeBrimstoneItem.raycast(world, player, 512F);
+        BlockHitResult blockHitResult = OrbitalStrikeBrimstoneItem.raycast(world, player);
         if (blockHitResult.getType() == HitResult.Type.MISS) {
             return;
         }
@@ -86,7 +88,8 @@ public class OrbitalStrikeBrimstoneItem extends Item {
         super.usageTick(world, player, stack, remainingUseTicks);
     }
 
-    protected static BlockHitResult raycast(World world, PlayerEntity player, float multiplier) {
+    protected static BlockHitResult raycast(World world, PlayerEntity player) {
+        float multiplier = 400f;
         float f = player.getPitch();
         float g = player.getYaw();
         Vec3d vec3d = player.getEyePos();
@@ -94,7 +97,7 @@ public class OrbitalStrikeBrimstoneItem extends Item {
         float i = MathHelper.sin(-g * ((float)Math.PI / 180) - (float)Math.PI);
         float j = -MathHelper.cos(-f * ((float)Math.PI / 180));
         float k = MathHelper.sin(-f * ((float)Math.PI / 180));
-        multiplier += 5.0F;
+        // multiplier += 5.0F;
         float l = i * j;
         float n = h * j;
         Vec3d vec3d2 = vec3d.add((double)l * multiplier, (double) k * multiplier, (double)n * multiplier);
@@ -116,12 +119,5 @@ public class OrbitalStrikeBrimstoneItem extends Item {
     @Override
     public int getItemBarColor(ItemStack stack) {
         return MathHelper.hsvToRgb(0F, 1.0F, 1.0F);
-    }
-
-    @Override
-    public ItemStack getDefaultStack() {
-        ItemStack stack = new ItemStack(this);
-        stack.getOrCreateNbt().putInt(useKey, MAX_USAGE_TICKS);
-        return stack;
     }
 }

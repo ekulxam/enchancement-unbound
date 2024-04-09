@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "values": [
     "enchancement_bound:shieldboard_collision"
   ]

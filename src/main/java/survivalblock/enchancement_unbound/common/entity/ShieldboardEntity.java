@@ -29,6 +29,7 @@ import survivalblock.enchancement_unbound.common.init.UnboundDamageTypes;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityTypes;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ShieldboardEntity extends Entity implements Ownable {
@@ -56,7 +57,6 @@ public class ShieldboardEntity extends Entity implements Ownable {
         this.shieldStack = stack.copy();
         this.setOwner(owner);
         this.setPos(owner.getX(), owner.getY(), owner.getZ());
-        this.setStepHeight(this.getStepHeight() + 1f);
     }
 
     public void setOwner(@Nullable Entity entity) {
@@ -109,7 +109,9 @@ public class ShieldboardEntity extends Entity implements Ownable {
             return false;
         }
         this.scheduleVelocityUpdate();
-        this.remove(RemovalReason.KILLED);
+        if (!this.getWorld().isClient()) {
+            this.kill();
+        }
         return true;
     }
 
@@ -131,6 +133,7 @@ public class ShieldboardEntity extends Entity implements Ownable {
         } else {
             this.dropStack(this.shieldStack);
         }
+        this.shieldStack = ItemStack.EMPTY;
         if (this.hasPassengers()) {
             this.removeAllPassengers();
         }
@@ -139,7 +142,7 @@ public class ShieldboardEntity extends Entity implements Ownable {
 
     @Override
     protected void removePassenger(Entity passenger) {
-        this.remove(RemovalReason.DISCARDED);
+        this.discard();
         super.removePassenger(passenger);
     }
 
@@ -156,13 +159,14 @@ public class ShieldboardEntity extends Entity implements Ownable {
         if (living == null) {
             return;
         }
+        this.setOwner(living);
         this.tickRotation(getControlledRotation(living));
         this.tickMovement();
         this.checkBlockCollision();
         List<Entity> list = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.2f, -0.01f, 0.2f), EntityPredicates.canBePushedBy(this));
         if (!list.isEmpty()) {
             for (Entity entity : list) {
-                if (entity.hasPassenger(this)) continue;
+                if (this.hasPassenger(entity) || entity.hasPassenger(this)) continue;
                 this.pushAwayFrom(entity);
                 entity.damage(ModDamageTypes.create(getWorld(), UnboundDamageTypes.SHIELDBOARD_COLLISION, this, living), 4);
             }
@@ -228,7 +232,7 @@ public class ShieldboardEntity extends Entity implements Ownable {
     }
 
     protected int getMaxPassengers() {
-        return 2;
+        return 1;
     }
 
     private void board() {
@@ -236,9 +240,12 @@ public class ShieldboardEntity extends Entity implements Ownable {
             return;
         }
         this.velocityDirty = true;
-        float f = 0.75f;
+        float speed = 0.8f; // speed of board (in blocks/sec) in air is equivalent to speed * 20
+        if (this.getNearbySlipperiness() > 0) {
+            speed *= (1 + this.getNearbySlipperiness());
+        }
         Vec3d currentVelocity = this.getVelocity();
-        this.setVelocity(MathHelper.sin(-this.getYaw() * ((float) Math.PI / 180)) * f, currentVelocity.y, MathHelper.cos(this.getYaw() * ((float) Math.PI / 180)) * f);
+        this.setVelocity(MathHelper.sin(-this.getYaw() * ((float) Math.PI / 180)) * speed, currentVelocity.y, MathHelper.cos(this.getYaw() * ((float) Math.PI / 180)) * speed);
         this.velocityModified = true;
     }
 
@@ -441,5 +448,14 @@ public class ShieldboardEntity extends Entity implements Ownable {
     @Override
     public ItemStack getPickBlockStack() {
         return this.shieldStack.copy();
+    }
+
+    @Override
+    public boolean canHit() {
+        return this.getOwner() != null || this.getControllingPassenger() != null;
+    }
+
+    public boolean isEnchanted() {
+        return this.dataTracker.get(ENCHANTED);
     }
 }
