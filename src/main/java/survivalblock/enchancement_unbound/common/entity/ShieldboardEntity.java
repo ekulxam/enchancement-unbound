@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.network.packet.c2s.play.BoatPaddleStateC2SPacket;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.function.BooleanBiFunction;
@@ -36,11 +35,7 @@ public class ShieldboardEntity extends Entity implements Ownable {
     private Entity owner;
     private float ticksUnderwater;
     private double waterLevel;
-    private float nearbySlipperiness;
     private BoatEntity.Location location;
-    private BoatEntity.Location lastLocation;
-    private double fallVelocity;
-
     public ShieldboardEntity(EntityType<?> type, World world) {
         super(type, world);
         this.shieldStack = new ItemStack(Items.SHIELD);
@@ -125,7 +120,6 @@ public class ShieldboardEntity extends Entity implements Ownable {
 
     @Override
     public void tick() {
-        this.lastLocation = this.location;
         this.location = this.checkLocation();
         this.ticksUnderwater = this.location == BoatEntity.Location.UNDER_WATER || this.location == BoatEntity.Location.UNDER_FLOWING_WATER ? (this.ticksUnderwater += 1.0f) : 0.0f;
         if (!this.getWorld().isClient && this.ticksUnderwater >= 60.0f) {
@@ -137,9 +131,10 @@ public class ShieldboardEntity extends Entity implements Ownable {
             return;
         }
         Vec2f rotation = getControlledRotation(living);
-        // this.setRotation(rotation.y, rotation.x);
+        this.setRotation(rotation.y, rotation.x);
+        this.setYaw(this.getYaw());
+        this.prevYaw = this.getYaw();
         if (this.isLogicalSideForUpdatingMovement()) {
-            this.updateVelocity();
             if (this.getWorld().isClient) {
                 this.board();
             }
@@ -189,37 +184,9 @@ public class ShieldboardEntity extends Entity implements Ownable {
         }
         float f = this.getNearbySlipperiness();
         if (f > 0.0f) {
-            this.nearbySlipperiness = f;
             return BoatEntity.Location.ON_LAND;
         }
         return BoatEntity.Location.IN_AIR;
-    }
-
-    public float getWaterHeightBelow() {
-        Box box = this.getBoundingBox();
-        int i = MathHelper.floor(box.minX);
-        int j = MathHelper.ceil(box.maxX);
-        int k = MathHelper.floor(box.maxY);
-        int l = MathHelper.ceil(box.maxY - this.fallVelocity);
-        int m = MathHelper.floor(box.minZ);
-        int n = MathHelper.ceil(box.maxZ);
-        BlockPos.Mutable mutable = new BlockPos.Mutable();
-        block0: for (int o = k; o < l; ++o) {
-            float f = 0.0f;
-            for (int p = i; p < j; ++p) {
-                for (int q = m; q < n; ++q) {
-                    mutable.set(p, o, q);
-                    FluidState fluidState = this.getWorld().getFluidState(mutable);
-                    if (fluidState.isIn(FluidTags.WATER)) {
-                        f = Math.max(f, fluidState.getHeight(this.getWorld(), mutable));
-                    }
-                    if (f >= 1.0f) continue block0;
-                }
-            }
-            if (!(f < 1.0f)) continue;
-            return (float)mutable.getY() + f;
-        }
-        return l + 1;
     }
 
     public float getNearbySlipperiness() {
@@ -325,40 +292,15 @@ public class ShieldboardEntity extends Entity implements Ownable {
             return;
         }
         this.velocityDirty = true;
-        float f = 0.04f;
+        float f = 0.25f;
         this.setVelocity(MathHelper.sin(-this.getYaw() * ((float)Math.PI / 180)) * f, 0.0, MathHelper.cos(this.getYaw() * ((float)Math.PI / 180)) * f);
         this.velocityModified = true;
     }
 
-    private void updateVelocity() {
-        double d = -0.04f;
-        double e = this.hasNoGravity() ? 0.0 : (double)-0.04f;
-        double f = 0.0;
-        if (this.lastLocation == BoatEntity.Location.IN_AIR && this.location != BoatEntity.Location.IN_AIR && this.location != BoatEntity.Location.ON_LAND) {
-            this.waterLevel = this.getBodyY(1.0);
-            this.setPosition(this.getX(), (double)(this.getWaterHeightBelow() - this.getHeight()) + 0.101, this.getZ());
-            this.setVelocity(this.getVelocity().multiply(1.0, 0.0, 1.0));
-            this.fallVelocity = 0.0;
-            this.location = BoatEntity.Location.IN_WATER;
-        } else {
-            if (this.location == BoatEntity.Location.IN_WATER) {
-                f = (this.waterLevel - this.getY()) / (double)this.getHeight();
-            } else if (this.location == BoatEntity.Location.UNDER_FLOWING_WATER) {
-                e = -7.0E-4;
-            } else if (this.location == BoatEntity.Location.UNDER_WATER) {
-                f = 0.01f;
-            } else if (this.location == BoatEntity.Location.IN_AIR) {
-            } else if (this.location == BoatEntity.Location.ON_LAND) {
-                if (this.getControllingPassenger() instanceof PlayerEntity) {
-                    this.nearbySlipperiness /= 2.0f;
-                }
-            }
-            Vec3d vec3d = this.getVelocity();
-            this.setVelocity(vec3d.x, vec3d.y + e, vec3d.z);
-            if (f > 0.0) {
-                Vec3d vec3d2 = this.getVelocity();
-                this.setVelocity(vec3d2.x, (vec3d2.y + f * 0.06153846016296973) * 0.75, vec3d2.z);
-            }
-        }
+    @Override
+    public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
+        this.setPosition(x, y, z);
+        this.setYaw(yaw);
+        this.setPitch(pitch);
     }
 }
