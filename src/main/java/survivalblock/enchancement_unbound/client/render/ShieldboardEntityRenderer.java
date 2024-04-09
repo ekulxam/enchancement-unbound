@@ -45,6 +45,7 @@ public class ShieldboardEntityRenderer extends EntityRenderer<ShieldboardEntity>
         int overlay = OverlayTexture.DEFAULT_UV;
         matrixStack.push();
         matrixStack.scale(1.0f, -1.0f, -1.0f);
+        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yaw));
         matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0F));
         matrixStack.translate(0f, 0f, 0.1f);
         SpriteIdentifier spriteIdentifier = bl ? ModelLoader.SHIELD_BASE : ModelLoader.SHIELD_BASE_NO_PATTERN;

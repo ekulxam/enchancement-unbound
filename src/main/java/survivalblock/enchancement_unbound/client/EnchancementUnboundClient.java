@@ -6,13 +6,13 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import survivalblock.enchancement_unbound.client.packet.UnboundConfigMatchPacket;
 import survivalblock.enchancement_unbound.client.render.ShieldboardEntityRenderer;
-import survivalblock.enchancement_unbound.common.init.UnboundEntities;
+import survivalblock.enchancement_unbound.common.init.UnboundEntityTypes;
 
 public class EnchancementUnboundClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
 		ClientPlayNetworking.registerGlobalReceiver(UnboundConfigMatchPacket.ID, new UnboundConfigMatchPacket.Receiver());
-		EntityRendererRegistry.register(UnboundEntities.SHIELDBOARD, ShieldboardEntityRenderer::new);
+		EntityRendererRegistry.register(UnboundEntityTypes.SHIELDBOARD, ShieldboardEntityRenderer::new);
 	}
 }
