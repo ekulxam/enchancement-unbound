@@ -422,7 +422,7 @@ public class ShieldboardEntity extends Entity implements Ownable {
                 this.handleFallDamage(this.fallDistance, 1.0f, this.getDamageSources().fall());
             }
             this.onLanding();
-ick            this.fallDistance -= (float) heightDifference;
+            this.fallDistance -= (float) heightDifference;
         }
     }
 
