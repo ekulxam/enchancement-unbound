@@ -46,7 +46,7 @@ dependencies {
     modImplementation "maven.modrinth:enchancement:${enchancement_version}"
 
     // mixin squared
-    include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${mixin_extras_version}")))
+    include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${mixin_squared_version}")))
 
     // clumps because lot of xp while testing damage
     modRuntimeOnly "maven.modrinth:clumps:${clumps_version}"

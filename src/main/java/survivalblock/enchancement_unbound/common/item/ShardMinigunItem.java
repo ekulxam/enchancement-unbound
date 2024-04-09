@@ -18,6 +18,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import survivalblock.enchancement_unbound.common.UnboundConfig;
 import survivalblock.enchancement_unbound.common.init.UnboundItems;
 
 import java.util.function.Predicate;
@@ -54,7 +55,7 @@ public class ShardMinigunItem extends Item {
             return;
         }
         Random random = world.getRandom();
-        for(short shardNum = 0; shardNum < MathHelper.nextBetween(random,20, 32); shardNum++){
+        for(short shardNum = 0; shardNum < MathHelper.nextBetween(random,20, 32) * UnboundConfig.scatterProjectileMultiplier; shardNum++){
             PersistentProjectileEntity shardEntity;
             if(this.shardItem == Items.AMETHYST_SHARD){
                 if(!player.isCreative()){

@@ -4,23 +4,30 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "amphibious.EntityMixin",
+    "assimilation.LivingEntityMixinMixin",
+    "berserk.EnchancementUtilMixin",
+    "berserk.client.EnchancementClientUtilMixin",
     "brimstone.BrimstoneEntityMixin",
     "brimstone.CrossbowItemMixinMixin",
+    "dash.DashComponentMixin",
+    "gale.GaleComponentMixin",
     "scatter.CrossbowItemMixinMixin",
+    "shieldsurf.ShieldItemMixin",
     "slide.LivingEntityMixinMixin",
     "slide.SlideComponentAccessor",
     "slide.SlideComponentMixin",
     "torch.CrossbowItemMixinMixin",
     "util.enforceconfigmatch.PlayerManagerMixin",
     "vanillachanges.allcrossbowshavemultishot.CrossbowItemMixin",
+    "vanillachanges.shieldenchantments.EnchantmentHelperMixin",
     "vanillachanges.superquickcharge.CrossbowItemMixin",
     "veil.EntityMixin",
-    "veil.LivingEntityMixin",
-    "veil.PlayerEntityMixin"
+    "wardenspine.LivingEntityMixinMixin"
   ],
   "client": [
     "brimstone.client.BrimstoneEntityRendererMixin",
-    "perception.client.MinecraftClientMixinMixin"
+    "perception.client.MinecraftClientMixinMixin",
+    "shieldsurf.BipedEntityModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

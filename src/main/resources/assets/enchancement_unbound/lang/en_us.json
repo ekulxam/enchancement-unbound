@@ -2,6 +2,8 @@
   "item.enchancement_unbound.orbital_strike_brimstone": "Rain of Fire",
   "item.enchancement_unbound.amethyst_shard_minigun": "Amethyst Shard Minigun",
   "item.enchancement_unbound.ice_shard_minigun": "Ice Shard Minigun",
+  "enchantment.enchancement_unbound.shield_surf": "Shield Surf",
+  "enchantment.enchancement_unbound.shield_surf.desc": "Allows the user to ride the shield like a surfboard",
   "enchancement_unbound.midnightconfig.title": "Enchancement Unbound",
   "enchancement_unbound.midnightconfig.category.client": "Client",
   "enchancement_unbound.midnightconfig.noCrossbowCooldown": "Remove Crossbow Cooldown",
@@ -21,5 +23,8 @@
   "enchancement_unbound.midnightconfig.superQuickChargeCrossbow": "Super Quick Charge (Crossbow)",
   "enchancement_unbound.midnightconfig.sustainExtraDamageWhileSliding": "Take Extra Damage While Sliding",
   "enchancement_unbound.midnightconfig.shouldDealSlamDamage": "Deal Damage On (Slide) Slam",
-  "enchancement_unbound.midnightconfig.slideImpactDamage": "(Slide) Slam Impact Damage"
+  "enchancement_unbound.midnightconfig.slideImpactDamage": "(Slide) Slam Impact Damage",
+  "enchancement_unbound.midnightconfig.veilUsersAlwaysInvisible": "Veil Gets Permanent Invisibility",
+  "enchancement_unbound.midnightconfig.perceptionUsersGetESP": "Perception Makes Entities Glow",
+  "enchancement_unbound.midnightconfig.amphibiousAirSwimming": "Amphibious Allows Swimming In Air"
 }
