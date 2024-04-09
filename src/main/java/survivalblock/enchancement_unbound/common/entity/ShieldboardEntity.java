@@ -1,5 +1,6 @@
 package survivalblock.enchancement_unbound.common.entity;
 
+import moriyashiine.enchancement.common.init.ModDamageTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LilyPadBlock;
 import net.minecraft.entity.*;
@@ -9,6 +10,7 @@ import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.fluid.FluidState;
@@ -16,11 +18,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
@@ -28,8 +32,10 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import survivalblock.enchancement_unbound.common.init.UnboundDamageTypes;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityTypes;
 
+import java.util.List;
 import java.util.UUID;
 
 public class ShieldboardEntity extends Entity implements Ownable {
@@ -109,13 +115,13 @@ public class ShieldboardEntity extends Entity implements Ownable {
             return false;
         }
         this.scheduleVelocityUpdate();
-        this.delete(RemovalReason.KILLED);
+        this.delete(RemovalReason.DISCARDED);
         return true;
     }
 
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        return this.isRemoved() || this.isInvulnerable() && !damageSource.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY) && !damageSource.isSourceCreativePlayer() || damageSource.isIn(DamageTypeTags.IS_FIRE) || damageSource.isIn(DamageTypeTags.IS_FALL) || damageSource.isOf(DamageTypes.CACTUS);
+        return this.isRemoved() || this.isInvulnerable() && !damageSource.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY) && !damageSource.isSourceCreativePlayer() || damageSource.isIn(DamageTypeTags.IS_FIRE) || damageSource.isIn(DamageTypeTags.IS_FALL);
     }
 
     @Override
@@ -157,6 +163,15 @@ public class ShieldboardEntity extends Entity implements Ownable {
         }
         this.tickRotation(getControlledRotation(living));
         this.tickMovement();
+        this.checkBlockCollision();
+        List<Entity> list = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.2f, -0.01f, 0.2f), EntityPredicates.canBePushedBy(this));
+        if (!list.isEmpty()) {
+            for (Entity entity : list) {
+                if (entity.hasPassenger(this)) continue;
+                this.pushAwayFrom(entity);
+                entity.damage(ModDamageTypes.create(getWorld(), UnboundDamageTypes.SHIELDBOARD_COLLISION, this, living), 4);
+            }
+        }
     }
 
     private void tickRotation(Vec2f rotation) {
@@ -367,8 +382,8 @@ public class ShieldboardEntity extends Entity implements Ownable {
     }
 
     private void updateVelocity() {
-        double downward = this.hasNoGravity() ? 0.0 : (double)-0.04f;
-        double f = 0.0;
+        double downward = this.hasNoGravity() ? 0.0 : (double) -0.04f;
+        double upwardIThink = 0.0;
         if (this.lastLocation == BoatEntity.Location.IN_AIR && this.location != BoatEntity.Location.IN_AIR && this.location != BoatEntity.Location.ON_LAND) {
             this.waterLevel = this.getBodyY(1.0);
             this.setPosition(this.getX(), (double)(this.getWaterHeightBelow() - this.getHeight()) + 0.101, this.getZ());
@@ -377,17 +392,17 @@ public class ShieldboardEntity extends Entity implements Ownable {
             this.location = BoatEntity.Location.IN_WATER;
         } else {
             if (this.location == BoatEntity.Location.IN_WATER) {
-                f = (this.waterLevel - this.getY()) / (double)this.getHeight();
+                upwardIThink = (this.waterLevel - this.getY()) / (double)this.getHeight();
             } else if (this.location == BoatEntity.Location.UNDER_FLOWING_WATER) {
                 downward = -7.0E-4;
             } else if (this.location == BoatEntity.Location.UNDER_WATER) {
-                f = 0.01f;
+                upwardIThink = 0.01f;
             }
             Vec3d vec3d = this.getVelocity();
             this.setVelocity(vec3d.x, vec3d.y + downward, vec3d.z);
-            if (f > 0.0) {
+            if (upwardIThink > 0.0) {
                 Vec3d vec3d2 = this.getVelocity();
-                this.setVelocity(vec3d2.x, (vec3d2.y + f * 0.06153846016296973) * 0.75, vec3d2.z);
+                this.setVelocity(vec3d2.x, (vec3d2.y + upwardIThink * 0.06153846016296973) * 0.75, vec3d2.z);
             }
         }
     }
@@ -405,14 +420,15 @@ public class ShieldboardEntity extends Entity implements Ownable {
                     return;
                 }
                 this.handleFallDamage(this.fallDistance, 1.0f, this.getDamageSources().fall());
-                if (!this.getWorld().isClient && !this.isRemoved()) {
-                    this.delete(RemovalReason.KILLED);
-                }
             }
             this.onLanding();
-        } else if (!this.getWorld().getFluidState(this.getBlockPos().down()).isIn(FluidTags.WATER) && heightDifference < 0.0) {
-            this.fallDistance -= (float)heightDifference;
+ick            this.fallDistance -= (float) heightDifference;
         }
+    }
+
+    @Override
+    public boolean isOnGround() {
+        return super.isOnGround();
     }
 
     @Nullable
