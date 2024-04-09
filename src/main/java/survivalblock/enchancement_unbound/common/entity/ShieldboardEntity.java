@@ -5,12 +5,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.LilyPadBlock;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageSources;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.fluid.FluidState;
@@ -19,17 +16,13 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import survivalblock.enchancement_unbound.common.init.UnboundDamageTypes;
@@ -63,6 +56,7 @@ public class ShieldboardEntity extends Entity implements Ownable {
         this.shieldStack = stack.copy();
         this.setOwner(owner);
         this.setPos(owner.getX(), owner.getY(), owner.getZ());
+        this.setStepHeight(this.getStepHeight() + 1f);
     }
 
     public void setOwner(@Nullable Entity entity) {
@@ -115,7 +109,7 @@ public class ShieldboardEntity extends Entity implements Ownable {
             return false;
         }
         this.scheduleVelocityUpdate();
-        this.delete(RemovalReason.DISCARDED);
+        this.remove(RemovalReason.KILLED);
         return true;
     }
 
@@ -129,7 +123,8 @@ public class ShieldboardEntity extends Entity implements Ownable {
         return true;
     }
 
-    private void delete(RemovalReason reason) {
+    @Override
+    public void remove(RemovalReason reason) {
         LivingEntity controllingPassenger = this.getControllingPassenger();
         if (controllingPassenger instanceof PlayerEntity player) {
             player.getInventory().insertStack(this.shieldStack);
@@ -139,12 +134,12 @@ public class ShieldboardEntity extends Entity implements Ownable {
         if (this.hasPassengers()) {
             this.removeAllPassengers();
         }
-        this.remove(reason);
+        super.remove(reason);
     }
 
     @Override
     protected void removePassenger(Entity passenger) {
-        this.delete(RemovalReason.DISCARDED);
+        this.remove(RemovalReason.DISCARDED);
         super.removePassenger(passenger);
     }
 
@@ -241,8 +236,9 @@ public class ShieldboardEntity extends Entity implements Ownable {
             return;
         }
         this.velocityDirty = true;
-        float f = 0.6f;
-        this.setVelocity(MathHelper.sin(-this.getYaw() * ((float) Math.PI / 180)) * f, 0.0, MathHelper.cos(this.getYaw() * ((float) Math.PI / 180)) * f);
+        float f = 0.75f;
+        Vec3d currentVelocity = this.getVelocity();
+        this.setVelocity(MathHelper.sin(-this.getYaw() * ((float) Math.PI / 180)) * f, currentVelocity.y, MathHelper.cos(this.getYaw() * ((float) Math.PI / 180)) * f);
         this.velocityModified = true;
     }
 
@@ -405,6 +401,16 @@ public class ShieldboardEntity extends Entity implements Ownable {
                 this.setVelocity(vec3d2.x, (vec3d2.y + upwardIThink * 0.06153846016296973) * 0.75, vec3d2.z);
             }
         }
+    }
+
+    @Override
+    public Direction getMovementDirection() {
+        return super.getMovementDirection().rotateYClockwise();
+    }
+
+    @Override
+    protected Entity.MoveEffect getMoveEffect() {
+        return Entity.MoveEffect.EVENTS;
     }
 
     @Override

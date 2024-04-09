@@ -19,8 +19,8 @@ import net.minecraft.world.World;
 import survivalblock.enchancement_unbound.access.BrimstoneIgnoreDamageAccess;
 
 public class OrbitalStrikeBrimstoneItem extends Item {
-    private final String useKey = "remaining_usage_ticks";
-    private final int maxUsageTicks = 600;
+    private final String useKey = "TicksUsed";
+    private final int MAX_USAGE_TICKS = 600;
     public OrbitalStrikeBrimstoneItem(Settings settings) {
         super(settings);
     }
@@ -68,11 +68,11 @@ public class OrbitalStrikeBrimstoneItem extends Item {
         }
         if (blockHitResult.getType() == HitResult.Type.BLOCK) {
             Vec3d pos = blockHitResult.getPos();
-            int remaining_usage_ticks = stack.getOrCreateNbt().getInt(useKey);
-            if(remaining_usage_ticks > 0){
+            int useTicks = stack.getOrCreateNbt().getInt(useKey);
+            if(!(useTicks > MAX_USAGE_TICKS)){
                 createOrbitalStrike(world, player, pos, 90.0F, player.getYaw(), Integer.MAX_VALUE);
-                remaining_usage_ticks--;
-                stack.getOrCreateNbt().putInt(useKey, remaining_usage_ticks);
+                useTicks++;
+                stack.getOrCreateNbt().putInt(useKey, useTicks);
             } else {
                 if(player.getMainHandStack() == stack){
                     user.handleStatus((byte) 47);
@@ -107,10 +107,10 @@ public class OrbitalStrikeBrimstoneItem extends Item {
     }
     @Override
     public int getItemBarStep(ItemStack stack) {
-        int remaining_usage_ticks = stack.getOrCreateNbt().getInt(useKey);
-        remaining_usage_ticks = Math.max(remaining_usage_ticks, maxUsageTicks);
-        stack.getOrCreateNbt().putInt(useKey, remaining_usage_ticks);
-        return Math.round((float)remaining_usage_ticks * 13.0f / (float)maxUsageTicks);
+        int useTicks = stack.getOrCreateNbt().getInt(useKey);
+        useTicks = Math.max(useTicks, 0);
+        stack.getOrCreateNbt().putInt(useKey, useTicks);
+        return Math.round((float) (MAX_USAGE_TICKS - useTicks) * 13.0f / (float) MAX_USAGE_TICKS);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class OrbitalStrikeBrimstoneItem extends Item {
     @Override
     public ItemStack getDefaultStack() {
         ItemStack stack = new ItemStack(this);
-        stack.getOrCreateNbt().putInt(useKey, maxUsageTicks);
+        stack.getOrCreateNbt().putInt(useKey, MAX_USAGE_TICKS);
         return stack;
     }
 }
