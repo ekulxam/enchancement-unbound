@@ -7,4 +7,5 @@ import survivalblock.enchancement_unbound.common.EnchancementUnbound;
 
 public class UnboundDamageTypes {
     public static final RegistryKey<DamageType> SHIELDBOARD_COLLISION = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, EnchancementUnbound.id("shieldboard_collision"));
+    public static final RegistryKey<DamageType> SLAM_IMPACT = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, EnchancementUnbound.id("slam_impact"));
 }

@@ -25,6 +25,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import survivalblock.enchancement_unbound.common.UnboundConfig;
 import survivalblock.enchancement_unbound.common.init.UnboundDamageTypes;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityTypes;
 
@@ -32,13 +33,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class ShieldboardEntity extends Entity implements Ownable {
+public class ShieldboardEntity extends Entity {
 
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(ShieldboardEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    @Nullable
-    private UUID ownerUuid;
-    @Nullable
-    private Entity owner;
+    private static final TrackedData<ItemStack> SHIELD_STACK = DataTracker.registerData(ShieldboardEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
     private float ticksUnderwater;
     private double waterLevel;
     private BoatEntity.Location location;
@@ -47,60 +45,36 @@ public class ShieldboardEntity extends Entity implements Ownable {
 
     public ShieldboardEntity(EntityType<?> type, World world) {
         super(type, world);
-        this.shieldStack = new ItemStack(Items.SHIELD);
     }
 
-    public ShieldboardEntity(World world, LivingEntity owner, ItemStack stack) {
+    public ShieldboardEntity(World world, LivingEntity rider, ItemStack stack) {
         super(UnboundEntityTypes.SHIELDBOARD, world);
         this.dataTracker.set(ENCHANTED, stack.hasGlint());
-        this.shieldStack = new ItemStack(Items.SHIELD);
-        this.shieldStack = stack.copy();
-        this.setOwner(owner);
-        this.setPos(owner.getX(), owner.getY(), owner.getZ());
+        this.dataTracker.set(SHIELD_STACK, stack.copy());
+        this.setPos(rider.getX(), rider.getY(), rider.getZ());
     }
-
-    public void setOwner(@Nullable Entity entity) {
-        if (entity != null) {
-            this.ownerUuid = entity.getUuid();
-            this.owner = entity;
-        }
-    }
-
-    private ItemStack shieldStack;
 
     @Override
     protected void initDataTracker() {
         this.dataTracker.startTracking(ENCHANTED, false);
+        this.dataTracker.startTracking(SHIELD_STACK, ItemStack.EMPTY);
     }
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
         if (nbt.contains("Shield", NbtElement.COMPOUND_TYPE)) {
-            this.shieldStack = ItemStack.fromNbt(nbt.getCompound("Shield"));
+            this.dataTracker.set(SHIELD_STACK, ItemStack.fromNbt(nbt.getCompound("Shield")));
         }
     }
 
     @Override
     protected void writeCustomDataToNbt(NbtCompound nbt) {
-        nbt.put("Shield", this.shieldStack.writeNbt(new NbtCompound()));
+        nbt.put("Shield", this.dataTracker.get(SHIELD_STACK).writeNbt(new NbtCompound()));
     }
 
     @Override
     public boolean collidesWith(Entity other) {
         return BoatEntity.canCollide(this, other);
-    }
-
-    @Override
-    @Nullable
-    public Entity getOwner() {
-        if (this.owner != null && !this.owner.isRemoved()) {
-            return this.owner;
-        }
-        if (this.ownerUuid != null && this.getWorld() instanceof ServerWorld) {
-            this.owner = ((ServerWorld) this.getWorld()).getEntity(this.ownerUuid);
-            return this.owner;
-        }
-        return null;
     }
 
     @Override
@@ -129,11 +103,11 @@ public class ShieldboardEntity extends Entity implements Ownable {
     public void remove(RemovalReason reason) {
         LivingEntity controllingPassenger = this.getControllingPassenger();
         if (controllingPassenger instanceof PlayerEntity player) {
-            player.getInventory().insertStack(this.shieldStack);
+            player.getInventory().insertStack(this.dataTracker.get(SHIELD_STACK));
         } else {
-            this.dropStack(this.shieldStack);
+            this.dropStack(this.dataTracker.get(SHIELD_STACK));
         }
-        this.shieldStack = ItemStack.EMPTY;
+        this.dataTracker.set(SHIELD_STACK, ItemStack.EMPTY);
         if (this.hasPassengers()) {
             this.removeAllPassengers();
         }
@@ -159,16 +133,15 @@ public class ShieldboardEntity extends Entity implements Ownable {
         if (living == null) {
             return;
         }
-        this.setOwner(living);
         this.tickRotation(getControlledRotation(living));
         this.tickMovement();
         this.checkBlockCollision();
-        List<Entity> list = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.2f, -0.01f, 0.2f), EntityPredicates.canBePushedBy(this));
+        List<Entity> list = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.25f, 0.01f, 0.25f), EntityPredicates.canBePushedBy(this));
         if (!list.isEmpty()) {
             for (Entity entity : list) {
                 if (this.hasPassenger(entity) || entity.hasPassenger(this)) continue;
                 this.pushAwayFrom(entity);
-                entity.damage(ModDamageTypes.create(getWorld(), UnboundDamageTypes.SHIELDBOARD_COLLISION, this, living), 4);
+                entity.damage(ModDamageTypes.create(getWorld(), UnboundDamageTypes.SHIELDBOARD_COLLISION, this, living), (float) UnboundConfig.slideImpactDamage);
             }
         }
     }
@@ -208,7 +181,7 @@ public class ShieldboardEntity extends Entity implements Ownable {
     }
 
     public ItemStack asItemStack() {
-        return this.shieldStack.copy();
+        return this.dataTracker.get(SHIELD_STACK).copy();
     }
 
     @Override
@@ -223,7 +196,7 @@ public class ShieldboardEntity extends Entity implements Ownable {
 
     @Override
     public double getMountedHeightOffset() {
-        return super.getMountedHeightOffset() * 5;
+        return super.getMountedHeightOffset() + 0.35;
     }
 
     @Override
@@ -447,12 +420,12 @@ public class ShieldboardEntity extends Entity implements Ownable {
     @Nullable
     @Override
     public ItemStack getPickBlockStack() {
-        return this.shieldStack.copy();
+        return this.asItemStack();
     }
 
     @Override
     public boolean canHit() {
-        return this.getOwner() != null || this.getControllingPassenger() != null;
+        return this.getControllingPassenger() == null;
     }
 
     public boolean isEnchanted() {
