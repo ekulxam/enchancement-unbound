@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 
-@Debug(export = true)
 @Mixin(EnchancementUtil.class)
 public class EnchancementUtilMixin {
 

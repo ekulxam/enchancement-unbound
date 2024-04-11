@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import survivalblock.enchancement_unbound.access.AirSwimmingAccess;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 
-@Debug(export = true)
 @Mixin(value = Entity.class)
 public abstract class EntityMixin implements AirSwimmingAccess {
     @Shadow

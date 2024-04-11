@@ -12,7 +12,7 @@ import survivalblock.enchancement_unbound.common.entity.ShieldboardEntity;
 
 public class UnboundEntityTypes {
 
-    public static final EntityType<ShieldboardEntity> SHIELDBOARD = registerEntity("shieldboard", SpawnGroup.MISC, ShieldboardEntity::new, EntityDimensions.changing(1.3f, 0.1f), true);
+    public static final EntityType<ShieldboardEntity> SHIELDBOARD = registerEntity("shieldboard", SpawnGroup.MISC, ShieldboardEntity::new, EntityDimensions.fixed(0.9f, 0.1f), true);
 
     private static <T extends Entity> EntityType<T> registerEntity(String name, SpawnGroup group, EntityType.EntityFactory<T> factory , EntityDimensions dimensions, boolean fireImmune) {
         if (fireImmune) {

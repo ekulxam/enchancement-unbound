@@ -12,13 +12,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
@@ -30,12 +28,8 @@ import survivalblock.enchancement_unbound.common.init.UnboundDamageTypes;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityTypes;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 public class ShieldboardEntity extends Entity {
-
-    private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(ShieldboardEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<ItemStack> SHIELD_STACK = DataTracker.registerData(ShieldboardEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
     private float ticksUnderwater;
     private double waterLevel;
@@ -49,14 +43,12 @@ public class ShieldboardEntity extends Entity {
 
     public ShieldboardEntity(World world, LivingEntity rider, ItemStack stack) {
         super(UnboundEntityTypes.SHIELDBOARD, world);
-        this.dataTracker.set(ENCHANTED, stack.hasGlint());
         this.dataTracker.set(SHIELD_STACK, stack.copy());
         this.setPos(rider.getX(), rider.getY(), rider.getZ());
     }
 
     @Override
     protected void initDataTracker() {
-        this.dataTracker.startTracking(ENCHANTED, false);
         this.dataTracker.startTracking(SHIELD_STACK, ItemStack.EMPTY);
     }
 
@@ -125,9 +117,6 @@ public class ShieldboardEntity extends Entity {
         this.lastLocation = this.location;
         this.location = this.checkLocation();
         this.ticksUnderwater = this.location == BoatEntity.Location.UNDER_WATER || this.location == BoatEntity.Location.UNDER_FLOWING_WATER ? this.ticksUnderwater + 1.0f : 0.0f;
-        if (!this.getWorld().isClient && this.ticksUnderwater >= 60.0f) {
-            this.removeAllPassengers();
-        }
         super.tick();
         LivingEntity living = this.getControllingPassenger();
         if (living == null) {
@@ -136,7 +125,7 @@ public class ShieldboardEntity extends Entity {
         this.tickRotation(getControlledRotation(living));
         this.tickMovement();
         this.checkBlockCollision();
-        List<Entity> list = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.25f, 0.01f, 0.25f), EntityPredicates.canBePushedBy(this));
+        List<Entity> list = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.4f, -0.02f, 0.4f), EntityPredicates.canBePushedBy(this));
         if (!list.isEmpty()) {
             for (Entity entity : list) {
                 if (this.hasPassenger(entity) || entity.hasPassenger(this)) continue;
@@ -213,9 +202,9 @@ public class ShieldboardEntity extends Entity {
             return;
         }
         this.velocityDirty = true;
-        float speed = 0.8f; // speed of board (in blocks/sec) in air is equivalent to speed * 20
+        float speed = 0.75f; // speed of board (in blocks/sec) in air is equivalent to speed * 20
         if (this.getNearbySlipperiness() > 0) {
-            speed *= (1 + this.getNearbySlipperiness());
+            speed *= (float) (1 + this.getNearbySlipperiness() * 0.8);
         }
         Vec3d currentVelocity = this.getVelocity();
         this.setVelocity(MathHelper.sin(-this.getYaw() * ((float) Math.PI / 180)) * speed, currentVelocity.y, MathHelper.cos(this.getYaw() * ((float) Math.PI / 180)) * speed);
@@ -405,7 +394,6 @@ public class ShieldboardEntity extends Entity {
                     this.onLanding();
                     return;
                 }
-                this.handleFallDamage(this.fallDistance, 1.0f, this.getDamageSources().fall());
             }
             this.onLanding();
             this.fallDistance -= (float) heightDifference;
@@ -428,7 +416,7 @@ public class ShieldboardEntity extends Entity {
         return this.getControllingPassenger() == null;
     }
 
-    public boolean isEnchanted() {
-        return this.dataTracker.get(ENCHANTED);
+    public boolean hasGlint() {
+        return this.dataTracker.get(SHIELD_STACK).hasGlint();
     }
 }

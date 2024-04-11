@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 
-@Debug(export=true)
 @Mixin(value = MinecraftClient.class, priority = 1500)
 public class MinecraftClientMixinMixin {
     @TargetHandler(

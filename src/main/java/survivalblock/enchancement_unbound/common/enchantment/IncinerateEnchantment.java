@@ -8,8 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import survivalblock.enchancement_unbound.common.init.UnboundEnchantments;
 
-public class ShieldSurfEnchantment extends EmptyEnchantment {
-    public ShieldSurfEnchantment(Rarity weight, EnchantmentTarget type, EquipmentSlot... slotTypes) {
+public class IncinerateEnchantment extends EmptyEnchantment {
+    public IncinerateEnchantment(Rarity weight, EnchantmentTarget type, EquipmentSlot... slotTypes) {
         super(weight, type, slotTypes);
     }
 
@@ -20,6 +20,6 @@ public class ShieldSurfEnchantment extends EmptyEnchantment {
 
     @Override
     protected boolean canAccept(Enchantment other) {
-        return super.canAccept(other) && other != UnboundEnchantments.AEGIS && other != UnboundEnchantments.INCINERATE;
+        return super.canAccept(other) && other != UnboundEnchantments.SHIELD_SURF && other != UnboundEnchantments.AEGIS;
     }
 }

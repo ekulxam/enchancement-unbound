@@ -20,7 +20,7 @@ import survivalblock.enchancement_unbound.common.init.UnboundEnchantments;
 public class ShieldItemMixin {
     @Inject(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;setCurrentHand(Lnet/minecraft/util/Hand;)V"))
     private void rideTheLightning(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir, @Local ItemStack stack){
-        if(!world.isClient() && EnchantmentHelper.getLevel(UnboundEnchantments.SHIELD_SURF, stack) > 0){
+        if(!world.isClient() && EnchantmentHelper.getLevel(UnboundEnchantments.SHIELD_SURF, stack) > 0 && !user.isSneaking()){
             stack.damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
             user.incrementStat(Stats.USED.getOrCreateStat((ShieldItem) (Object) this));
             ShieldboardEntity shieldboard = new ShieldboardEntity(world, user, stack);

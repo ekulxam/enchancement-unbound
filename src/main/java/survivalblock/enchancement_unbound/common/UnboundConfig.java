@@ -9,28 +9,29 @@ import eu.midnightdust.lib.config.MidnightConfig;
 
 public class UnboundConfig extends MidnightConfig {
 
+	// set to regular enchancement defaults
 	@Entry
-	public static boolean noCrossbowCooldown = true;
+	public static boolean noCrossbowCooldown = false;
 	@Entry
-	public static boolean brimstoneSelfDamage = false;
+	public static boolean brimstoneSelfDamage = true;
 	@Entry(min = 50)
-	public static double maxBrimstoneDamage = 75;
+	public static double maxBrimstoneDamage = 50;
 	@Entry
-	public static boolean allCrossbowsHaveMultishot = true;
+	public static boolean allCrossbowsHaveMultishot = false;
 	@Entry
 	public static boolean superQuickChargeCrossbow = false;
 	@Entry
-	public static boolean sustainExtraDamageWhileSliding = false;
+	public static boolean sustainExtraDamageWhileSliding = true;
 	@Entry
-	public static boolean shouldDealSlamDamage = true;
+	public static boolean shouldDealSlamDamage = false;
 	@Entry(min = 0, max = Long.MAX_VALUE)
 	public static double slideImpactDamage = 4;
 	@Entry
-	public static boolean veilUsersAlwaysInvisible = true;
+	public static boolean veilUsersAlwaysInvisible = false;
 	@Entry
-	public static boolean perceptionUsersGetESP = true;
+	public static boolean perceptionUsersGetESP = false;
 	@Entry
-	public static boolean amphibiousAirSwimming = true;
+	public static boolean amphibiousAirSwimming = false;
 	@Entry
 	public static boolean infiniteGaleJumps = false;
 	@Entry
@@ -40,11 +41,30 @@ public class UnboundConfig extends MidnightConfig {
 	@Entry
 	public static boolean assimilationInhaleFood = false;
 	@Entry
-	public static boolean noBerserkDamageCap = true;
+	public static boolean noBerserkDamageCap = false;
 	@Entry(min = 0.1, max = 10)
 	public static float scatterProjectileMultiplier = 1;
 	@Entry
-	public static boolean wardenspineYeets = true;
+	public static boolean wardenspineYeets = false;
+	@Entry
+	public static boolean noBuryCooldown = false;
+	@Entry
+	public static boolean canBuryEverything = false;
+	@Entry
+	public static BouncyChargeSpeed bouncyChargeSpeed = BouncyChargeSpeed.DEFAULT;
+	public enum BouncyChargeSpeed {
+		DEFAULT, FAST, VERY_FAST, VERY_VERY_FAST, INSTANT
+	}
+	@Entry
+	public static boolean disarmStealsPlayerItems = false;
+	@Entry
+	public static boolean leechForever = false;
+	@Entry(min = 1, max = 200)
+	public static int leechInterval = 20;
+	@Entry
+	public static boolean strongerChaosEffects = false;
+	@Entry
+	public static boolean instantChargeDelay = false;
 	@Entry(category = "client", min = 15)
 	public static double maxBrimstoneSize = 50; // visual
 	@Entry(category = "client")
@@ -52,7 +72,8 @@ public class UnboundConfig extends MidnightConfig {
 	public enum BrimstoneVisuals {
 		VERY_VERY_LOW, VERY_LOW, LOW, DEFAULT, HIGH, VERY_HIGH, VERY_VERY_HIGH
 	}
-	public static int encode() {
+
+    public static int encode() {
 		String encoding = "I can put whatever I want here"
 				+ noCrossbowCooldown
 				+ brimstoneSelfDamage
@@ -71,7 +92,15 @@ public class UnboundConfig extends MidnightConfig {
 				+ assimilationInhaleFood
 				+ noBerserkDamageCap
 				+ scatterProjectileMultiplier
-				+ wardenspineYeets;
+				+ wardenspineYeets
+				+ noBuryCooldown
+				+ canBuryEverything
+				+ bouncyChargeSpeed
+				+ disarmStealsPlayerItems
+				+ leechForever
+				+ leechInterval
+				+ strongerChaosEffects
+				+ instantChargeDelay;
 		return encoding.hashCode();
 	}
 }

@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 
-@Debug(export = true)
 @Mixin(EnchancementClientUtil.class)
 public class EnchancementClientUtilMixin {
 
