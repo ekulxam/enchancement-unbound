@@ -7,9 +7,7 @@ import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 
@@ -24,8 +22,8 @@ public class DelayComponentMixin {
 
     @Inject(method = "serverTick", at = @At(value = "FIELD", target = "Lmoriyashiine/enchancement/common/component/entity/DelayComponent;ticksFloating:I", ordinal = 0, opcode = Opcodes.GETFIELD, shift = At.Shift.BEFORE), remap = false)
     private void instaChargeDelay(CallbackInfo ci){
-        if (UnboundConfig.instantChargeDelay) {
-            this.ticksFloating = 200;
+        if (UnboundConfig.instantChargeDelay && this.ticksFloating < 199) {
+            this.ticksFloating = 199;
         }
     }
 

@@ -5,15 +5,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.LilyPadBlock;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.FluidTags;
@@ -24,44 +20,45 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
+import survivalblock.enchancement_unbound.common.component.ShieldStackComponent;
 import survivalblock.enchancement_unbound.common.init.UnboundDamageTypes;
+import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityTypes;
 
 import java.util.List;
 
 public class ShieldboardEntity extends Entity {
-    private static final TrackedData<ItemStack> SHIELD_STACK = DataTracker.registerData(ShieldboardEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
     private float ticksUnderwater;
     private double waterLevel;
     private BoatEntity.Location location;
     private BoatEntity.Location lastLocation;
     private double fallVelocity;
+    private boolean shouldAccelerateForward;
 
     public ShieldboardEntity(EntityType<?> type, World world) {
         super(type, world);
     }
 
-    public ShieldboardEntity(World world, LivingEntity rider, ItemStack stack) {
-        super(UnboundEntityTypes.SHIELDBOARD, world);
-        this.dataTracker.set(SHIELD_STACK, stack.copy());
-        this.setPos(rider.getX(), rider.getY(), rider.getZ());
-    }
-
     @Override
     protected void initDataTracker() {
-        this.dataTracker.startTracking(SHIELD_STACK, ItemStack.EMPTY);
+
     }
 
-    @Override
-    protected void readCustomDataFromNbt(NbtCompound nbt) {
-        if (nbt.contains("Shield", NbtElement.COMPOUND_TYPE)) {
-            this.dataTracker.set(SHIELD_STACK, ItemStack.fromNbt(nbt.getCompound("Shield")));
-        }
+    public ShieldboardEntity(World world, LivingEntity rider, ItemStack stack) {
+        super(UnboundEntityTypes.SHIELDBOARD, world);
+        this.setInputs(false);
+        this.getShieldStackComponent().setShieldStack(stack.copy());
+        this.setPos(rider.getX(), rider.getY(), rider.getZ());
+        this.lastLocation = BoatEntity.Location.IN_AIR;
+        this.location = BoatEntity.Location.IN_WATER;
     }
 
-    @Override
-    protected void writeCustomDataToNbt(NbtCompound nbt) {
-        nbt.put("Shield", this.dataTracker.get(SHIELD_STACK).writeNbt(new NbtCompound()));
+    public void setInputs(boolean pressingForward){
+        this.shouldAccelerateForward = pressingForward;
+    }
+
+    private ShieldStackComponent getShieldStackComponent(){
+        return UnboundEntityComponents.SHIELD_STACK.get(this);
     }
 
     @Override
@@ -94,12 +91,13 @@ public class ShieldboardEntity extends Entity {
     @Override
     public void remove(RemovalReason reason) {
         LivingEntity controllingPassenger = this.getControllingPassenger();
+        ShieldStackComponent shieldStackComponent = this.getShieldStackComponent();
         if (controllingPassenger instanceof PlayerEntity player) {
-            player.getInventory().insertStack(this.dataTracker.get(SHIELD_STACK));
+            player.getInventory().offerOrDrop(shieldStackComponent.getShieldStack());
         } else {
-            this.dropStack(this.dataTracker.get(SHIELD_STACK));
+            this.dropStack(shieldStackComponent.getShieldStack());
         }
-        this.dataTracker.set(SHIELD_STACK, ItemStack.EMPTY);
+        shieldStackComponent.setShieldStack(ItemStack.EMPTY);
         if (this.hasPassengers()) {
             this.removeAllPassengers();
         }
@@ -140,7 +138,6 @@ public class ShieldboardEntity extends Entity {
         this.setYaw(this.getYaw());
         this.prevYaw = this.getYaw();
     }
-
     private void tickMovement() {
         if (this.isLogicalSideForUpdatingMovement()) {
             this.updateVelocity();
@@ -170,12 +167,22 @@ public class ShieldboardEntity extends Entity {
     }
 
     public ItemStack asItemStack() {
-        return this.dataTracker.get(SHIELD_STACK).copy();
+        return this.getShieldStackComponent().getShieldStack().copy();
     }
 
     @Override
     public boolean isPushable() {
         return true;
+    }
+
+    @Override
+    protected void readCustomDataFromNbt(NbtCompound nbt) {
+
+    }
+
+    @Override
+    protected void writeCustomDataToNbt(NbtCompound nbt) {
+
     }
 
     @Override
@@ -202,12 +209,19 @@ public class ShieldboardEntity extends Entity {
             return;
         }
         this.velocityDirty = true;
-        float speed = 0.75f; // speed of board (in blocks/sec) in air is equivalent to speed * 20
-        if (this.getNearbySlipperiness() > 0) {
-            speed *= (float) (1 + this.getNearbySlipperiness() * 0.8);
+        double speed = 0.3;
+        if (this.shouldAccelerateForward) {
+            speed = (double) UnboundConfig.shieldboardBaseSpeed / 20; // speed of board (in blocks/sec) in air is equivalent to speed * 20
         }
-        Vec3d currentVelocity = this.getVelocity();
-        this.setVelocity(MathHelper.sin(-this.getYaw() * ((float) Math.PI / 180)) * speed, currentVelocity.y, MathHelper.cos(this.getYaw() * ((float) Math.PI / 180)) * speed);
+        if (this.getNearbySlipperiness() > 0) {
+            speed *= (1 + this.getNearbySlipperiness());
+        }
+        double yVelocity = this.getVelocity().y;
+        if (this.location != null && this.location.compareTo(BoatEntity.Location.IN_WATER) == 0) {
+            speed *= 2;
+            yVelocity = +0.0;
+        }
+        this.setVelocity(MathHelper.sin(-this.getYaw() * ((float) Math.PI / 180)) * speed, yVelocity, MathHelper.cos(this.getYaw() * ((float) Math.PI / 180)) * speed);
         this.velocityModified = true;
     }
 
@@ -283,6 +297,9 @@ public class ShieldboardEntity extends Entity {
                     mutable.set(p, s, q);
                     BlockState blockState = this.getWorld().getBlockState(mutable);
                     if (blockState.getBlock() instanceof LilyPadBlock || !VoxelShapes.matchesAnywhere(blockState.getCollisionShape(this.getWorld(), mutable).offset(p, s, q), voxelShape, BooleanBiFunction.AND)) continue;
+                    if (blockState.getFluidState().isIn(FluidTags.WATER)) {
+                        f += 1f;
+                    }
                     f += blockState.getBlock().getSlipperiness();
                     ++o;
                 }
@@ -414,9 +431,5 @@ public class ShieldboardEntity extends Entity {
     @Override
     public boolean canHit() {
         return this.getControllingPassenger() == null;
-    }
-
-    public boolean hasGlint() {
-        return this.dataTracker.get(SHIELD_STACK).hasGlint();
     }
 }

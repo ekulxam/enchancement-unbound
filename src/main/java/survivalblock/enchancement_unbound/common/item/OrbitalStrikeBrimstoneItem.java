@@ -89,7 +89,7 @@ public class OrbitalStrikeBrimstoneItem extends Item {
     }
 
     protected static BlockHitResult raycast(World world, PlayerEntity player) {
-        float multiplier = 400f;
+        float multiplier = 256f * 16;
         float f = player.getPitch();
         float g = player.getYaw();
         Vec3d vec3d = player.getEyePos();

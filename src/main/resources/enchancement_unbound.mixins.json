@@ -3,6 +3,7 @@
   "package": "survivalblock.enchancement_unbound.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ConduitBlockEntityMixin",
     "aegis.LivingEntityMixin",
     "aegis.PlayerEntityMixin",
     "amphibious.EntityMixin",
@@ -18,7 +19,10 @@
     "dash.DashComponentMixin",
     "delay.DelayComponentMixin",
     "disarm.FishingBobberEntityMixinMixin",
+    "expulsion.LivingEntityAccessor",
+    "expulsion.ShieldItemMixin",
     "gale.GaleComponentMixin",
+    "grapple.GrappleFishingBobberEntityMixin",
     "leech.LeechComponentMixin",
     "scatter.CrossbowItemMixinMixin",
     "shieldsurf.ShieldItemMixin",
@@ -36,8 +40,10 @@
   "client": [
     "brimstone.client.BrimstoneEntityRendererMixin",
     "perception.client.MinecraftClientMixinMixin",
+    "rapid.ClientPlayerEntityMixin",
     "shieldsurf.client.BipedEntityModelMixin",
     "shieldsurf.client.BuiltinModelItemRendererMixin",
+    "shieldsurf.client.ClientPlayerEntityMixin",
     "shieldsurf.client.ItemRendererAccessor"
   ],
   "injectors": {

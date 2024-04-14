@@ -11,13 +11,14 @@ import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import survivalblock.enchancement_unbound.common.enchantment.ShieldSurfEnchantment;
+import survivalblock.enchancement_unbound.common.enchantment.UnboundShieldEnchantment;
 
 @Mixin(EnchantmentHelper.class)
 public class EnchantmentHelperMixin {
 
     @WrapOperation(method = "getPossibleEntries", at = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/EnchantmentTarget;isAcceptableItem(Lnet/minecraft/item/Item;)Z"))
     private static boolean returnCorrectForShieldEnchantments(EnchantmentTarget instance, Item item, Operation<Boolean> original, int power, ItemStack stack, @Local Enchantment enchantment){
-        if (enchantment instanceof ShieldSurfEnchantment) {
+        if (enchantment instanceof UnboundShieldEnchantment) {
             return enchantment.isAcceptableItem(stack);
         }
         return original.call(instance, item);

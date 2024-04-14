@@ -9,7 +9,7 @@ import eu.midnightdust.lib.config.MidnightConfig;
 
 public class UnboundConfig extends MidnightConfig {
 
-	// set to regular enchancement defaults
+	@Comment public static Comment welcome;
 	@Entry
 	public static boolean noCrossbowCooldown = false;
 	@Entry
@@ -28,6 +28,8 @@ public class UnboundConfig extends MidnightConfig {
 	public static double slideImpactDamage = 4;
 	@Entry
 	public static boolean veilUsersAlwaysInvisible = false;
+	@Entry
+	public static boolean astralVeil = false;
 	@Entry
 	public static boolean perceptionUsersGetESP = false;
 	@Entry
@@ -65,6 +67,19 @@ public class UnboundConfig extends MidnightConfig {
 	public static boolean strongerChaosEffects = false;
 	@Entry
 	public static boolean instantChargeDelay = false;
+	@Entry(min = 1, max = 100)
+	public static int shieldboardBaseSpeed = 14;
+	@Entry
+	public static boolean aegisUseDisables = true;
+	@Entry(min = 1, max = 1000)
+	public static int expulsionMultiplier = 2; // lag
+	@Entry(min = 1)
+	public static float grapplePullEntityMultiplier = 1; // lag
+	@Entry(min = 1)
+	public static float grapplePullUserMultiplier = 1; // lag
+	@Entry
+	public static boolean shouldHaveNightVision = true;
+
 	@Entry(category = "client", min = 15)
 	public static double maxBrimstoneSize = 50; // visual
 	@Entry(category = "client")
@@ -72,9 +87,12 @@ public class UnboundConfig extends MidnightConfig {
 	public enum BrimstoneVisuals {
 		VERY_VERY_LOW, VERY_LOW, LOW, DEFAULT, HIGH, VERY_HIGH, VERY_VERY_HIGH
 	}
+	@Entry(category = "client")
+	public static boolean projectedShieldsRenderOutwards = true;
 
     public static int encode() {
 		String encoding = "I can put whatever I want here"
+				+ welcome
 				+ noCrossbowCooldown
 				+ brimstoneSelfDamage
 				+ maxBrimstoneDamage
@@ -84,6 +102,7 @@ public class UnboundConfig extends MidnightConfig {
 				+ shouldDealSlamDamage
 				+ slideImpactDamage
 				+ veilUsersAlwaysInvisible
+				+ astralVeil
 				+ perceptionUsersGetESP
 				+ amphibiousAirSwimming
 				+ infiniteGaleJumps

@@ -37,11 +37,11 @@ import java.util.List;
 @Environment(value= EnvType.CLIENT)
 public class ShieldboardEntityRenderer extends EntityRenderer<ShieldboardEntity> {
     public static final Identifier TEXTURE = new Identifier("textures/entity/shield_base_nopattern.png");
-    private final ShieldEntityModel modelShield;
+    // private final ShieldEntityModel modelShield;
 
     public ShieldboardEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
-        this.modelShield = new ShieldEntityModel(context.getPart(EntityModelLayers.SHIELD));
+        // this.modelShield = new ShieldEntityModel(context.getPart(EntityModelLayers.SHIELD));
     }
 
     @Override

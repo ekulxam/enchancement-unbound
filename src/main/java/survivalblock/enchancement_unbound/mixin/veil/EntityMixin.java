@@ -6,13 +6,16 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
+import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 
 @Debug(export = true)
 @Mixin(Entity.class)
@@ -25,5 +28,11 @@ public abstract class EntityMixin {
         }
         // this should work for both of them, I think (didn't specify ordinal)
         return mouthpiece;
+    }
+
+    @ModifyReturnValue(method = "isInvulnerable", at = @At("RETURN"))
+    private boolean talonDust(boolean original){
+        boolean hasVeil = (((Entity) (Object) this) instanceof PlayerEntity player && UnboundUtil.shouldPreventAction(player, false));
+        return UnboundConfig.astralVeil ? hasVeil || original : original;
     }
 }
