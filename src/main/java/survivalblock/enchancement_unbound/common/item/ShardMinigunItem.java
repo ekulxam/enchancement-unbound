@@ -25,6 +25,7 @@ import java.util.function.Predicate;
 
 public class ShardMinigunItem extends Item {
 
+    @SuppressWarnings("FieldMayBeFinal")
     private Item shardItem;
     public ShardMinigunItem(Settings settings, Item shardItem) {
         super(settings);

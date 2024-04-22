@@ -29,10 +29,4 @@ public abstract class EntityMixin {
         // this should work for both of them, I think (didn't specify ordinal)
         return mouthpiece;
     }
-
-    @ModifyReturnValue(method = "isInvulnerable", at = @At("RETURN"))
-    private boolean talonDust(boolean original){
-        boolean hasVeil = (((Entity) (Object) this) instanceof PlayerEntity player && UnboundUtil.shouldPreventAction(player, false));
-        return UnboundConfig.astralVeil ? hasVeil || original : original;
-    }
 }

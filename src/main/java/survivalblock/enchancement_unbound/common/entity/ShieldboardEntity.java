@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.tag.DamageTypeTags;
@@ -37,6 +38,7 @@ public class ShieldboardEntity extends Entity {
 
     public ShieldboardEntity(EntityType<?> type, World world) {
         super(type, world);
+        this.getShieldStackComponent().setShieldStack(Items.SHIELD.getDefaultStack());
     }
 
     @Override
@@ -47,7 +49,7 @@ public class ShieldboardEntity extends Entity {
     public ShieldboardEntity(World world, LivingEntity rider, ItemStack stack) {
         super(UnboundEntityTypes.SHIELDBOARD, world);
         this.setInputs(false);
-        this.getShieldStackComponent().setShieldStack(stack.copy());
+        this.getShieldStackComponent().setShieldStack(stack.copyWithCount(stack.getCount()));
         this.setPos(rider.getX(), rider.getY(), rider.getZ());
         this.lastLocation = BoatEntity.Location.IN_AIR;
         this.location = BoatEntity.Location.IN_WATER;
@@ -123,7 +125,7 @@ public class ShieldboardEntity extends Entity {
         this.tickRotation(getControlledRotation(living));
         this.tickMovement();
         this.checkBlockCollision();
-        List<Entity> list = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.4f, -0.02f, 0.4f), EntityPredicates.canBePushedBy(this));
+        List<Entity> list = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.4f, 0.2f, 0.4f), EntityPredicates.canBePushedBy(this));
         if (!list.isEmpty()) {
             for (Entity entity : list) {
                 if (this.hasPassenger(entity) || entity.hasPassenger(this)) continue;

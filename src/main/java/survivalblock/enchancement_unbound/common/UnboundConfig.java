@@ -77,8 +77,6 @@ public class UnboundConfig extends MidnightConfig {
 	public static float grapplePullEntityMultiplier = 1; // lag
 	@Entry(min = 1)
 	public static float grapplePullUserMultiplier = 1; // lag
-	@Entry
-	public static boolean shouldHaveNightVision = true;
 
 	@Entry(category = "client", min = 15)
 	public static double maxBrimstoneSize = 50; // visual

@@ -4,8 +4,9 @@ package survivalblock.enchancement_unbound.common;
 import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.*;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ public class EnchancementUnbound implements ModInitializer {
 	public void onInitialize() {
 		if(!FabricLoader.getInstance().isModLoaded("enchancement")){
 			LOGGER.error("Enchancement not found!");
+			LOGGER.warn("How did we get here?");
 			throw new RuntimeException("Missing dependency for mod " + MOD_ID);
 			// System.exit(1);
 		}
@@ -37,25 +39,21 @@ public class EnchancementUnbound implements ModInitializer {
 		}
 		MidnightConfig.init(EnchancementUnbound.MOD_ID, UnboundConfig.class);
 		AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
-			return UnboundUtil.preventedActionResult(player);
+			return UnboundUtil.veilActionResult(player);
 		});
 		AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
-			return UnboundUtil.preventedActionResult(player);
+			return UnboundUtil.veilActionResult(player);
 		});
-		UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
-			return UnboundUtil.preventedActionResult(player);
-		});
+		UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> UnboundUtil.veilActionResult(player));
 		UseItemCallback.EVENT.register((player, world, hand) -> {
-			ItemStack stack = player.getStackInHand(hand);
-			return UnboundUtil.preventedTypedActionResult(player, stack);
+			return UnboundUtil.veilTypedActionResult(player, player.getStackInHand(hand));
 		});
 		UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
-			return UnboundUtil.preventedActionResult(player);
+			return UnboundUtil.veilActionResult(player);
 		});
 	}
 
 	public static Identifier id(String value) {
 		return new Identifier(MOD_ID, value);
 	}
-
 }

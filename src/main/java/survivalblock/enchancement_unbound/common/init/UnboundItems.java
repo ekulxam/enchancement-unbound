@@ -1,11 +1,13 @@
 package survivalblock.enchancement_unbound.common.init;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.text.Text;
 import net.minecraft.util.Rarity;
 import survivalblock.enchancement_unbound.common.EnchancementUnbound;
 import survivalblock.enchancement_unbound.common.item.OrbitalStrikeBrimstoneItem;
@@ -34,4 +36,5 @@ public class UnboundItems {
             }
         }
     }
+
 }

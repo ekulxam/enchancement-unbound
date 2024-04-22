@@ -21,7 +21,6 @@ import survivalblock.enchancement_unbound.mixin.shieldsurf.client.ItemRendererAc
 public class ProjectedShieldEntityRenderer extends EntityRenderer<ProjectedShieldEntity> {
 
     public static final Identifier TEXTURE = new Identifier("textures/entity/shield_base_nopattern.png");
-
     public ProjectedShieldEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
     }
@@ -33,8 +32,7 @@ public class ProjectedShieldEntityRenderer extends EntityRenderer<ProjectedShiel
         matrixStack.push();
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yaw + (UnboundConfig.projectedShieldsRenderOutwards ? 0 : 180)));
         matrixStack.translate(0.0f, 0.6f, 0.0f);
-        BuiltinModelItemRenderer builtinModelItemRenderer = ((ItemRendererAccessor) MinecraftClient.getInstance().getItemRenderer()).getBuiltinModelItemRenderer();
-        builtinModelItemRenderer.render(stack, ModelTransformationMode.NONE, matrixStack, vertexConsumerProvider, light, overlay);
+        ((ItemRendererAccessor) MinecraftClient.getInstance().getItemRenderer()).getBuiltinModelItemRenderer().render(stack, ModelTransformationMode.NONE, matrixStack, vertexConsumerProvider, light, overlay);
         matrixStack.pop();
         super.render(projectedShield, yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
     }

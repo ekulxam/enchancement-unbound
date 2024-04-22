@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import survivalblock.enchancement_unbound.access.ExpulsionDamageAccess;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 import survivalblock.enchancement_unbound.common.entity.ProjectedShieldEntity;
-import survivalblock.enchancement_unbound.common.entity.ShieldboardEntity;
 import survivalblock.enchancement_unbound.common.init.UnboundEnchantments;
 
 @Mixin(ShieldItem.class)
@@ -25,9 +25,9 @@ public class ShieldItemMixin {
     private void shieldcast(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir, @Local ItemStack stack){
         int expulsionLevel = EnchantmentHelper.getLevel(UnboundEnchantments.EXPULSION, stack);
         if(!world.isClient() && expulsionLevel > 0 && user.isSneaking()){
-            stack.damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
+            stack.damage(2, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
             user.incrementStat(Stats.USED.getOrCreateStat((ShieldItem) (Object) this));
-            float damage = ((LivingEntityAccessor) user).getLastDamageTaken();
+            float damage = ((ExpulsionDamageAccess) user).enchancement_unbound$getExpulsionAttackDamage();
             if (damage * 2 <= 100){
                 damage *= 2;
             } else if (damage < 100) {

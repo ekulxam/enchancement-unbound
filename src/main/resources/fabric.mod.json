@@ -38,7 +38,9 @@
   },
   "custom": {
     "cardinal-components": [
-      "enchancement_unbound:shield_stack"
+      "enchancement_unbound:shield_stack",
+      "enchancement_unbound:curtain",
+      "enchancement_unbound:ascension"
     ]
   }
 }

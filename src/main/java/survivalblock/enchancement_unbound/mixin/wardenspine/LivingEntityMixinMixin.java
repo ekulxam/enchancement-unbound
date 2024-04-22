@@ -37,7 +37,7 @@ public abstract class LivingEntityMixinMixin extends Entity {
                     target = "Lnet/minecraft/entity/LivingEntity;addStatusEffect(Lnet/minecraft/entity/effect/StatusEffectInstance;)Z"
             )
     )
-    private void weDoALittleKnockback(CallbackInfoReturnable<Float> cir, @Local LivingEntity living) {
+    private void weDoALittleKnockback(CallbackInfoReturnable<Float> cir, @SuppressWarnings("LocalMayBeArgsOnly") @Local LivingEntity living) {
         if (!UnboundConfig.wardenspineYeets) {
             return;
         }

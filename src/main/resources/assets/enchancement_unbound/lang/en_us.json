@@ -15,6 +15,10 @@
   "enchantment.enchancement_unbound.rapid.desc": "Using the shield will not impede movement",
   "enchantment.enchancement_unbound.expulsion": "Expulsion",
   "enchantment.enchancement_unbound.expulsion.desc": "Using the shield while sneaking will cast out shields in a circle around the user.",
+  "enchantment.enchancement_unbound.curtain": "Curtain",
+  "enchantment.enchancement_unbound.curtain.desc": "Puts entities into a \"curtain\" state, where they take more damage depending on how many times they have been hit by this enchantment. Effect ends after one minute a while of no hits, after which the entity will become immune to being \"curtained\" for a few seconds.",
+  "enchantment.enchancement_unbound.ascension": "Ascension",
+  "enchantment.enchancement_unbound.ascension.desc": "Using the hoe on the bottom of a block will make the user ascend until they reach non-solid blocks",
   "death.attack.enchancement_unbound.slam_impact": "%1$s was flattened",
   "death.attack.enchancement_unbound.slam_impact.player": "%1$s was flattened by %2$s",
   "enchancement_unbound.midnightconfig.title": "Enchancement Unbound",
@@ -65,5 +69,7 @@
   "enchancement_unbound.midnightconfig.shieldboardBaseSpeed": "Shieldboard Base Speed",
   "enchancement_unbound.midnightconfig.aegisUseDisables": "Aegis Auto-Blocking Disables Shield",
   "enchancement_unbound.midnightconfig.expulsionMultiplier": "Expulsion Projectile Multiplier",
-  "enchancement_unbound.midnightconfig.projectedShieldsRenderOutwards": "Projected Shields Render Outwards"
+  "enchancement_unbound.midnightconfig.projectedShieldsRenderOutwards": "Projected Shields Render Outwards",
+  "enchancement_unbound.midnightconfig.grapplePullEntityMultiplier": "Grapple Multiplier When Pulling Self",
+  "enchancement_unbound.midnightconfig.grapplePullUserMultiplier": "Grapple Multiplier When Pulling Others"
 }

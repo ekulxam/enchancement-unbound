@@ -9,8 +9,8 @@ import survivalblock.enchancement_unbound.common.entity.ProjectedShieldEntity;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 
 public class ShieldStackComponent implements AutoSyncedComponent {
-    Entity obj;
-    ItemStack shieldStack;
+    private final Entity obj;
+    private ItemStack shieldStack;
     @Override
     public void readFromNbt(NbtCompound nbt) {
         if (nbt.contains("Shield", NbtElement.COMPOUND_TYPE)) {
