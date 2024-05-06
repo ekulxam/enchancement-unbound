@@ -10,28 +10,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import survivalblock.enchancement_unbound.common.init.UnboundEnchantments;
 import survivalblock.enchancement_unbound.common.init.UnboundItems;
+import survivalblock.enchancement_unbound.common.init.UnboundSoundEvents;
 import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 
 public class EnchancementUnbound implements ModInitializer {
 	public static final String MOD_ID = "enchancement_unbound";
+	public static final String CAPITALIZED_MOD_ID = "Enchancement_Unbound";
+	public static final Logger LOGGER = LoggerFactory.getLogger(CAPITALIZED_MOD_ID);
 
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
-	@SuppressWarnings("CodeBlock2Expr")
+	@SuppressWarnings({"CodeBlock2Expr", "PointlessBooleanExpression", "RedundantSuppression"})
 	@Override
 	public void onInitialize() {
 		if(!FabricLoader.getInstance().isModLoaded("enchancement")){
-			LOGGER.error("Enchancement not found!");
-			LOGGER.warn("How did we get here?");
-			throw new RuntimeException("Missing dependency for mod " + MOD_ID);
-			// System.exit(1);
+			try {
+				LOGGER.warn("How did we get here?");
+				throw new RuntimeException("This is a pre-defined exception thrown by " + CAPITALIZED_MOD_ID + ". Go download Enchancement, as it is a required dependency! You shouldn't even be reading this as an error message.");
+			} catch (Exception e) {
+				LOGGER.error("Missing dependency for mod " + MOD_ID, e);
+				System.exit(-1);
+			}
 		}
+		MidnightConfig.init(EnchancementUnbound.MOD_ID, UnboundConfig.class);
 		if (UnboundConfig.unboundItems) UnboundItems.init();
 		if (UnboundConfig.unboundEnchantments) UnboundEnchantments.init();
+		UnboundSoundEvents.init();
 		if(FabricLoader.getInstance().isDevelopmentEnvironment()){
 			LOGGER.info("Removing enchancement handicaps since 2024");
 		}
-		MidnightConfig.init(EnchancementUnbound.MOD_ID, UnboundConfig.class);
 		AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
 			return UnboundUtil.veilActionResult(player);
 		});

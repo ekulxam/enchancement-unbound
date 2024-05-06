@@ -35,7 +35,6 @@ public abstract class ShovelItemMixin extends Item {
                 context.getStack().damage(1, player, p -> p.sendToolBreakStatus(context.getHand()));
             }
             cir.setReturnValue(ActionResult.success(world.isClient));
-            cir.cancel();
         }
     }
 }

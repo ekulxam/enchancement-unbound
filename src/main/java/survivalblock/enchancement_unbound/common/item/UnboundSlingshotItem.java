@@ -109,6 +109,7 @@ public class UnboundSlingshotItem extends RangedWeaponItem {
         if (punch > 0) persistentProjectileEntity.setPunch(punch);
         int flame = EnchantmentHelper.getLevel(Enchantments.FLAME, stack);
         if (flame > 0) persistentProjectileEntity.setOnFireFor(100);
+        persistentProjectileEntity.setPosition(player.getEyePos().add(player.getRotationVector().multiply(0.7)));
         world.spawnEntity(persistentProjectileEntity);
         stack.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
         player.incrementStat(Stats.USED.getOrCreateStat(this));
@@ -122,6 +123,7 @@ public class UnboundSlingshotItem extends RangedWeaponItem {
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (world.isClient()) user.swingHand(user.getActiveHand(), true);
+        world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.4f + 1.2f) + 0.5f);
     }
 
     @Override

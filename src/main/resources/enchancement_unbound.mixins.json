@@ -18,6 +18,7 @@
     "dash.DashComponentMixin",
     "delay.DelayComponentMixin",
     "disarm.FishingBobberEntityMixinMixin",
+    "executioner.LivingEntityMixin",
     "frostbite.TridentEntityMixin",
     "gale.GaleComponentMixin",
     "grapple.GrappleFishingBobberEntityMixin",
