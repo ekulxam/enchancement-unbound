@@ -27,7 +27,7 @@ import survivalblock.enchancement_unbound.access.PhaserChaosAccess;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class UnboundSlingshotItem extends RangedWeaponItem {
+public class UnboundSlingshotItem extends RangedWeaponItem implements Vanishable {
     public UnboundSlingshotItem(Settings settings) {
         super(settings);
     }

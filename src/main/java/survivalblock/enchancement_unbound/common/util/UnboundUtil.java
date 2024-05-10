@@ -1,24 +1,28 @@
 package survivalblock.enchancement_unbound.common.util;
 
 import moriyashiine.enchancement.common.init.ModEnchantments;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import moriyashiine.enchancement.common.util.EnchancementUtil;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 import survivalblock.enchancement_unbound.common.enchantment.UnboundHoeEnchantment;
 import survivalblock.enchancement_unbound.common.init.UnboundEnchantments;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
+import survivalblock.enchancement_unbound.common.init.UnboundTags;
 
 public class UnboundUtil {
 
@@ -62,5 +66,29 @@ public class UnboundUtil {
             }
         }
         return false;
+    }
+
+    public static float execute(float value, LivingEntity attacker, Entity target, float cooldown) {
+        if (!EnchancementUtil.hasEnchantment(UnboundEnchantments.EXECUTIONER, attacker)) {
+            return value;
+        }
+        if (attacker instanceof PlayerEntity && cooldown <= 0.8f) {
+            return value;
+        }
+        World world = attacker.getWorld();
+        if (world.isClient()) return value;
+        Random random = world.getRandom();
+        if (random.nextFloat() < 0.95f) {
+            return value;
+        }
+        if (world instanceof ServerWorld serverWorld) {
+            serverWorld.spawnParticles(ParticleTypes.EXPLOSION, target.getPos().x, target.getEyeY(), target.getPos().z, 4, 0.5, 0.5, 0.5, 1);
+            serverWorld.playSound(null, target.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, SoundCategory.PLAYERS, 1.0f, 1.0f);
+            serverWorld.playSound(null, target.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 1.0f, 1.0f);
+        }
+        if (target.getType().isIn(UnboundTags.CANNOT_EXECUTE) || target instanceof PlayerEntity) {
+            return value * 10;
+        }
+        return Float.MAX_VALUE;
     }
 }

@@ -5,10 +5,7 @@ import moriyashiine.enchancement.common.entity.projectile.IceShardEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.*;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
@@ -26,7 +23,7 @@ import survivalblock.enchancement_unbound.common.init.UnboundSoundEvents;
 
 import java.util.function.Predicate;
 
-public class ShardMinigunItem extends RangedWeaponItem {
+public class ShardMinigunItem extends RangedWeaponItem implements Vanishable {
     private final Item shardItem;
     public ShardMinigunItem(Settings settings, Item shardItem) {
         super(settings);

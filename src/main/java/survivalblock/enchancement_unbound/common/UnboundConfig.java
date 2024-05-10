@@ -29,6 +29,8 @@ public class UnboundConfig extends MidnightConfig {
 	public static boolean sustainExtraDamageWhileSliding = true;
 	@Entry
 	public static boolean shouldDealSlamDamage = false;
+	@Entry
+	public static boolean slamSelfDamage = false;
 	@Entry(min = 0, max = Long.MAX_VALUE)
 	public static double slideImpactDamage = 4;
 	@Entry
@@ -40,9 +42,9 @@ public class UnboundConfig extends MidnightConfig {
 	@Entry
 	public static boolean amphibiousAirSwimming = false;
 	@Entry
-	public static boolean infiniteGaleJumps = false;
+	public static boolean infiniteGale = false;
 	@Entry
-	public static boolean dashChargeInAir = false;
+	public static boolean infiniteDash = false;
 	@Entry
 	public static boolean infiniteStrafe = false;
 	@Entry
@@ -82,6 +84,10 @@ public class UnboundConfig extends MidnightConfig {
 	public static float grapplePullEntityMultiplier = 1; // lag
 	@Entry(min = 1)
 	public static float grapplePullUserMultiplier = 1; // lag
+	@Entry
+	public static boolean evenFasterImpactFall = false;
+	@Entry
+	public static boolean cursePatch = false;
 	@Entry(category = "client", min = 15)
 	public static double maxBrimstoneSize = 50; // visual
 	@Entry(category = "client")
@@ -100,13 +106,14 @@ public class UnboundConfig extends MidnightConfig {
 				+ superQuickChargeCrossbow
 				+ sustainExtraDamageWhileSliding
 				+ shouldDealSlamDamage
+				+ slamSelfDamage
 				+ slideImpactDamage
 				+ veilUsersAlwaysInvisible
 				+ astralVeil
 				+ perceptionUsersGetESP
 				+ amphibiousAirSwimming
-				+ infiniteGaleJumps
-				+ dashChargeInAir
+				+ infiniteGale
+				+ infiniteDash
 				+ infiniteStrafe
 				+ assimilationInhaleFood
 				+ noBerserkDamageCap
@@ -119,7 +126,13 @@ public class UnboundConfig extends MidnightConfig {
 				+ leechForever
 				+ leechInterval
 				+ strongerChaosEffects
-				+ instantChargeDelay;
+				+ instantChargeDelay
+				+ delayFloatTime
+				+ homingRadius
+				+ grapplePullEntityMultiplier
+				+ grapplePullUserMultiplier
+				+ evenFasterImpactFall
+				+ cursePatch;
 		return encoding.hashCode();
 	}
 }

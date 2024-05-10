@@ -1,5 +1,6 @@
 package survivalblock.enchancement_unbound.mixin.slide;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import moriyashiine.enchancement.common.component.entity.SlideComponent;
 import moriyashiine.enchancement.common.init.ModDamageTypes;
@@ -30,10 +31,14 @@ public class SlideComponentMixin {
 
     @Inject(method = "slamTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;playSound(Lnet/minecraft/sound/SoundEvent;FF)V", shift = At.Shift.AFTER))
     private void goDamageYourself(Runnable onLand, CallbackInfo ci){
-        if (UnboundConfig.shouldDealSlamDamage) {
+        if (UnboundConfig.slamSelfDamage) {
             PlayerEntity player = ((SlideComponentAccessor) this).getPlayer();
             player.damage(player.getDamageSources().flyIntoWall(), (float) UnboundConfig.slideImpactDamage * 0.6F);
         }
     }
 
+    @ModifyExpressionValue(method = "slamTick", at = @At(value = "CONSTANT", args = "doubleValue=-3.0", ordinal = 0), remap = false)
+    private double sinceWhenDoYouFallAtAConstantSpeed(double original){
+        return UnboundConfig.evenFasterImpactFall ? Math.min(original, this.obj.getVelocity().getY() - 0.005) : original;
+    }
 }

@@ -11,6 +11,7 @@ import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Vanishable;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
@@ -27,7 +28,7 @@ import survivalblock.enchancement_unbound.access.BrimstoneIgnoreDamageAccess;
 
 import java.util.List;
 
-public class OrbitalStrikeBrimstoneItem extends Item {
+public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
     private final String useKey = "TicksUsed";
     private final int MAX_USAGE_TICKS = 600;
     public OrbitalStrikeBrimstoneItem(Settings settings) {
