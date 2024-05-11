@@ -27,11 +27,25 @@ public class EnchantCommandMixinMixin {
     @Unique
     private static Enchantment curse = null;
 
+    /**
+     * Assigns the enchantment being applied to a static threadlocal
+     * @param source unnecessary
+     * @param targets unnecessary
+     * @param enchantment unnecessary
+     * @param level unnecessary
+     * @param cir unnecessary
+     * @param enchantment2 The curse enchantment, captured with @Local
+     */
     @Inject(method = "execute", at = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/Enchantment;getMaxLevel()I", shift = At.Shift.BEFORE))
     private static void getAppliedEnchantment(ServerCommandSource source, Collection<? extends Entity> targets, RegistryEntry<Enchantment> enchantment, int level, CallbackInfoReturnable<Integer> cir, @Local(ordinal = 0) Enchantment enchantment2){
         curse = enchantment2;
     }
 
+    /**
+     * Overrides the other mixin to return true if the enchantment being applied is a curse
+     * @see moriyashiine.enchancement.mixin.vanillachanges.enchantmentlimit.EnchantCommandMixin
+     * @param cir self-explanatory
+     */
     @TargetHandler(
             mixin = "moriyashiine.enchancement.mixin.vanillachanges.enchantmentlimit.EnchantCommandMixin",
             name = "Lmoriyashiine/enchancement/mixin/vanillachanges/enchantmentlimit/EnchantCommandMixin;enchancement$enchantmentLimit(Z)Z"

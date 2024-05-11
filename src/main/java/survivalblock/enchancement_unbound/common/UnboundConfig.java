@@ -63,9 +63,12 @@ public class UnboundConfig extends MidnightConfig {
 	public static boolean frostbiteTridentFreezesWater = false;
 	@Entry
 	public static BouncyChargeSpeed bouncyChargeSpeed = BouncyChargeSpeed.DEFAULT;
-	public enum BouncyChargeSpeed {
+
+    public enum BouncyChargeSpeed {
 		DEFAULT, FAST, VERY_FAST, VERY_VERY_FAST, INSTANT
 	}
+	@Entry(min = 0.1, max = 15)
+	public static double bouncyJumpMultiplier = 1;
 	@Entry
 	public static boolean disarmStealsPlayerItems = false;
 	@Entry
@@ -122,6 +125,7 @@ public class UnboundConfig extends MidnightConfig {
 				+ noBuryCooldown
 				+ canBuryEverything
 				+ bouncyChargeSpeed
+				+ bouncyJumpMultiplier
 				+ disarmStealsPlayerItems
 				+ leechForever
 				+ leechInterval

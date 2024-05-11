@@ -23,6 +23,14 @@ import java.util.Collection;
 @Mixin(value = ItemStack.class, priority = 1500)
 public class ItemStackMixinMixin {
 
+    /**
+     * Prevents the mixin into ItemStack enchanting logic from cancelling by cancelling it
+     * @param enchantment the (curse) enchantment
+     * @param level the level of the enchantment (probably)
+     * @param ci callbackinfo of the mixin
+     * @param myCi callbackinfo of my mixin mixin
+     * @see moriyashiine.enchancement.mixin.vanillachanges.enchantmentlimit.ItemStackMixin
+     */
     @SuppressWarnings("CancellableInjectionUsage") // goofy double ci
     @TargetHandler(
             mixin = "moriyashiine.enchancement.mixin.vanillachanges.enchantmentlimit.ItemStackMixin",

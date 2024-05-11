@@ -1,6 +1,5 @@
 package survivalblock.enchancement_unbound.mixin.vanillachanges.cursepatch;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import moriyashiine.enchancement.common.util.EnchancementUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
@@ -13,6 +12,12 @@ import survivalblock.enchancement_unbound.common.UnboundConfig;
 @Mixin(EnchancementUtil.class)
 public class EnchantmentUtilMixin {
 
+    /**
+     *
+     * @param stack
+     * @param enchantment
+     * @param cir
+     */
     @Inject(method = "isDefaultEnchantment", at = @At("HEAD"), cancellable = true)
     private static void applyCursePatchWhenAddingOther(ItemStack stack, Enchantment enchantment, CallbackInfoReturnable<Boolean> cir) {
         if (UnboundConfig.cursePatch && enchantment.isCursed()) {

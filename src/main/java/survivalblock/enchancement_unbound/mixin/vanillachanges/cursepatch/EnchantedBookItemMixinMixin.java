@@ -16,6 +16,14 @@ import survivalblock.enchancement_unbound.common.UnboundConfig;
 @Mixin(value = EnchantedBookItem.class, priority = 1500)
 public class EnchantedBookItemMixinMixin {
 
+    /**
+     *
+     * @param stack unnecessary
+     * @param entry The EnchantmentLevelEntry, where I get the enchantment from
+     * @param ci unnecessary (the callbackinfo of the mixin)
+     * @param myCi (the callbackinfo of my mixin mixin)
+     * @see moriyashiine.enchancement.mixin.vanillachanges.enchantmentlimit.EnchantedBookItemMixin
+     */
     @SuppressWarnings("CancellableInjectionUsage")
     @TargetHandler(
             mixin = "moriyashiine.enchancement.mixin.vanillachanges.enchantmentlimit.EnchantedBookItemMixin",

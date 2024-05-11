@@ -37,11 +37,20 @@ public abstract class AnvilScreenHandlerMixinMixin extends ForgingScreenHandler 
         super(type, syncId, playerInventory, context);
     }
 
+    /**
+     * Assigns the enchantment being applied to a static threadlocal
+     * @param ci unnecessary
+     * @param enchantment2 The curse enchantment, captured with @Local
+     */
     @Inject(method = "updateResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/Enchantment;canCombine(Lnet/minecraft/enchantment/Enchantment;)Z", shift = At.Shift.BEFORE))
     private void getThatCurse(CallbackInfo ci, @Local(ordinal = 1) Enchantment enchantment2){
         curse = enchantment2;
     }
 
+    /**
+     *
+     * @param cir
+     */
     @TargetHandler(
             mixin = "moriyashiine.enchancement.mixin.vanillachanges.enchantmentlimit.AnvilScreenHandlerMixin",
             name = "Lmoriyashiine/enchancement/mixin/vanillachanges/enchantmentlimit/AnvilScreenHandlerMixin;enchancement$enchantmentLimit(Z)Z"
@@ -53,22 +62,15 @@ public abstract class AnvilScreenHandlerMixinMixin extends ForgingScreenHandler 
             ), cancellable = true
     )
     private void cursePatchAnvil(CallbackInfoReturnable<Boolean> cir) {
-        if (!UnboundConfig.cursePatch) {
+        if (!UnboundConfig.cursePatch || ModConfig.enchantmentLimit == 0) {
             return;
         }
-        if (curse != null && curse.isCursed()) {
-            cir.setReturnValue(true);
-            return;
+        ItemStack inputStack = this.input.getStack(0);
+        ItemStack enchantedBookStack = this.input.getStack(1); // doesn't actually have to be an enchanted book
+        ItemStack outputStack = inputStack.copy();
+        for (var entry : EnchantmentHelper.get(enchantedBookStack).entrySet()) {
+            outputStack.addEnchantment(entry.getKey(), entry.getValue());
         }
-        ItemStack stack = this.input.getStack(0);
-        ItemStack otherStack = this.input.getStack(1);
-        if (EnchancementUtil.limitCheck(false,
-                (EnchancementUtil.getNonDefaultEnchantmentsSize(otherStack, otherStack.getEnchantments().size() + 1))
-                        > ModConfig.enchantmentLimit) || (EnchancementUtil.getNonDefaultEnchantmentsSize(stack, stack.getEnchantments().size()))
-                > ModConfig.enchantmentLimit) {
-            cir.setReturnValue(false);
-        } else {
-            cir.setReturnValue(true);
-        }
+        cir.setReturnValue(!(EnchancementUtil.getNonDefaultEnchantmentsSize(outputStack, outputStack.getEnchantments().size()) > ModConfig.enchantmentLimit));
     }
 }
