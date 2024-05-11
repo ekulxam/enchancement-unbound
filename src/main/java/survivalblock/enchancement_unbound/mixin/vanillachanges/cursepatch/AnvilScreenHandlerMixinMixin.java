@@ -30,26 +30,13 @@ import java.util.Map;
 @Mixin(value = AnvilScreenHandler.class, priority = 1500)
 public abstract class AnvilScreenHandlerMixinMixin extends ForgingScreenHandler {
 
-    @Unique
-    private Enchantment curse = null;
-
     public AnvilScreenHandlerMixinMixin(@Nullable ScreenHandlerType<?> type, int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(type, syncId, playerInventory, context);
     }
 
     /**
-     * Assigns the enchantment being applied to a static threadlocal
-     * @param ci unnecessary
-     * @param enchantment2 The curse enchantment, captured with @Local
-     */
-    @Inject(method = "updateResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/Enchantment;canCombine(Lnet/minecraft/enchantment/Enchantment;)Z", shift = At.Shift.BEFORE))
-    private void getThatCurse(CallbackInfo ci, @Local(ordinal = 1) Enchantment enchantment2){
-        curse = enchantment2;
-    }
-
-    /**
-     *
-     * @param cir
+     * Combines all the enchantments in the two inputs and sees if the output conforms to cursepatch's standards
+     * @param cir SETRETURNVALUE
      */
     @TargetHandler(
             mixin = "moriyashiine.enchancement.mixin.vanillachanges.enchantmentlimit.AnvilScreenHandlerMixin",

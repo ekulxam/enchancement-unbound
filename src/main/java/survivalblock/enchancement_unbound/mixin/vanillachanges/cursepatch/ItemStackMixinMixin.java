@@ -43,6 +43,7 @@ public class ItemStackMixinMixin {
             ), cancellable = true
     )
     private void cursePatchItemStack(Enchantment enchantment, int level, CallbackInfo ci, CallbackInfo myCi) {
+        // :mixinthink: I love having two callbackinfo parameters
         if (UnboundConfig.cursePatch && enchantment.isCursed()) {
             myCi.cancel();
         }

@@ -13,10 +13,10 @@ import survivalblock.enchancement_unbound.common.UnboundConfig;
 public class EnchantmentUtilMixin {
 
     /**
-     *
-     * @param stack
-     * @param enchantment
-     * @param cir
+     * Tricks enchancement into thinking curses are part of the default itemstack
+     * @param stack the itemstack
+     * @param enchantment the enchantment enchancement is looking at
+     * @param cir SETRETURNVALUE TRUE
      */
     @Inject(method = "isDefaultEnchantment", at = @At("HEAD"), cancellable = true)
     private static void applyCursePatchWhenAddingOther(ItemStack stack, Enchantment enchantment, CallbackInfoReturnable<Boolean> cir) {

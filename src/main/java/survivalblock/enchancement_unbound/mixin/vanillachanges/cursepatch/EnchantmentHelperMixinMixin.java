@@ -19,11 +19,11 @@ import java.util.List;
 public class EnchantmentHelperMixinMixin {
 
     /**
-     *
-     * @param original
-     * @param cir
-     * @param i
-     * @return
+     * Bypasses limitCheck when calling EnchantmentHelper.generateEnchantments
+     * @param original did it fail the check originally?
+     * @param cir cir of the mixin
+     * @param i used in the for loop to loop through the list that it generates
+     * @return if it really failed the check according to cursepatch
      * @see moriyashiine.enchancement.mixin.vanillachanges.enchantmentlimit.EnchantmentHelperMixin
      */
     @SuppressWarnings("LocalMayBeArgsOnly")
@@ -37,7 +37,7 @@ public class EnchantmentHelperMixinMixin {
                     value = "INVOKE",
                     target = "Lmoriyashiine/enchancement/common/util/EnchancementUtil;limitCheck(ZZ)Z")
     )
-    private static boolean cursePatchEnchantmentHelper(boolean original, @Local(argsOnly = true) CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, @Local(ordinal = 1) int i) {
+    private static boolean cursePatchEnchantmentHelperGenerateEnchatments(boolean original, @Local(argsOnly = true) CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, @Local(ordinal = 1) int i) {
         Enchantment curse = ((EnchantmentLevelEntry) ((List) cir.getReturnValue()).get(i)).enchantment;
         if (UnboundConfig.cursePatch && curse != null && curse.isCursed()) {
             return false;
@@ -45,6 +45,12 @@ public class EnchantmentHelperMixinMixin {
         return original;
     }
 
+    /**
+     * Bypasses limitCheck when calling EnchantmentHelper.set
+     * @param original did it fail the check originally?
+     * @param curse the enchantment
+     * @return if it really failed the check according to cursepatch
+     */
     @TargetHandler(
             mixin = "moriyashiine.enchancement.mixin.vanillachanges.enchantmentlimit.EnchantmentHelperMixin",
             name = "Lmoriyashiine/enchancement/mixin/vanillachanges/enchantmentlimit/EnchantmentHelperMixin;enchancement$enchantmentLimit(Ljava/util/Map;)Ljava/util/Map;"
@@ -55,7 +61,7 @@ public class EnchantmentHelperMixinMixin {
                     value = "INVOKE",
                     target = "Lmoriyashiine/enchancement/common/util/EnchancementUtil;limitCheck(ZZ)Z")
     )
-    private static boolean cursePatchEnchantmentHelper(boolean original, @Local Enchantment curse) {
+    private static boolean cursePatchEnchantmentHelperSet(boolean original, @Local Enchantment curse) {
         if (UnboundConfig.cursePatch && curse != null && curse.isCursed()) {
             return true;
         }
