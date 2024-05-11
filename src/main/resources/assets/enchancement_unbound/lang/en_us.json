@@ -40,8 +40,8 @@
   "enchancement_unbound.midnightconfig.astralVeil": "Veil Users Separated From World",
   "enchancement_unbound.midnightconfig.perceptionUsersGetESP": "Perception Makes Entities Glow",
   "enchancement_unbound.midnightconfig.amphibiousAirSwimming": "Amphibious Allows Swimming In Air",
-  "enchancement_unbound.midnightconfig.infiniteGaleJumps": "Infinite Gale Jumps",
-  "enchancement_unbound.midnightconfig.dashChargeInAir": "Dash Charges In Air",
+  "enchancement_unbound.midnightconfig.infiniteGale": "Infinite Gale",
+  "enchancement_unbound.midnightconfig.infiniteDash": "Infinite Dash",
   "enchancement_unbound.midnightconfig.infiniteStrafe": "Infinite Strafe",
   "enchancement_unbound.midnightconfig.assimilationInhaleFood": "Instant Eating with Assimilation",
   "enchancement_unbound.midnightconfig.noBerserkDamageCap": "No Berserk Damage Cap",
@@ -49,6 +49,7 @@
   "enchancement_unbound.midnightconfig.wardenspineYeets": "Wardenspine Yeets",
   "enchancement_unbound.midnightconfig.noBuryCooldown": "No Bury Cooldown",
   "enchancement_unbound.midnightconfig.canBuryEverything": "Bury Everything",
+  "enchancement_unbound.midnightconfig.frostbiteTridentFreezesWater": "Frostbite Tridents Freeze Water",
   "enchancement_unbound.midnightconfig.bouncyChargeSpeed": "Bouncy Charge Speed",
   "enchancement_unbound.midnightconfig.enum.BouncyChargeSpeed.DEFAULT": "DEFAULT",
   "enchancement_unbound.midnightconfig.enum.BouncyChargeSpeed.FAST": "FAST",
@@ -63,5 +64,9 @@
   "enchancement_unbound.midnightconfig.delayFloatTime": "Maximum Delay Floating Time (In Ticks)",
   "enchancement_unbound.midnightconfig.grapplePullEntityMultiplier": "Grapple Multiplier When Pulling Self",
   "enchancement_unbound.midnightconfig.grapplePullUserMultiplier": "Grapple Multiplier When Pulling Others",
-  "enchancement_unbound.midnightconfig.homingRadius": "Phasing Homing Radius (In Blocks)"
+  "enchancement_unbound.midnightconfig.homingRadius": "Phasing Homing Radius (In Blocks)",
+  "enchancement_unbound.midnightconfig.evenFasterImpactFall": "Slide Impact Falls Even Faster",
+  "enchancement_unbound.midnightconfig.cursePatch": "Return Curse Patch",
+  "enchancement_unbound.midnightconfig.slamSelfDamage": "Slam Impact Does Self Damage",
+  "enchancement_unbound.midnightconfig.bouncyJumpMultiplier": "Bouncy Jump Multiplier"
 }
