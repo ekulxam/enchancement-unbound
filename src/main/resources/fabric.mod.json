@@ -40,7 +40,8 @@
   "custom": {
     "cardinal-components": [
       "enchancement_unbound:curtain",
-      "enchancement_unbound:ascension"
+      "enchancement_unbound:ascension",
+      "enchancement_unbound:midas_touch"
     ]
   }
 }

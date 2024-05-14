@@ -24,5 +24,24 @@
       }
     ],
     "subtitle": "subtitles.enchancement_unbound.item.shard_minigun.chime"
+  },
+  "entity.generic.midas_touched": {
+    "sounds": [
+      "entity/player/hurt/freeze_hurt1",
+      "entity/player/hurt/freeze_hurt2",
+      "entity/player/hurt/freeze_hurt3",
+      "entity/player/hurt/freeze_hurt4",
+      "entity/player/hurt/freeze_hurt5"
+    ],
+    "subtitle": "subtitles.enchancement_unbound.entity.generic.midas_touched"
+  },
+  "entity.generic.statue_undone": {
+    "sounds": [
+      "dig/stone1",
+      "dig/stone2",
+      "dig/stone3",
+      "dig/stone4"
+    ],
+    "subtitle": "subtitles.enchancement_unbound.entity.generic.statue_undone"
   }
 }
