@@ -34,6 +34,8 @@ public class UnboundConfig extends MidnightConfig {
 	@Entry(min = 0, max = Long.MAX_VALUE)
 	public static double slideImpactDamage = 4;
 	@Entry
+	public static boolean impactFallsSlightlyFaster = false;
+	@Entry
 	public static boolean veilUsersAlwaysInvisible = false;
 	@Entry
 	public static boolean astralVeil = false;
@@ -41,6 +43,8 @@ public class UnboundConfig extends MidnightConfig {
 	public static boolean perceptionUsersGetESP = false;
 	@Entry
 	public static boolean amphibiousAirSwimming = false;
+	@Entry
+	public static boolean amphibiousExtendedWaterForever = false;
 	@Entry
 	public static boolean infiniteGale = false;
 	@Entry
@@ -88,7 +92,17 @@ public class UnboundConfig extends MidnightConfig {
 	@Entry(min = 1)
 	public static float grapplePullUserMultiplier = 1; // lag
 	@Entry
-	public static boolean evenFasterImpactFall = false;
+	public static boolean loyaltyWarpTridentsReturnFaster = false;
+	@Entry
+	public static boolean infiniteFrostbite = false;
+	@Entry
+	public static boolean infiniteFireAspect = false;
+	@Entry
+	public static boolean innateEfficiency = false;
+	@Entry
+	public static boolean removeAdrenalineMovementBoostLimit = false;
+	@Entry(min = 0.05, max = 1)
+	public static float adrenalineSpeedMultiplier = 0.05F;
 	@Entry
 	public static boolean cursePatch = false;
 	@Entry(category = "client", min = 15)
@@ -115,6 +129,7 @@ public class UnboundConfig extends MidnightConfig {
 				+ astralVeil
 				+ perceptionUsersGetESP
 				+ amphibiousAirSwimming
+				+ amphibiousExtendedWaterForever
 				+ infiniteGale
 				+ infiniteDash
 				+ infiniteStrafe
@@ -124,6 +139,7 @@ public class UnboundConfig extends MidnightConfig {
 				+ wardenspineYeets
 				+ noBuryCooldown
 				+ canBuryEverything
+				+ frostbiteTridentFreezesWater
 				+ bouncyChargeSpeed
 				+ bouncyJumpMultiplier
 				+ disarmStealsPlayerItems
@@ -135,7 +151,12 @@ public class UnboundConfig extends MidnightConfig {
 				+ homingRadius
 				+ grapplePullEntityMultiplier
 				+ grapplePullUserMultiplier
-				+ evenFasterImpactFall
+				+ impactFallsSlightlyFaster
+				+ loyaltyWarpTridentsReturnFaster
+				+ infiniteFrostbite
+				+ infiniteFireAspect
+				+ innateEfficiency
+				+ adrenalineSpeedMultiplier
 				+ cursePatch;
 		return encoding.hashCode();
 	}

@@ -2,12 +2,15 @@ package survivalblock.enchancement_unbound.common.item;
 
 import moriyashiine.enchancement.common.entity.projectile.AmethystShardEntity;
 import moriyashiine.enchancement.common.entity.projectile.IceShardEntity;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -15,12 +18,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 import survivalblock.enchancement_unbound.common.init.UnboundItems;
 import survivalblock.enchancement_unbound.common.init.UnboundSoundEvents;
+import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class ShardMinigunItem extends RangedWeaponItem implements Vanishable {
@@ -55,7 +61,7 @@ public class ShardMinigunItem extends RangedWeaponItem implements Vanishable {
             return;
         }
         Random random = world.getRandom();
-        for(short shardNum = 0; shardNum < MathHelper.nextBetween(random,20, 32) * UnboundConfig.scatterProjectileMultiplier; shardNum++){
+        for(short shardNum = 0; shardNum < MathHelper.nextBetween(random,20, 32) * (UnboundUtil.isBasicallyOriginal(UnboundConfig.scatterProjectileMultiplier, 1) ? 1 : UnboundConfig.scatterProjectileMultiplier); shardNum++){
             PersistentProjectileEntity shardEntity;
             if(this.shardItem == Items.AMETHYST_SHARD){
                 if(!player.isCreative()){
@@ -131,5 +137,15 @@ public class ShardMinigunItem extends RangedWeaponItem implements Vanishable {
     @Override
     public int getRange() {
         return 15;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        if (stack.isOf(UnboundItems.AMETHYST_SHARD_MINIGUN)) {
+            tooltip.add(Text.translatable("item.enchancement_unbound.amethyst_shard_minigun.breakfast").formatted(Formatting.DARK_PURPLE));
+        } else if (stack.isOf(UnboundItems.ICE_SHARD_MINIGUN)) {
+            tooltip.add(Text.translatable("item.enchancement_unbound.ice_shard_minigun.breakfast").formatted(Formatting.AQUA));
+        }
+        super.appendTooltip(stack, world, tooltip, context);
     }
 }

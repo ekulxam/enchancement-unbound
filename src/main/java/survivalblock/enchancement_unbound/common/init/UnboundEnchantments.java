@@ -12,13 +12,20 @@ import survivalblock.enchancement_unbound.common.EnchancementUnbound;
 import survivalblock.enchancement_unbound.common.enchantment.*;
 
 public class UnboundEnchantments {
-    public static final Enchantment CURTAIN = new CurtainEnchantment(Enchantment.Rarity.RARE, EnchantmentTarget.FISHING_ROD, EquipmentSlot.MAINHAND);
-    public static final Enchantment ASCENSION = new ShovelEnchantment(Enchantment.Rarity.RARE, EnchantmentTarget.DIGGER, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND);
+    public static final Enchantment CURTAIN = new UnboundHoeEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentTarget.FISHING_ROD, EquipmentSlot.MAINHAND);
+    public static final Enchantment APPLE_SAUCE = new UnboundHoeEnchantment(Enchantment.Rarity.RARE, EnchantmentTarget.FISHING_ROD, EquipmentSlot.MAINHAND);
+    public static final Enchantment SOUL_REAPER = new SoulReaperCurse(Enchantment.Rarity.VERY_RARE, EnchantmentTarget.FISHING_ROD, EquipmentSlot.MAINHAND);
+    public static final Enchantment ASCENSION = new ShovelEnchantment(Enchantment.Rarity.UNCOMMON, EnchantmentTarget.DIGGER, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND);
     public static final Enchantment EXECUTIONER = new AxeEnchantment(Enchantment.Rarity.RARE, EnchantmentTarget.DIGGER, EquipmentSlot.MAINHAND);
+    public static final Enchantment MIDAS_TOUCH = new MidasTouchCurse(Enchantment.Rarity.RARE, EnchantmentTarget.WEAPON, EquipmentSlot.MAINHAND);
+
 
     public static void init() {
         Registry.register(Registries.ENCHANTMENT, EnchancementUnbound.id("curtain"), CURTAIN);
         Registry.register(Registries.ENCHANTMENT, EnchancementUnbound.id("ascension"), ASCENSION);
         Registry.register(Registries.ENCHANTMENT, EnchancementUnbound.id("executioner"), EXECUTIONER);
+        Registry.register(Registries.ENCHANTMENT, EnchancementUnbound.id("midas_touch"), MIDAS_TOUCH);
+        Registry.register(Registries.ENCHANTMENT, EnchancementUnbound.id("apple_sauce"), APPLE_SAUCE);
+        Registry.register(Registries.ENCHANTMENT, EnchancementUnbound.id("soul_reaper"), SOUL_REAPER);
     }
 }

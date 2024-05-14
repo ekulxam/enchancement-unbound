@@ -2,12 +2,8 @@ package survivalblock.enchancement_unbound.common.item;
 
 import moriyashiine.enchancement.common.entity.projectile.BrimstoneEntity;
 import moriyashiine.enchancement.common.init.ModSoundEvents;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,6 +11,7 @@ import net.minecraft.item.Vanishable;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -49,7 +46,7 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
         brimstone.setPosition(x, y+256, z);
         brimstone.getDataTracker().set(BrimstoneEntity.FORCED_PITCH, pitch);
         brimstone.getDataTracker().set(BrimstoneEntity.FORCED_YAW, yaw);
-        ((BrimstoneIgnoreDamageAccess) brimstone).enchancement_unbound$setBrimstoneIgnoresDamage(true);
+        ((BrimstoneIgnoreDamageAccess) brimstone).enchancement_unbound$setBrimstoneIgnoresDamageLimit(true);
         world.spawnEntity(brimstone);
         world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), ModSoundEvents.ITEM_CROSSBOW_BRIMSTONE_6, SoundCategory.PLAYERS, 1.0F, 1.0F);
     }
@@ -81,14 +78,12 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
             int useTicks = stack.getOrCreateNbt().getInt(useKey);
             if(!(useTicks > MAX_USAGE_TICKS)){
                 createOrbitalStrike(world, player, pos, 90.0F, player.getYaw(), Integer.MAX_VALUE);
-                useTicks++;
-                stack.getOrCreateNbt().putInt(useKey, useTicks);
-            } else {
-                if(player.getMainHandStack() == stack){
-                    world.sendEntityStatus(user, (byte) 47);
-                } else {
-                    world.sendEntityStatus(user, (byte) 47);
+                if (!player.isCreativeLevelTwoOp()) {
+                    useTicks++;
+                    stack.getOrCreateNbt().putInt(useKey, useTicks);
                 }
+            } else {
+                world.sendEntityStatus(user, (byte) (player.getMainHandStack() == stack ? 47 : 48));
                 stack.decrement(1);
                 player.incrementStat(Stats.BROKEN.getOrCreateStat(this));
             }
@@ -114,7 +109,7 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        return true;
+        return stack.getOrCreateNbt().getInt(useKey) > 0;
     }
     @Override
     public int getItemBarStep(ItemStack stack) {
@@ -132,5 +127,11 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         user.swingHand(user.getActiveHand(), true);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        tooltip.add(Text.translatable("item.enchancement_unbound.orbital_strike_brimstone.alien").formatted(Formatting.DARK_RED));
+        super.appendTooltip(stack, world, tooltip, context);
     }
 }

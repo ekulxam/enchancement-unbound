@@ -5,8 +5,12 @@ import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.*;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.TypedActionResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import survivalblock.enchancement_unbound.common.init.UnboundEnchantments;
@@ -51,6 +55,13 @@ public class EnchancementUnbound implements ModInitializer {
 		});
 		UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
 			return UnboundUtil.veilActionResult(player);
+		});
+		UseItemCallback.EVENT.register((player, world, hand) -> {
+			ItemStack stack = player.getStackInHand(hand);
+			if (EnchantmentHelper.getLevel(UnboundEnchantments.MIDAS_TOUCH, stack) > 0) {
+				UnboundEntityComponents.MIDAS_TOUCH.get(player).setGolden(true);
+			}
+			return TypedActionResult.pass(stack);
 		});
 	}
 

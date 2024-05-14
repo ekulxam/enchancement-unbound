@@ -2,12 +2,13 @@ package survivalblock.enchancement_unbound.common.component;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 
-public class CurtainComponent implements AutoSyncedComponent, CommonTickingComponent {
+public class CurtainComponent implements AutoSyncedComponent, ServerTickingComponent {
     private final LivingEntity obj;
     private int ticksInCurtain = 0;
     private int maxTicks;
@@ -16,10 +17,6 @@ public class CurtainComponent implements AutoSyncedComponent, CommonTickingCompo
     private double multiplier;
     public CurtainComponent(LivingEntity obj) {
         this.obj = obj;
-    }
-
-    @Override
-    public void tick() {
     }
 
     @Override
@@ -35,7 +32,6 @@ public class CurtainComponent implements AutoSyncedComponent, CommonTickingCompo
         } else if (this.cooldown > 0) {
             --this.cooldown;
         }
-        CommonTickingComponent.super.serverTick();
     }
 
     @Override

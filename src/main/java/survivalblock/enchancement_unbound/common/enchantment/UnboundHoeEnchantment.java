@@ -22,9 +22,4 @@ public class UnboundHoeEnchantment extends EmptyEnchantment {
     public boolean isAcceptableItem(ItemStack stack) {
         return stack.isIn(ItemTags.HOES);
     }
-
-    @Override
-    protected boolean canAccept(Enchantment other) {
-        return super.canAccept(other) && UnboundUtil.cancelHoeEnchantments(this, other);
-    }
 }

@@ -1,7 +1,10 @@
 package survivalblock.enchancement_unbound.common.util;
 
+import moriyashiine.enchancement.common.component.entity.ExtendedWaterComponent;
 import moriyashiine.enchancement.common.init.ModEnchantments;
+import moriyashiine.enchancement.common.init.ModEntityComponents;
 import moriyashiine.enchancement.common.util.EnchancementUtil;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalEntityTypeTags;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -26,9 +29,22 @@ import survivalblock.enchancement_unbound.common.init.UnboundTags;
 
 public class UnboundUtil {
 
+    public static final double CONFIG_FLOATING_POINT_PRECISION = 0.001;
+
+    public static boolean isBasicallyOriginal(double value, double original) {
+        return Math.abs(value - original) <= CONFIG_FLOATING_POINT_PRECISION;
+    }
+
+    public static boolean isBasicallyOriginal(float value, float original) {
+        return Math.abs(value - original) <= CONFIG_FLOATING_POINT_PRECISION;
+    }
+
     public static boolean shouldPreventAction(PlayerEntity player, boolean shouldCheckConfig){
         if (player.isSpectator()) {
             return false;
+        }
+        if (UnboundEntityComponents.MIDAS_TOUCH.get(player).shouldPreventTicking()) {
+            return true;
         }
         boolean hasVeil = EnchantmentHelper.getEquipmentLevel(ModEnchantments.VEIL, player) > 0;
         return shouldCheckConfig ? (UnboundConfig.astralVeil && hasVeil) : hasVeil;
@@ -40,10 +56,6 @@ public class UnboundUtil {
 
     public static TypedActionResult<ItemStack> veilTypedActionResult(PlayerEntity player, ItemStack stack){
         return shouldPreventAction(player, true) ? TypedActionResult.fail(stack) : TypedActionResult.pass(stack);
-    }
-
-    public static boolean cancelHoeEnchantments(Enchantment original, Enchantment other){
-        return !(other instanceof UnboundHoeEnchantment) || other == original;
     }
 
     public static boolean shouldRenderWithEndShader(Entity entity){
@@ -69,16 +81,25 @@ public class UnboundUtil {
     }
 
     public static float execute(float value, LivingEntity attacker, Entity target, float cooldown) {
-        if (!EnchancementUtil.hasEnchantment(UnboundEnchantments.EXECUTIONER, attacker)) {
+        if (!UnboundConfig.unboundEnchantments) {
             return value;
         }
-        if (attacker instanceof PlayerEntity && cooldown <= 0.8f) {
+        if (!EnchancementUtil.hasEnchantment(UnboundEnchantments.EXECUTIONER, attacker)) {
             return value;
         }
         World world = attacker.getWorld();
         if (world.isClient()) return value;
+        if (attacker instanceof PlayerEntity && cooldown <= 0.8f) {
+            return value;
+        }
+        if (target instanceof LivingEntity living) {
+            if (living.getHealth() > living.getMaxHealth() * 0.4) {
+                return value;
+            }
+        }
         Random random = world.getRandom();
-        if (random.nextFloat() < 0.95f) {
+        double chance = target instanceof LivingEntity living ? executionChanceCalculation(living.getHealth() / living.getMaxHealth()) : 0.1f;
+        if (random.nextFloat() < 1f - chance) {
             return value;
         }
         if (world instanceof ServerWorld serverWorld) {
@@ -86,9 +107,36 @@ public class UnboundUtil {
             serverWorld.playSound(null, target.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, SoundCategory.PLAYERS, 1.0f, 1.0f);
             serverWorld.playSound(null, target.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 1.0f, 1.0f);
         }
-        if (target.getType().isIn(UnboundTags.CANNOT_EXECUTE) || target instanceof PlayerEntity) {
+        if (cannotExecute(target, true)) {
             return value * 10;
         }
         return Float.MAX_VALUE;
+    }
+
+    private static double executionChanceCalculation(double healthPercentage){
+        if (healthPercentage <= 0) {
+            return 0.5;
+        }
+        double calculation = Math.log10(healthPercentage);
+        calculation /= 5;
+        calculation *= -1;
+        calculation -= 0.0546;
+        // y = -(log10(x) / 5) - 0.0546
+        // desmos: y=-\frac{\log\left(x\right)}{5}-0.0546
+        return Math.min(Math.max(calculation, 0), 0.5); // I didn't want to do a clamp because I've seen those mods that make
+        // MathHelper methods really weird, so call me crazy but I'm just taking a precaution
+    }
+
+    public static void applyExtendedWater(LivingEntity living){
+        ExtendedWaterComponent extendedWaterComponent = ModEntityComponents.EXTENDED_WATER.get(living);
+        extendedWaterComponent.markWet();
+        ModEntityComponents.EXTENDED_WATER.get(living).sync();
+    }
+
+    public static boolean cannotExecute(Entity target, boolean shouldCheckPlayer) {
+        if (shouldCheckPlayer && target instanceof PlayerEntity) {
+            return true;
+        }
+        return target.getType().isIn(UnboundTags.CANNOT_EXECUTE) || target.getType().isIn(ConventionalEntityTypeTags.BOSSES);
     }
 }
