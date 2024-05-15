@@ -26,7 +26,7 @@
   "enchantment.enchancement_unbound.midas_touch.desc": "Turns entities into gold upon hit. The effect will reverse when the entity touches water or rain. Does not work in ultrawarm dimensions such as the Nether. Can only be applied on gold tools.",
   "enchantment.enchancement_unbound.midas_touch.lore": "DBSO$LFFST$LGBOMC$XMQI$VLQKAT$FPEDQGB$OX$FDOT.$CUO$ZDN.$EPF$XDN$NQKYMKDC$SD$PGRK$QKRLP$FBU$QSAXCHS,4FQ$XKMS$ODN$HGRK$PMF$RGHG$KLQPGRKP$FT$PKA$DBFR$VIN$YFHRKG$ZIKQ$YBSMO$EKLFXK$OFB?V",
   "enchantment.enchancement_unbound.apple_sauce": "Apple Sauce",
-  "enchantment.enchancement_unbound.apple_sauce.desc": "Breaking leaves has a change of dropping extra apples. Also has a chance of getting golden apples.",
+  "enchantment.enchancement_unbound.apple_sauce.desc": "Breaking leaves has a change of dropping extra apples. Also has a chance of getting golden apples. Greatly increases the hoe's mining speed when breaking leaves.",
   "enchantment.enchancement_unbound.soul_reaper": "Soul Reaper",
   "enchantment.enchancement_unbound.soul_reaper.desc": "Adds experience to the attacker and drains the target of experience if it has any. Forcibly extracting experiences from another living being can't have any negative consequences, right?",
   "enchancement_unbound.midnightconfig.title": "Enchancement Unbound",

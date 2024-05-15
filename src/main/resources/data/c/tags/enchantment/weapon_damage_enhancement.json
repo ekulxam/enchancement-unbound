@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "enchancement_unbound:curtain",
+      "required": false
+    },
+    {
+      "id": "enchancement_unbound:soul_reaper",
+      "required": false
+    },
+    {
+      "id": "enchancement_unbound:executioner",
+      "required": false
+    },
+    {
+      "id": "enchancement_unbound:midas_touch",
+      "required": false
+    }
+  ]
+}
