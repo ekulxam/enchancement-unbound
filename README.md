@@ -6,20 +6,20 @@ Enchancement Unbound was originally made to remove some of the balancing changes
 However, I had too many ideas, so I not only did I pretty much accomplish that goal, I also added some of my own enchantments and items. I also added shield enchantments, but they were moved to another mod that I will be working on.
 As of now, all changes that I made are configurable, so I will go through all the config options and what they do.
 ## Items
-Can be disabled in the config under "Register This Mod's Items (Separate From Enchancement)" [Default = false, My Recommendation = true]
+Can be disabled in the config under "Register This Mod's Items (Separate From Enchancement)" [Default = false, My Recommendation = true] WARNING: DISABLING THIS WILL REMOVE ALL ITEMS FROM THIS MOD FROM ANY WORLD YOU ENTER. DATA MAY BE LOST; TREAD WITH CAUTION.
 - Rain of Fire (Orbital Strike Brimstone) : Calls down brimstone from the heavens.
 - Amethyst Shard Minigun : Fires amethyst shards extremely quickly. Uses Amethyst Shards for ammunition.
 - Ice Shard Minigun : Amethyst Shard Minigun, but fires frostbite shards. Uses Packed Ice and Blue Ice for ammunition.
 - <obfuscated> : Bow but fires arrows every tick, compatible with enchantments from both vanilla and Enchancement.
 
 ## Enchantments
-Can be disabled in the config under "Register This Mod's Enchantments (Separate From Enchancement)" [Default = false, My Recommendation = true]
+Can be disabled in the config under "Register This Mod's Enchantments (Separate From Enchancement)" [Default = false, My Recommendation = true] WARNING: DISABLING THIS WILL REMOVE ALL ENCHANTMENTS FROM THIS MOD FROM ANY WORLD YOU ENTER. DATA MAY BE LOST; TREAD WITH CAUTION.
 - Curtain : Hoe enchantment. Applies a void shader to affected entities. Puts entities into a "curtain" state, where they take more damage depending on how many times they have been hit by this enchantment. Effect ends after one minute a while of no hits, after which the entity will become immune to being "curtained" for a few seconds. This effect can stack.
 - Ascension (idea by @duriangape on Discord) : Shovel enchantment. Inspired by the Ascend ability from Zelda: Tears of the Kingdom. Allows the user to phase through blocks upward when clicking on the bottom face of a block.
 - Executioner : Axe enchantment. About 2.5% chance to instantly execute the entity. Entities that cannot be executed, such as bosses and players, will take increased damage instead. Only activates when the target has 40% health or lower, but chance of activating increases with how wounded the target is, to a maximum of 5% at around 0.2% health remaining. The damage formula is clamp((-(log10(healthPercentage) / 5) - 0.0546), 0, 0.5) in percentage
 - Midas Touch (suggested by @opixeel on Discord) : Sword/Axe/Pickaxe/Shovel/Hoe curse. Inspired by the Greek myth of King Midas in which he gains the ability to turn anything to gold. This curse turns entities into gold upon hit. Fails in the nether. Deactivates if the entity is touching rain, water, or a bubble column, if the entity has extended water (the amphibious effect that allows you to riptide out of water), is frozen (from frostbite), or has been golden for 10 minutes. Stronger Entities will break free much faster. Only works on gold or netherite tools.
-- Apple Sauce : Hoe enchantment. Breaking leaves has a chance of dropping extra apples. Has a smaller chance to drop golden apples.
-- Soul Reaper : Hoe Curse (but doesn't look like a curse because I overrode the enchantment color). Steals experience from the target entity and gives it to the attacker.
+- Apple Sauce : Hoe enchantment. Breaking leaves has a chance of dropping extra apples. Has a smaller chance to drop golden apples. A gold apple drop has a small chance to be an enchanted golden apple instead. Greatly increases the hoe's mining speed when breaking leaves.
+- Soul Reaper : Hoe Curse (but renders in aqua if Enchancement's Colored Enchantment Names is on). Steals experience from the target entity and gives it to the attacker.
 
 ## Other Config Options
 ### MAIN:
@@ -30,7 +30,7 @@ Can be disabled in the config under "Register This Mod's Enchantments (Separate 
 - Super Quick Charge (Crossbow) : Makes crossbows have a really short projectile loading time. [Default = false, My Recommendation = true]
 - Take Extra Damage While Sliding : Whether using slide makes the user take extra damage. [Default = true, My Recommendation = true]
 - Deal Damage On (Slide) Slam : Deals damage on slam impact. [Default = false, My Recommendation = true]
-- Slam Impact Does Self Damage : Deals self-damage on slam impact (from hitting the ground too hard). Self-damage is 0.6 * damage value. [Default = false, My Recommendation = true]
+- Slam Impact Does Self Damage : Deals self-damage on slam impact (from hitting the ground too hard). Self-damage is 0.6 * damage value. Requires Deal Damage On (Slide) Slam to be on also. [Default = false, My Recommendation = true]
 - (Slide) Slam Impact Damage : Numerical value of impact damage. [Default = 4, My Recommendation = 4]
 - Veil Gets Permanent Invisibility : Self-explanatory. Wearing a veil helmet makes you invisible [Default = false, My Recommendation = true]
 - Veil Users Separated From World : WIP feature. Inspired by Talon's end dust mod. Wearing a veil helmet prevents you from taking damage, but also prevents you from interacting with all blocks and entities. [Default = false, My Recommendation = false]
