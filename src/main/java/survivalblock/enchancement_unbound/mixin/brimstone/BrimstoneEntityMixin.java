@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import survivalblock.enchancement_unbound.access.BrimstoneIgnoreDamageAccess;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 
-@Mixin(value = BrimstoneEntity.class, remap = false)
+@Mixin(BrimstoneEntity.class)
 public class BrimstoneEntityMixin implements BrimstoneIgnoreDamageAccess {
 
     @Unique

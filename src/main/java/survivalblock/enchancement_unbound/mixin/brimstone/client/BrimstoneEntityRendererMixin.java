@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Slice;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 
-@Mixin(value = BrimstoneEntityRenderer.class, remap = false)
+@Mixin(BrimstoneEntityRenderer.class)
 public class BrimstoneEntityRendererMixin {
 
     @ModifyVariable(method = "render(Lmoriyashiine/enchancement/common/entity/projectile/BrimstoneEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",

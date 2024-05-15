@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 
+@Debug(export = true)
 @Mixin(value = CrossbowItem.class)
 public class CrossbowItemMixin {
 
@@ -21,8 +22,7 @@ public class CrossbowItemMixin {
     }
 
     @ModifyVariable(method = "loadProjectiles",
-            at = @At("STORE"),
-            name = "j")
+            at = @At(value = "STORE", ordinal = 1), ordinal = 0)
     private static int multishotEnabled(int j, @Share("i") LocalIntRef iRef) {
         int i = iRef.get();
         int correctlyCalculateMultishot = i > 0 ? (1 + (2 * i)) : 0;

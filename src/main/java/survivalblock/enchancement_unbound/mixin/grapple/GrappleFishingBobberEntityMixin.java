@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 
-@Mixin(value = GrappleFishingBobberEntity.class, remap = false)
+@Mixin(GrappleFishingBobberEntity.class)
 public class GrappleFishingBobberEntityMixin {
 
     @ModifyArg(method = "pullHookedEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;setVelocity(Lnet/minecraft/util/math/Vec3d;)V"), index = 0)
