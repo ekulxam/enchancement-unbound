@@ -329,7 +329,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         updateOneWhoWronged();
         if (oneWhoWronged != null) {
             DamageSource source = ModDamageTypes.create(this.obj.getWorld(), UnboundDamageTypes.MIDAS_LINK, this.obj);
-            float amount = Math.max(0.25f, UnboundEntityComponents.MIDAS_TOUCH.get(oneWhoWronged).karma / 10f);
+            float amount = 0.25f * Math.max(1, UnboundEntityComponents.MIDAS_TOUCH.get(oneWhoWronged).karma / 5f);
             oneWhoWronged.damage(source, amount);
         }
     }
