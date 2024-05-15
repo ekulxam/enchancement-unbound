@@ -13,6 +13,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import survivalblock.enchancement_unbound.common.component.MidasTouchComponent;
 import survivalblock.enchancement_unbound.common.init.UnboundEnchantments;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 import survivalblock.enchancement_unbound.common.init.UnboundItems;
@@ -61,9 +62,14 @@ public class EnchancementUnbound implements ModInitializer {
 			if (!UnboundConfig.unboundEnchantments) {
 				return TypedActionResult.pass(stack);
 			}
-			if (EnchantmentHelper.getLevel(UnboundEnchantments.MIDAS_TOUCH, stack) > 0) {
-				UnboundEntityComponents.MIDAS_TOUCH.get(player).setGolden(true);
+			if (EnchantmentHelper.getLevel(UnboundEnchantments.MIDAS_TOUCH, stack) <= 0) {
+				return TypedActionResult.pass(stack);
 			}
+			MidasTouchComponent midasTouchComponent = UnboundEntityComponents.MIDAS_TOUCH.get(player);
+			if (midasTouchComponent.shouldUndo() || midasTouchComponent.isGolden()) {
+				return TypedActionResult.pass(stack);
+			}
+			midasTouchComponent.setGolden(true);
 			return TypedActionResult.pass(stack);
 		});
 	}

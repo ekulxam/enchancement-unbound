@@ -46,6 +46,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
     private PlayerEntity oneWhoWronged;
     private boolean hadNoAI;
     private boolean wasPersistent;
+    private boolean wasSprinting;
     private int statueTicks;
     private static final int KARMA_LIMIT = 20;
     private Vec3d position;
@@ -53,6 +54,8 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
     private float forcedHeadYaw;
     private float forcedBodyYaw;
     private float forcedPitch;
+    private float forcedLimbAngle;
+    private float forcedLimbDistance;
 
     public MidasTouchComponent(LivingEntity living){
         this.obj = living;
@@ -62,16 +65,19 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         this.oneWhoWrongedUuid = null;
         this.hadNoAI = false;
         this.wasPersistent = false;
+        this.wasSprinting = false;
         this.statueTicks = 0;
         this.position = Vec3d.ZERO;
         this.forcedPose = EntityPose.STANDING;
         this.forcedHeadYaw = 0.0F;
         this.forcedBodyYaw = 0.0F;
         this.forcedPitch = 0.0F;
+        this.forcedLimbAngle = 0.0F;
+        this.forcedLimbDistance = 0.0F;
     }
 
     public boolean shouldUndo(){
-        return this.obj.isWet() || ModEntityComponents.EXTENDED_WATER.get(this.obj).getTicksWet() > 0 || this.obj.getWorld().getDimension().ultrawarm() || expired() || this.obj.getHealth() <= 0 || ModEntityComponents.FROZEN.get(this.obj).isFrozen();
+        return this.isWet() || ModEntityComponents.EXTENDED_WATER.get(this.obj).getTicksWet() > 0 || this.obj.getWorld().getDimension().ultrawarm() || expired() || this.obj.getHealth() <= 0 || ModEntityComponents.FROZEN.get(this.obj).isFrozen();
     }
 
     private boolean isWet(){
@@ -138,9 +144,10 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
                 if (this.karma > KARMA_LIMIT) {
                     LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(world);
                     if (lightningEntity != null) {
-                        lightningEntity.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(this.obj.getBlockPos().up()));
+                        lightningEntity.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(this.obj.getBlockPos()));
                         ModEntityComponents.CHANNELING.get(lightningEntity).setSafe(true);
                         world.spawnEntity(lightningEntity);
+                        this.obj.damage(ModDamageTypes.create(world, UnboundDamageTypes.MIDAS_LINK), 4f);
                     }
                     if (this.obj.isRemoved() || !this.obj.isAlive()) {
                         this.karma = 0;
@@ -160,6 +167,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         this.karma = tag.getInt("Karma");
         this.hadNoAI = tag.getBoolean("HadNoAI");
         this.wasPersistent = tag.getBoolean("WasPersistent");
+        this.wasSprinting = tag.getBoolean("WasSprinting");
         if (tag.containsUuid("GetVengeanceOnThisPlayer")) {
             this.oneWhoWrongedUuid = tag.getUuid("GetVengeanceOnThisPlayer");
         } else {
@@ -171,6 +179,8 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         this.forcedHeadYaw = tag.getFloat("ForcedHeadYaw");
         this.forcedBodyYaw = tag.getFloat("ForcedBodyYaw");
         this.forcedPitch = tag.getFloat("ForcedPitch");
+        this.forcedLimbAngle = tag.getFloat("ForcedLimbAngle");
+        this.forcedLimbDistance = tag.getFloat("ForcedLimbDistance");
     }
 
     @Override
@@ -179,6 +189,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         tag.putInt("Karma", this.karma);
         tag.putBoolean("HadNoAI", this.hadNoAI);
         tag.putBoolean("WasPersistent", this.wasPersistent);
+        tag.putBoolean("WasSprinting", this.wasSprinting);
         if (this.oneWhoWronged != null) tag.putUuid("GetVengeanceOnThisPlayer", this.oneWhoWronged.getUuid());
         tag.putInt("StatueTicks", this.statueTicks);
         tag.putDouble("PosX", this.position.x);
@@ -188,6 +199,8 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         tag.putFloat("ForcedHeadYaw", this.forcedHeadYaw);
         tag.putFloat("ForcedBodyYaw", this.forcedBodyYaw);
         tag.putFloat("ForcedPitch", this.forcedPitch);
+        tag.putFloat("ForcedLimbAngle", this.forcedLimbAngle);
+        tag.putFloat("ForcedLimbDistance", this.forcedLimbDistance);
     }
 
     public void accumulateKarma(){
@@ -242,12 +255,18 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
             this.forcedHeadYaw = this.obj.getHeadYaw();
             this.forcedBodyYaw = this.obj.getBodyYaw();
             this.forcedPitch = this.obj.getPitch();
+            final float maxRand = 0.5F;
+            this.forcedLimbAngle = MathHelper.nextFloat(this.obj.getRandom(), -maxRand, maxRand);
+            this.forcedLimbDistance = MathHelper.nextFloat(this.obj.getRandom(), -maxRand, maxRand);
             if (this.obj instanceof MobEntity mob) {
                 mob.setTarget(null);
                 this.hadNoAI = mob.isAiDisabled();
                 mob.setAiDisabled(true);
                 this.wasPersistent = mob.isPersistent();
                 mob.setPersistent();
+            }
+            if (this.obj instanceof PlayerEntity player) {
+                this.wasSprinting = player.isSprinting();
             }
             this.resetKarma();
         } else {
@@ -258,6 +277,9 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
             this.obj.getBrain().forgetAll();
             if (this.obj instanceof WardenEntity warden) {
                 warden.getBrain().remember(MemoryModuleType.DIG_COOLDOWN, Unit.INSTANCE, 1200L);
+            }
+            if (this.obj instanceof PlayerEntity player) {
+                if (wasSprinting) player.setSprinting(true);
             }
             this.obj.setBodyYaw(this.forcedBodyYaw);
             this.obj.setHeadYaw(this.forcedHeadYaw);
@@ -307,7 +329,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         updateOneWhoWronged();
         if (oneWhoWronged != null) {
             DamageSource source = ModDamageTypes.create(this.obj.getWorld(), UnboundDamageTypes.MIDAS_LINK, this.obj);
-            float amount = Math.max(1, UnboundEntityComponents.MIDAS_TOUCH.get(oneWhoWronged).karma / 4f);
+            float amount = Math.max(0.25f, UnboundEntityComponents.MIDAS_TOUCH.get(oneWhoWronged).karma / 10f);
             oneWhoWronged.damage(source, amount);
         }
     }
@@ -315,5 +337,13 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
     public void setOneWhoWronged(@Nullable PlayerEntity oneWhoWronged) {
         this.oneWhoWronged = oneWhoWronged;
         if (oneWhoWronged != null) this.oneWhoWrongedUuid = this.oneWhoWronged.getUuid();
+    }
+
+    public float getForcedLimbDistance() {
+        return this.forcedLimbDistance;
+    }
+
+    public float getForcedLimbAngle() {
+        return this.forcedLimbAngle;
     }
 }
