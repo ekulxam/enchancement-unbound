@@ -105,8 +105,8 @@ public abstract class LivingEntityRendererMixinMixin<T extends LivingEntity, M e
                 pitch *= -1;
                 headYawMinusBodyYaw *= -1;
             }
-            float limbAngle = 0.0f;
-            float limbDistance = 0.0f;
+            float limbAngle = midasTouchComponent.getForcedLimbAngle();
+            float limbDistance = midasTouchComponent.getForcedLimbDistance();
             setupTransforms(livingEntity, matrices, animationProgress, bodyYaw, tickDelta);
             matrices.scale(-1, -1, 1);
             scale(livingEntity, matrices, tickDelta);

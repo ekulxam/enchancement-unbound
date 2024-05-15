@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import survivalblock.enchancement_unbound.common.component.MidasTouchComponent;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
+import survivalblock.enchancement_unbound.common.init.UnboundTags;
 
 @SuppressWarnings("UnreachableCode")
 @Mixin(value = Entity.class, priority = 2000)
@@ -30,10 +31,12 @@ public abstract class EntityMixin {
         if (!midasTouchComponent.isGolden()) {
             return original;
         }
-        if (source.isOf(DamageTypes.DROWN) || source.isOf(DamageTypes.LIGHTNING_BOLT)) {
+        if (source.isOf(DamageTypes.DROWN)) {
             midasTouchComponent.undo();
         }
-        midasTouchComponent.damageLink();
+        if (!source.isIn(UnboundTags.BYPASSES_MIDAS_LINK)) {
+            midasTouchComponent.damageLink();
+        }
         return !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY);
     }
 

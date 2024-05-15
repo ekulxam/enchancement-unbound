@@ -47,14 +47,17 @@ public class MiningToolItemMixin {
         }
         amplifier--;
         Random random = world.getRandom();
-        if (MathHelper.nextBetween(random, 0, 9) >= 9 - amplifier) { // 1 in 10
+        final int REGULAR_APPLE_CHANCE = 20; // reciprocal
+        final int GOLDEN_APPLE_CHANCE = 500;
+        final int NOTCH_APPLE_CHANCE = 50;
+        if (MathHelper.nextBetween(random, 1, REGULAR_APPLE_CHANCE) >= REGULAR_APPLE_CHANCE - amplifier) { // 1 in 15
             Block.dropStack(world, pos, Items.APPLE.getDefaultStack());
         }
-        if (MathHelper.nextBetween(random, 0, 24) >= 24 - amplifier) { // 1 in 25
-            if (MathHelper.nextBetween(random, 0, 4) >= 4 - Math.floor(amplifier / 2d)) { // 1 in 5
+        if (MathHelper.nextBetween(random, 1, GOLDEN_APPLE_CHANCE) >= GOLDEN_APPLE_CHANCE - amplifier) { // 1 in 50
+            if (MathHelper.nextBetween(random, 1, NOTCH_APPLE_CHANCE) >= NOTCH_APPLE_CHANCE - Math.floor(amplifier / 2d)) { // 1 in 10
                 Block.dropStack(world, pos, Items.ENCHANTED_GOLDEN_APPLE.getDefaultStack());
             } else {
-                Block.dropStack(world, pos, Items.GOLDEN_APPLE.getDefaultStack()); // 4 in 5
+                Block.dropStack(world, pos, Items.GOLDEN_APPLE.getDefaultStack());
             }
         }
     }
@@ -73,6 +76,6 @@ public class MiningToolItemMixin {
         if (!(state.isIn(BlockTags.LEAVES))) {
             return original;
         }
-        return Math.max(15.0f, original);
+        return Math.max(10.0f, original);
     }
 }

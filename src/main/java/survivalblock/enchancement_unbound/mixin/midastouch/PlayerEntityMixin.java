@@ -38,7 +38,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         }
         UnboundEntityComponents.MIDAS_TOUCH.get(this).accumulateKarma();
         MidasTouchComponent midasTouchComponent = UnboundEntityComponents.MIDAS_TOUCH.get(living);
-        if (midasTouchComponent.shouldUndo() ||midasTouchComponent.isGolden()) {
+        if (midasTouchComponent.shouldUndo() || midasTouchComponent.isGolden()) {
             return;
         }
         midasTouchComponent.setGolden(true);
