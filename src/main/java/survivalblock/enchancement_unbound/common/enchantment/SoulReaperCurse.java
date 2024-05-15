@@ -1,5 +1,6 @@
 package survivalblock.enchancement_unbound.common.enchantment;
 
+import moriyashiine.enchancement.common.ModConfig;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.text.Text;
@@ -18,6 +19,6 @@ public class SoulReaperCurse extends UnboundHoeEnchantment {
     @Override
     public Text getName(int level) {
         Text text = super.getName(level);
-        return text.copy().formatted(Formatting.AQUA);
+        return ModConfig.coloredEnchantmentNames ? text.copy().formatted(Formatting.AQUA) : text;
     }
 }
