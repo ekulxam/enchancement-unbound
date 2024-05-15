@@ -58,6 +58,9 @@ public class EnchancementUnbound implements ModInitializer {
 		});
 		UseItemCallback.EVENT.register((player, world, hand) -> {
 			ItemStack stack = player.getStackInHand(hand);
+			if (!UnboundConfig.unboundEnchantments) {
+				return TypedActionResult.pass(stack);
+			}
 			if (EnchantmentHelper.getLevel(UnboundEnchantments.MIDAS_TOUCH, stack) > 0) {
 				UnboundEntityComponents.MIDAS_TOUCH.get(player).setGolden(true);
 			}
