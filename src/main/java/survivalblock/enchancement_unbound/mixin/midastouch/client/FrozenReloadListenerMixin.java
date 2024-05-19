@@ -29,7 +29,7 @@ public class FrozenReloadListenerMixin {
     @Unique
     private final Map<Identifier, Identifier> GOLDEN_TEXTURE_CACHE = new HashMap<>();
 
-    @ModifyExpressionValue(method = "generateTexture", at = @At(value = "FIELD", target = "Lmoriyashiine/enchancement/client/reloadlisteners/FrozenReloadListener;PACKED_ICE_TEXTURE:Lnet/minecraft/util/Identifier;"))
+    @ModifyExpressionValue(method = "generateTexture", at = @At(value = "FIELD", target = "Lmoriyashiine/enchancement/client/reloadlisteners/FrozenReloadListener;PACKED_ICE_TEXTURE:Lnet/minecraft/util/Identifier;", remap = true))
     private static Identifier replaceWithGoldenTouch(Identifier original){
         return MidasTouchCurse.golden ? GOLD_BLOCK_TEXTURE : original;
     }

@@ -10,7 +10,7 @@ import survivalblock.enchancement_unbound.common.UnboundConfig;
 @Mixin(value = EnchancementUtil.class, remap = false)
 public class EnchancementUtilMixin {
 
-    @ModifyReturnValue(method = "capMovementMultiplier", at = @At("RETURN"), remap = false)
+    @ModifyReturnValue(method = "capMovementMultiplier", at = @At("RETURN"))
     private static float adrenalineSupremacy(float original, @Local(argsOnly = true) float multiplier){
         return UnboundConfig.removeAdrenalineMovementBoostLimit ? multiplier : original;
     }

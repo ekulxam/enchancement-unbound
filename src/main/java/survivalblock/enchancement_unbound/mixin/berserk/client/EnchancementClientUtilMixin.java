@@ -19,7 +19,7 @@ import survivalblock.enchancement_unbound.common.UnboundConfig;
 @Mixin(value = EnchancementClientUtil.class, remap = false)
 public class EnchancementClientUtilMixin {
 
-    @ModifyExpressionValue(method = "getBerserkColor", at = @At(value = "INVOKE", target = "Lmoriyashiine/enchancement/common/util/EnchancementUtil;getBonusBerserkDamage(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;)F"))
+    @ModifyExpressionValue(method = "getBerserkColor", at = @At(value = "INVOKE", target = "Lmoriyashiine/enchancement/common/util/EnchancementUtil;getBonusBerserkDamage(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;)F", remap = true))
     private static float berserkHasADamageCap(float damageBonus, LivingEntity living, ItemStack stack) {
         if(UnboundConfig.noBerserkDamageCap){
             return Math.min(damageBonus, EnchancementUtil.getMaxBonusBerserkDamage(stack, EnchantmentHelper.getLevel(ModEnchantments.BERSERK, stack)));

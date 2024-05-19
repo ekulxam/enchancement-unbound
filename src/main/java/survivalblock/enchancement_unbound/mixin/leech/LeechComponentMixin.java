@@ -9,12 +9,12 @@ import survivalblock.enchancement_unbound.common.UnboundConfig;
 @Mixin(value = LeechComponent.class, remap = false)
 public class LeechComponentMixin {
     // I didn't think that leech could get any more OP, but I guess I was wrong
-    @ModifyExpressionValue(method = "tick", at = @At(value = "CONSTANT", args = "intValue=120"), remap = false)
+    @ModifyExpressionValue(method = "tick", at = @At(value = "CONSTANT", args = "intValue=120"))
     private int infiniteLeech(int constant){
         return UnboundConfig.leechForever ? Integer.MAX_VALUE : constant;
     }
 
-    @ModifyExpressionValue(method = "serverTick", at = @At(value = "CONSTANT", args = "intValue=20"), remap = false)
+    @ModifyExpressionValue(method = "serverTick", at = @At(value = "CONSTANT", args = "intValue=20"))
     private int leechTick(int constant){
         return UnboundConfig.leechInterval == 20 ? constant : UnboundConfig.leechInterval;
     }

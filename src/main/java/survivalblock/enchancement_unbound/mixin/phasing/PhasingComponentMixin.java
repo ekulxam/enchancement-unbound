@@ -10,7 +10,7 @@ import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 @Mixin(value = PhasingComponent.class, remap = false)
 public class PhasingComponentMixin {
 
-    @ModifyExpressionValue(method = "tick", at = @At(value = "CONSTANT", args = "doubleValue=0.5", ordinal = 0), remap = false)
+    @ModifyExpressionValue(method = "tick", at = @At(value = "CONSTANT", args = "doubleValue=0.5", ordinal = 0))
     private double increaseIncrement(double original) {
         if (UnboundUtil.isBasicallyOriginal(UnboundConfig.homingRadius, 0.5)) {
             return original;

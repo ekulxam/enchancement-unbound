@@ -2,6 +2,7 @@ package survivalblock.enchancement_unbound.mixin.warp;
 
 import com.bawnorton.mixinsquared.TargetHandler;
 import moriyashiine.enchancement.common.ModConfig;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -41,7 +42,7 @@ public abstract class PersistentProjectileEntityMixinMixin extends ProjectileEnt
         if (!((PersistentProjectileEntity) (Object) this instanceof TridentEntity trident)) {
             return;
         }
-        if (!((this.dataTracker.get(TridentEntityAccessor.getLoyalty()) > 0 || ModConfig.allTridentsHaveLoyalty))) {
+        if (this.dataTracker.get(TridentEntityAccessor.getLoyalty()) <= 0 && EnchantmentHelper.getLoyalty(((TridentEntityAccessor) trident).getTridentStack()) <= 0) {
             return;
         }
         if (!(this.getOwner() instanceof LivingEntity)) {

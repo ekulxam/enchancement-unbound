@@ -16,17 +16,17 @@ import survivalblock.enchancement_unbound.common.UnboundConfig;
 @Mixin(value = DelayComponent.class, remap = false)
 public class DelayComponentMixin {
 
-    @ModifyReturnValue(method = "shouldChangeParticles", at = @At("RETURN"), remap = false)
+    @ModifyReturnValue(method = "shouldChangeParticles", at = @At("RETURN"))
     private boolean instaChargeVisuals(boolean original){
         return UnboundConfig.instantChargeDelay || original;
     }
 
-    @ModifyExpressionValue(method = "serverTick", at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(FF)F"), remap = false)
+    @ModifyExpressionValue(method = "serverTick", at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(FF)F"))
     private float instaChargeLerp(float original){
         return UnboundConfig.instantChargeDelay ? 1.0f : original;
     }
 
-    @ModifyExpressionValue(method = "serverTick", at = @At(value = "CONSTANT", args = "intValue=200"), remap = false)
+    @ModifyExpressionValue(method = "serverTick", at = @At(value = "CONSTANT", args = "intValue=200"))
     private int changeDelayFloatTime(int original){
         return UnboundConfig.delayFloatTime == original ? original : UnboundConfig.delayFloatTime;
     }

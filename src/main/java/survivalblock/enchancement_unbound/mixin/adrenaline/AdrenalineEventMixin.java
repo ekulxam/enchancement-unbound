@@ -28,7 +28,7 @@ public abstract class AdrenalineEventMixin {
         return UnboundConfig.adrenalineSpeedMultiplier;
     }
 
-    @ModifyExpressionValue(method = "multiply", at = @At(value = "INVOKE", target = "Lmoriyashiine/enchancement/common/util/EnchancementUtil;capMovementMultiplier(F)F", remap = false))
+    @ModifyExpressionValue(method = "multiply", at = @At(value = "INVOKE", target = "Lmoriyashiine/enchancement/common/util/EnchancementUtil;capMovementMultiplier(F)F"))
     private float noCapping(float original, float currentMultiplier, World world, LivingEntity living, @Local int level){
         return UnboundConfig.removeAdrenalineMovementBoostLimit ? currentMultiplier * getSpeedMultiplier(living, level)  : original;
     }

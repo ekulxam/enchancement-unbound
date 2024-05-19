@@ -14,7 +14,7 @@ public class BouncyComponentMixin {
 
     @Shadow(remap = false) public int bounceStrength;
 
-    @Inject(method = "tick", at = @At(value = "FIELD", target = "Lmoriyashiine/enchancement/common/component/entity/BouncyComponent;bounceStrength:I", ordinal = 0, opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER, remap = false), remap = false)
+    @Inject(method = "tick", at = @At(value = "FIELD", target = "Lmoriyashiine/enchancement/common/component/entity/BouncyComponent;bounceStrength:I", ordinal = 0, opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER))
     private void instaChargeBouncy(CallbackInfo ci) {
         // just ignore the @At
         this.bounceStrength += switch (UnboundConfig.bouncyChargeSpeed) {
