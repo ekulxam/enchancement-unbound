@@ -66,6 +66,7 @@ Can be disabled in the config under "Register This Mod's Enchantments (Separate 
 - Remove Movement Boost Limit : Prevents Enchancement from putting a cap on movement buffs gained from adrenaline. [Default = false, My Recommendation = true]
 - Adrenaline Speed Multiplier : The adrenaline speed boost will be multiplied by this amount. Doesn't do a lot without Remove Adrenaline Movement Boost Limit. [Default = 0.05, My Recommendation = 0.15]
 - Return Curse Patch : Curse Patch is applied to the game. All enchantable items can have a regular enchantment, plus unlimited curses. Curses do not count towards the enchantment limit. [Default = false, My Recommendation = TRUE, I TRIED SO HARD TO MAKE THIS ONE, YOU SHOULD DEFINITELY REAP THE BENEFITS]
+- Horseshoes: Allows all horse armor to be enchanted with vanilla and enchancement boot enchantments. Provides support for all vanilla and enchancement enchantments except for Gale. Does not support other modded enchantments. Also adds horse armor glint. [Default = false, My Recommendation = true]
 
 ### CLIENT:
 - Brimstone Size Limit (purely visual) : Brimstone size scales with damage, so this puts a cap on how big brimstone can render (does not actually change the hitbox or raycast size of the brimstone). [Default = 50, My Recommendation = 50]
