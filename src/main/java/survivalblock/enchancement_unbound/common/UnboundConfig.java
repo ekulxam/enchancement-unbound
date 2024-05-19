@@ -105,6 +105,8 @@ public class UnboundConfig extends MidnightConfig {
 	public static float adrenalineSpeedMultiplier = 0.05F;
 	@Entry
 	public static boolean cursePatch = false;
+	@Entry
+	public static boolean horseshoes = false;
 	@Entry(category = "client", min = 15)
 	public static double maxBrimstoneSize = 50; // visual
 	@Entry(category = "client")
@@ -157,7 +159,8 @@ public class UnboundConfig extends MidnightConfig {
 				+ infiniteFireAspect
 				+ innateEfficiency
 				+ adrenalineSpeedMultiplier
-				+ cursePatch;
+				+ cursePatch
+				+ horseshoes;
 		return encoding.hashCode();
 	}
 }

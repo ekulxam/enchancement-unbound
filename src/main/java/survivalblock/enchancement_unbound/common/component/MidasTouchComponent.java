@@ -310,17 +310,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         if (oneWhoWrongedUuid == null) {
             return;
         }
-        for (ServerPlayerEntity serverPlayer : serverWorld.getPlayers()) {
-            if (oneWhoWronged != null) {
-                break;
-            }
-            if (Objects.equals(serverPlayer.getUuid(), oneWhoWrongedUuid)) {
-                oneWhoWronged = serverPlayer;
-            } else {
-                oneWhoWronged = null;
-            }
-            oneWhoWrongedUuid = null;
-        }
+        oneWhoWronged = serverWorld.getPlayerByUuid(oneWhoWrongedUuid);
         weirdCheckThing();
         UnboundEntityComponents.MIDAS_TOUCH.sync(this.obj);
     }

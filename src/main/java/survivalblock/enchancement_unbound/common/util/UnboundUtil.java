@@ -1,15 +1,18 @@
 package survivalblock.enchancement_unbound.common.util;
 
 import moriyashiine.enchancement.common.component.entity.ExtendedWaterComponent;
+import moriyashiine.enchancement.common.enchantment.EmptyEnchantment;
 import moriyashiine.enchancement.common.init.ModEnchantments;
 import moriyashiine.enchancement.common.init.ModEntityComponents;
 import moriyashiine.enchancement.common.util.EnchancementUtil;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalEntityTypeTags;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.*;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
@@ -22,7 +25,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
-import survivalblock.enchancement_unbound.common.enchantment.UnboundHoeEnchantment;
 import survivalblock.enchancement_unbound.common.init.UnboundEnchantments;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 import survivalblock.enchancement_unbound.common.init.UnboundTags;
@@ -138,5 +140,26 @@ public class UnboundUtil {
             return true;
         }
         return target.getType().isIn(UnboundTags.CANNOT_EXECUTE) || target.getType().isIn(ConventionalEntityTypeTags.BOSSES);
+    }
+
+    public static int getHorseshoeEnchantment(Enchantment enchantment, HorseEntity horse) {
+        if (horse.hasStackEquipped(EquipmentSlot.FEET)) {
+            ItemStack footStack = horse.getEquippedStack(EquipmentSlot.FEET);
+            if (footStack != null && !footStack.equals(ItemStack.EMPTY)) {
+                int i = EnchantmentHelper.getLevel(enchantment, footStack);
+                return Math.max(i, EnchantmentHelper.getLevel(enchantment, horse.getEquippedStack(EquipmentSlot.CHEST)));
+            }
+        }
+        return EnchantmentHelper.getLevel(enchantment, horse.getEquippedStack(EquipmentSlot.CHEST));
+    }
+
+    public static boolean isValidHorseshoeEnchantment(Enchantment enchantment) {
+        if (!UnboundConfig.horseshoes) {
+            return false;
+        }
+        if (enchantment.target.equals(EnchantmentTarget.ARMOR_FEET)) {
+            return enchantment instanceof EmptyEnchantment || enchantment instanceof SoulSpeedEnchantment || enchantment instanceof FrostWalkerEnchantment || enchantment instanceof DepthStriderEnchantment || enchantment instanceof ProtectionEnchantment;
+        }
+        return false;
     }
 }
