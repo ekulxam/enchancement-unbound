@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "minecraft:thorns"
+    {
+      "id": "minecraft:thorns",
+      "required": false
+    }
   ]
 }
