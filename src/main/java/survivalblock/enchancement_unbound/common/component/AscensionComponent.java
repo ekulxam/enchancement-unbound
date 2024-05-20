@@ -2,59 +2,56 @@ package survivalblock.enchancement_unbound.common.component;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 
-public class AscensionComponent implements AutoSyncedComponent, CommonTickingComponent {
+public class AscensionComponent implements AutoSyncedComponent, ServerTickingComponent {
     private final PlayerEntity obj;
     private boolean activated = false;
     private double originalX;
     private double originalY;
     private double originalZ;
     private double maxYDifference;
+
     public AscensionComponent(PlayerEntity obj) {
         this.obj = obj;
     }
 
     @Override
-    public void tick() {
-    }
-
-    @Override
     public void serverTick() {
-        if (this.activated) {
-            if (Math.abs(this.obj.getX() - this.originalX) > 0.25 || Math.abs(this.obj.getZ() - this.originalZ) > 0.25) {
-                this.setAsending(false, 0);
-                return;
-            }
-            Vec3d current = this.obj.getVelocity();
-            double stuff = 1;
-            this.obj.velocityDirty = true;
-            boolean hadNoClip = this.obj.noClip;
-            this.obj.noClip =  true;
-            Vec3d move = new Vec3d( this.originalX + current.x, this.obj.getY() + stuff, this.originalZ + current.z);
-            this.obj.teleport(move.x, move.y, move.z);
-            this.obj.noClip = hadNoClip;
-            this.obj.velocityModified = true;
-            if (this.obj.isFallFlying()) {
-                this.obj.stopFallFlying();
-            }
-            if (this.obj.getBlockStateAtPos().isSolid()) {
-                this.originalY = Integer.MIN_VALUE;
-            } else {
-                double difference = this.obj.getPos().y - this.originalY;
-                if (difference >= maxYDifference || difference < 0) {
-                    this.setAsending(false, 0);
-                    this.obj.velocityDirty = true;
-                    this.obj.setVelocity(new Vec3d(current.x, 0, current.z));
-                    this.obj.velocityModified = true;
-                }
-            }
+         if (this.activated) {
+             if (Math.abs(this.obj.getX() - this.originalX) > 0.25 || Math.abs(this.obj.getZ() - this.originalZ) > 0.25) {
+                 this.setAscending(false, 0);
+                 return;
+             }
+             Vec3d current = this.obj.getVelocity();
+             double stuff = 1;
+             this.obj.velocityDirty = true;
+             boolean hadNoClip = this.obj.noClip;
+             this.obj.noClip =  true;
+             Vec3d move = new Vec3d( this.originalX + current.x, this.obj.getY() + stuff, this.originalZ + current.z);
+             this.obj.teleport(move.x, move.y, move.z);
+             this.obj.noClip = hadNoClip;
+             this.obj.velocityModified = true;
+             if (this.obj.isFallFlying()) {
+                 this.obj.stopFallFlying();
+             }
+             double difference = this.obj.getPos().y - this.originalY;
+             boolean isSolidAtPos = this.obj.getBlockStateAtPos().isSolid();
+             if (isSolidAtPos) {
+                 this.originalY = Integer.MIN_VALUE;
+             }
+             if ((difference >= maxYDifference && !isSolidAtPos) || difference < 0) {
+                 this.setAscending(false, 0);
+                 this.obj.velocityDirty = true;
+                 this.obj.setVelocity(new Vec3d(current.x, 0, current.z));
+                 this.obj.velocityModified = true;
+             }
         }
-        CommonTickingComponent.super.serverTick();
     }
 
     @Override
@@ -64,6 +61,9 @@ public class AscensionComponent implements AutoSyncedComponent, CommonTickingCom
         this.originalY = tag.getDouble("OriginalY");
         this.originalZ = tag.getDouble("OriginalZ");
         this.maxYDifference = tag.getDouble("MaxYDifference");
+        if (this.obj.getPose().equals(EntityPose.STANDING)) {
+            this.obj.setPose(EntityPose.SWIMMING);
+        }
     }
 
     @Override
@@ -75,7 +75,7 @@ public class AscensionComponent implements AutoSyncedComponent, CommonTickingCom
         tag.putDouble("MaxYDifference", this.maxYDifference);
     }
 
-    public void setAsending(boolean value, double maxYDifference){
+    public void setAscending(boolean value, double maxYDifference){
         if (value) {
             this.activated = maxYDifference > 0;
         } else {
@@ -86,7 +86,7 @@ public class AscensionComponent implements AutoSyncedComponent, CommonTickingCom
         this.originalY = pos.y;
         this.originalZ = pos.z;
         this.maxYDifference = maxYDifference;
-        UnboundEntityComponents.CURTAIN.sync(this.obj);
+        UnboundEntityComponents.ASCENSION.sync(this.obj);
     }
 
     public boolean isAscending() {

@@ -5,10 +5,7 @@ import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
 import moriyashiine.enchancement.common.init.ModDamageTypes;
 import moriyashiine.enchancement.common.init.ModEntityComponents;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LightningEntity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.*;
@@ -16,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Unit;
@@ -33,7 +29,6 @@ import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 import survivalblock.enchancement_unbound.mixin.midastouch.EntityAccessor;
 import survivalblock.enchancement_unbound.mixin.midastouch.MobEntityAccessor;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingComponent {
@@ -99,9 +94,6 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         Box box = this.obj.getBoundingBox().expand(0.1);
         BlockStateParticleEffect blockParticle = new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.GOLD_BLOCK.getDefaultState());
         Random random = serverWorld.getRandom();
-        double x = this.obj.getPos().x;
-        double y = this.obj.getPos().y;
-        double z = this.obj.getPos().z;
         for (float i = 0; i < box.getAverageSideLength() + 1; i += 0.1F) {
             serverWorld.spawnParticles(blockParticle, MathHelper.nextDouble(random, box.minX - 1, box.maxX + 1), MathHelper.nextDouble(random, box.minY, box.maxY), MathHelper.nextDouble(random, box.minZ - 1, box.maxZ + 1), 1, 0, 0 ,0, 0.1);
         }
@@ -126,6 +118,10 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
                 this.obj.setPose(forcedPose);
                 if (this.obj instanceof PathAwareEntity pathAwareEntity) {
                     pathAwareEntity.getNavigation().stop();
+                }
+                Entity vehicle = this.obj.getVehicle();
+                if (vehicle != null ) {
+                    vehicle.setVelocity(Vec3d.ZERO);
                 }
             }
         }
@@ -205,22 +201,26 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
 
     public void accumulateKarma(){
         this.karma++;
+        sync();
+    }
+
+    private void sync() {
         UnboundEntityComponents.MIDAS_TOUCH.sync(this.obj);
     }
 
     private void incrementStatueTicks(){
         this.statueTicks++;
-        UnboundEntityComponents.MIDAS_TOUCH.sync(this.obj);
+        sync();
     }
 
     private void resetStatueTicks(){
         this.statueTicks = 0;
-        UnboundEntityComponents.MIDAS_TOUCH.sync(this.obj);
+        sync();
     }
 
     public void resetKarma(){
         this.karma = 0;
-        UnboundEntityComponents.MIDAS_TOUCH.sync(this.obj);
+        sync();
     }
 
     public boolean isGolden(){
@@ -290,7 +290,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         if (this.obj.getWorld() instanceof ServerWorld serverWorld) {
             serverWorld.playSound(null, this.obj.getBlockPos(), golden ? UnboundSoundEvents.ENTITY_GENERIC_MIDAS_TOUCHED : UnboundSoundEvents.ENTITY_GENERIC_STATUE_UNDONE, this.obj instanceof PlayerEntity ? SoundCategory.PLAYERS : SoundCategory.NEUTRAL, golden ? 2 : 10, MathHelper.nextBetween(serverWorld.getRandom(), 0.8f,1.2f));
         }
-        UnboundEntityComponents.MIDAS_TOUCH.sync(this.obj);
+        sync();
     }
 
     private void weirdCheckThing() {
@@ -312,7 +312,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         }
         oneWhoWronged = serverWorld.getPlayerByUuid(oneWhoWrongedUuid);
         weirdCheckThing();
-        UnboundEntityComponents.MIDAS_TOUCH.sync(this.obj);
+        sync();
     }
 
     public void damageLink(){

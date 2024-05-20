@@ -4,6 +4,7 @@ package survivalblock.enchancement_unbound.common;
 import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.*;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -18,6 +19,7 @@ import survivalblock.enchancement_unbound.common.init.UnboundEnchantments;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 import survivalblock.enchancement_unbound.common.init.UnboundItems;
 import survivalblock.enchancement_unbound.common.init.UnboundSoundEvents;
+import survivalblock.enchancement_unbound.common.packet.SyncCurtainComponentPacket;
 import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 
 public class EnchancementUnbound implements ModInitializer {
@@ -48,7 +50,7 @@ public class EnchancementUnbound implements ModInitializer {
 			return UnboundUtil.veilActionResult(player);
 		});
 		AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
-			return UnboundUtil.veilActionResult(player);
+			return UnboundUtil.veilHitEntityResult(player, entity);
 		});
 		UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> UnboundUtil.veilActionResult(player));
 		UseItemCallback.EVENT.register((player, world, hand) -> {
@@ -72,6 +74,7 @@ public class EnchancementUnbound implements ModInitializer {
 			midasTouchComponent.setGolden(true);
 			return TypedActionResult.pass(stack);
 		});
+		ServerPlayNetworking.registerGlobalReceiver(SyncCurtainComponentPacket.ID, SyncCurtainComponentPacket::receive);
 	}
 
 	public static Identifier id(String value) {

@@ -11,7 +11,6 @@ import net.minecraft.enchantment.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -20,10 +19,12 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import survivalblock.enchancement_unbound.common.EnchancementUnbound;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 import survivalblock.enchancement_unbound.common.init.UnboundEnchantments;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
@@ -41,30 +42,43 @@ public class UnboundUtil {
         return Math.abs(value - original) <= CONFIG_FLOATING_POINT_PRECISION;
     }
 
-    public static boolean shouldPreventAction(PlayerEntity player, boolean shouldCheckConfig){
+    public static boolean shouldPreventAction(PlayerEntity player){
         if (player.isSpectator()) {
             return false;
         }
-        if (UnboundEntityComponents.MIDAS_TOUCH.get(player).shouldPreventTicking()) {
-            return true;
+        return UnboundEntityComponents.MIDAS_TOUCH.get(player).shouldPreventTicking() || UnboundEntityComponents.CURTAIN.get(player).isInCurtain();
+    }
+
+    public static ActionResult veilHitEntityResult(PlayerEntity player, Entity entity) {
+        if (player.isSpectator()) {
+            return ActionResult.PASS;
         }
-        boolean hasVeil = EnchantmentHelper.getEquipmentLevel(ModEnchantments.VEIL, player) > 0;
-        return shouldCheckConfig ? (UnboundConfig.astralVeil && hasVeil) : hasVeil;
+        if (UnboundEntityComponents.MIDAS_TOUCH.get(player).shouldPreventTicking()) {
+            return ActionResult.FAIL;
+        }
+        if (UnboundEntityComponents.CURTAIN.get(player).isInCurtain() && !entity.getType().isIn(UnboundTags.EntityTypes.SHOULD_HIT_IN_VEIL)) {
+            return ActionResult.FAIL;
+        }
+        return ActionResult.PASS;
     }
 
     public static ActionResult veilActionResult(PlayerEntity player){
-        return shouldPreventAction(player, true) ? ActionResult.FAIL : ActionResult.PASS;
+        return shouldPreventAction(player) ? ActionResult.FAIL : ActionResult.PASS;
     }
 
     public static TypedActionResult<ItemStack> veilTypedActionResult(PlayerEntity player, ItemStack stack){
-        return shouldPreventAction(player, true) ? TypedActionResult.fail(stack) : TypedActionResult.pass(stack);
+        return shouldPreventAction(player) ? TypedActionResult.fail(stack) : TypedActionResult.pass(stack);
     }
 
     public static boolean shouldRenderWithEndShader(Entity entity){
-        return entity instanceof LivingEntity living && UnboundEntityComponents.CURTAIN.get(living).isInCurtain();
+        return entity instanceof PlayerEntity player && EnchancementUtil.hasEnchantment(ModEnchantments.VEIL, player);
     }
     public static RenderLayer getEndShader(){
         return RenderLayer.getEndPortal();
+    }
+
+    public static Identifier getSuperSecretTikTokShaderThing() {
+        return EnchancementUnbound.id("shaders/post/sobel.json");
     }
 
     public static boolean shouldActivateAscension(PlayerEntity player, BlockPos pos){
@@ -139,7 +153,7 @@ public class UnboundUtil {
         if (shouldCheckPlayer && target instanceof PlayerEntity) {
             return true;
         }
-        return target.getType().isIn(UnboundTags.CANNOT_EXECUTE) || target.getType().isIn(ConventionalEntityTypeTags.BOSSES);
+        return target.getType().isIn(UnboundTags.EntityTypes.CANNOT_EXECUTE) || target.getType().isIn(ConventionalEntityTypeTags.BOSSES);
     }
 
     public static int getHorseshoeEnchantment(Enchantment enchantment, HorseEntity horse) {
