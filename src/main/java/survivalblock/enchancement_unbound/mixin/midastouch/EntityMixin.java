@@ -34,7 +34,7 @@ public abstract class EntityMixin {
         if (source.isOf(DamageTypes.DROWN)) {
             midasTouchComponent.undo();
         }
-        if (!source.isIn(UnboundTags.BYPASSES_MIDAS_LINK)) {
+        if (!source.isIn(UnboundTags.DamageTypes.BYPASSES_MIDAS_LINK)) {
             midasTouchComponent.damageLink();
         }
         return !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY);
