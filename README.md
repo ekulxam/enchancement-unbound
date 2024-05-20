@@ -78,4 +78,4 @@ Can be disabled in the config under "Register This Mod's Enchantments (Separate 
 ### CLIENT:
 - Brimstone Size Limit (purely visual) : Brimstone size scales with damage, so this puts a cap on how big brimstone can render (does not actually change the hitbox or raycast size of the brimstone). [Default = 50, My Recommendation = 50]
 - Lines Of Brimstone (purely visual) : How many lines of brimstone should render. High values add lots of lag, low values put less strain on your computer but makes brimstone look a bit strange. [Default = DEFAULT, My Recommendation = DEFAULT]
-- Berserk Color Tint (purely visual) : Whether or not berserk applies a red tint to the weapon.
+- Berserk Color Tint (purely visual) : Whether or not berserk applies a red tint to the weapon. [Default = true, My Recommendation = true]
