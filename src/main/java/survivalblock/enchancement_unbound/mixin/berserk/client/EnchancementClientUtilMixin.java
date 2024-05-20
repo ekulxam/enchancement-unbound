@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 
 @Mixin(value = EnchancementClientUtil.class, remap = false)
@@ -25,5 +26,12 @@ public class EnchancementClientUtilMixin {
             return Math.min(damageBonus, EnchancementUtil.getMaxBonusBerserkDamage(stack, EnchantmentHelper.getLevel(ModEnchantments.BERSERK, stack)));
         }
         return damageBonus;
+    }
+
+    @Inject(method = "getBerserkColor", at = @At("HEAD"), cancellable = true, remap = false)
+    private static void noBerserkColor(LivingEntity living, ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+        if (!UnboundConfig.berserkColorTint) {
+            cir.setReturnValue(-1);
+        }
     }
 }
