@@ -119,10 +119,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
                 if (this.obj instanceof PathAwareEntity pathAwareEntity) {
                     pathAwareEntity.getNavigation().stop();
                 }
-                Entity vehicle = this.obj.getVehicle();
-                if (vehicle != null ) {
-                    vehicle.setVelocity(Vec3d.ZERO);
-                }
+                stopRiding();
             }
         }
         if (!world.isClient()) {
@@ -199,6 +196,16 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         tag.putFloat("ForcedLimbDistance", this.forcedLimbDistance);
     }
 
+    private void stopRiding() {
+        if (this.obj.getWorld().isClient()) {
+            return;
+        }
+        Entity vehicle = this.obj.getVehicle();
+        if (vehicle != null) {
+            this.obj.stopRiding();
+        }
+    }
+
     public void accumulateKarma(){
         this.karma++;
         sync();
@@ -269,6 +276,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
                 this.wasSprinting = player.isSprinting();
             }
             this.resetKarma();
+            this.stopRiding();
         } else {
             if (this.obj instanceof MobEntity mob) {
                 if (!hadNoAI) mob.setAiDisabled(false);

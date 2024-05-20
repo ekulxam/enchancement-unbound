@@ -115,7 +115,7 @@ public class UnboundConfig extends MidnightConfig {
 		VERY_VERY_LOW, VERY_LOW, LOW, DEFAULT, HIGH, VERY_HIGH, VERY_VERY_HIGH
 	}
 	@Entry(category = "client")
-	public static int shaderCount = 0;
+	public static boolean berserkColorTint = true;
 
     public static int encode() {
 		String encoding = "I can put whatever I want here"

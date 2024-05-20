@@ -33,6 +33,7 @@ import survivalblock.enchancement_unbound.common.init.UnboundTags;
 public class UnboundUtil {
 
     public static final double CONFIG_FLOATING_POINT_PRECISION = 0.001;
+    public static boolean isSendingUnboundConfig = false;
 
     public static boolean isBasicallyOriginal(double value, double original) {
         return Math.abs(value - original) <= CONFIG_FLOATING_POINT_PRECISION;
