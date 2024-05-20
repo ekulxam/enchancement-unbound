@@ -41,7 +41,7 @@ public abstract class ShovelItemMixin extends Item {
         if (context.getSide() == Direction.DOWN) {
             BlockPos pos = context.getBlockPos();
             if (EnchantmentHelper.getLevel(UnboundEnchantments.ASCENSION, context.getStack()) > 0  && UnboundUtil.shouldActivateAscension(player, pos)) {
-                UnboundEntityComponents.ASCENSION.get(player).setAsending(true, pos.getY() + player.getHeight() - player.getBlockPos().getY());
+                UnboundEntityComponents.ASCENSION.get(player).setAscending(true, pos.getY() + player.getHeight() - player.getBlockPos().getY());
                 context.getStack().damage(1, player, p -> p.sendToolBreakStatus(context.getHand()));
             }
             cir.setReturnValue(ActionResult.success(world.isClient));
