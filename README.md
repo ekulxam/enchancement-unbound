@@ -40,7 +40,7 @@ Can be disabled in the config under "Register This Mod's Enchantments (Separate 
 - Slam Impact Does Self Damage : Deals self-damage on slam impact (from hitting the ground too hard). Self-damage is 0.6 * damage value. Requires Deal Damage On (Slide) Slam to be on also. [Default = false, My Recommendation = true]
 - (Slide) Slam Impact Damage : Numerical value of impact damage. [Default = 4, My Recommendation = 4]
 - Veil Gets Permanent Invisibility : Self-explanatory. Wearing a veil helmet makes you invisible to people who don't have perception. [Default = false, My Recommendation = true]
-- Veil Users Separated From World : WIP feature. Inspired by Talon's end dust mod. Wearing a veil helmet prevents you from taking damage, but also prevents you from interacting with all blocks and entities. Applies end shader. [Default = false, My Recommendation = false]
+- Veil Users Separated From World : WIP feature. Inspired by Talon's end dust mod. When wearing a veil helmet, press the Veil Syzygy keybind (default bound to Enter) to enter the astral plane. While in the astral plane, you cannot take damage, but you cannot use items or interact with blocks or entities. [Default = false, My Recommendation = false]
 - Perception Makes Entities Glow : Makes perception show entity outlines even if the entity is not behind a wall [Default = false, My Recommendation = true]
 - Amphibious Allows Swimming In Air : Another WIP feature. Allows you to swim in air with an amphibious chestplate. [Default = false, My Recommendation = false]
 - Amphibious Always Applies Extended Water : Self-explanatory. [Default = false, My Recommendation = true]
