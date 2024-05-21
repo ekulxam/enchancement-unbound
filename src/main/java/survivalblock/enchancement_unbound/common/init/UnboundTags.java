@@ -12,6 +12,7 @@ public class UnboundTags {
     public static class EntityTypes {
         public static final TagKey<EntityType<?>> CANNOT_EXECUTE = TagKey.of(Registries.ENTITY_TYPE.getKey(), EnchancementUnbound.id("cannot_execute"));
         public static final TagKey<EntityType<?>> SHOULD_HIT_IN_VEIL = TagKey.of(Registries.ENTITY_TYPE.getKey(), EnchancementUnbound.id("should_hit_in_veil"));
+        public static final TagKey<EntityType<?>> MIDAS_TOUCH_IMMUNE = TagKey.of(Registries.ENTITY_TYPE.getKey(), EnchancementUnbound.id("midas_touch_immune"));
     }
 
     public static class DamageTypes {

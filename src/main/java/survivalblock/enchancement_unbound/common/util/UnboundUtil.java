@@ -33,7 +33,6 @@ import survivalblock.enchancement_unbound.common.init.UnboundTags;
 public class UnboundUtil {
 
     public static final double CONFIG_FLOATING_POINT_PRECISION = 0.001;
-    public static boolean isSendingUnboundConfig = false;
 
     public static boolean isBasicallyOriginal(double value, double original) {
         return Math.abs(value - original) <= CONFIG_FLOATING_POINT_PRECISION;
@@ -69,17 +68,6 @@ public class UnboundUtil {
 
     public static TypedActionResult<ItemStack> veilTypedActionResult(PlayerEntity player, ItemStack stack){
         return shouldPreventAction(player) ? TypedActionResult.fail(stack) : TypedActionResult.pass(stack);
-    }
-
-    public static boolean shouldRenderWithEndShader(Entity entity){
-        return entity instanceof PlayerEntity player && EnchancementUtil.hasEnchantment(ModEnchantments.VEIL, player);
-    }
-    public static RenderLayer getEndShader(){
-        return RenderLayer.getEndPortal();
-    }
-
-    public static Identifier getSuperSecretTikTokShaderThing() {
-        return EnchancementUnbound.id("shaders/post/sobel.json");
     }
 
     public static boolean shouldActivateAscension(PlayerEntity player, BlockPos pos){

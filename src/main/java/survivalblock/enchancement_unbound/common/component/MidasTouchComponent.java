@@ -25,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import survivalblock.enchancement_unbound.common.init.UnboundDamageTypes;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 import survivalblock.enchancement_unbound.common.init.UnboundSoundEvents;
+import survivalblock.enchancement_unbound.common.init.UnboundTags;
 import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 import survivalblock.enchancement_unbound.mixin.midastouch.EntityAccessor;
 import survivalblock.enchancement_unbound.mixin.midastouch.MobEntityAccessor;
@@ -80,7 +81,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
     }
 
     private boolean expired(){
-        return this.statueTicks >= 12000 || (this.statueTicks >= 40 && UnboundUtil.cannotExecute(this.obj, false)) || (this.statueTicks >= 100 && this.obj instanceof PlayerEntity);
+        return this.statueTicks >= 12000 || (this.statueTicks >= 40 && UnboundUtil.cannotExecute(this.obj, false)) || (this.statueTicks >= 100 && this.obj instanceof PlayerEntity) || this.obj.getType().isIn(UnboundTags.EntityTypes.MIDAS_TOUCH_IMMUNE);
     }
 
     public void undo(){

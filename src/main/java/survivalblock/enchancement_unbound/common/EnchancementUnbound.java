@@ -15,10 +15,7 @@ import net.minecraft.util.TypedActionResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import survivalblock.enchancement_unbound.common.component.MidasTouchComponent;
-import survivalblock.enchancement_unbound.common.init.UnboundEnchantments;
-import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
-import survivalblock.enchancement_unbound.common.init.UnboundItems;
-import survivalblock.enchancement_unbound.common.init.UnboundSoundEvents;
+import survivalblock.enchancement_unbound.common.init.*;
 import survivalblock.enchancement_unbound.common.packet.SyncCurtainComponentPacket;
 import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 
@@ -42,6 +39,7 @@ public class EnchancementUnbound implements ModInitializer {
 		MidnightConfig.init(EnchancementUnbound.MOD_ID, UnboundConfig.class);
 		if (UnboundConfig.unboundItems) UnboundItems.init();
 		if (UnboundConfig.unboundEnchantments) UnboundEnchantments.init();
+		UnboundEntityTypes.init();
 		UnboundSoundEvents.init();
 		if(FabricLoader.getInstance().isDevelopmentEnvironment()){
 			LOGGER.info("Removing enchancement handicaps since 2024");

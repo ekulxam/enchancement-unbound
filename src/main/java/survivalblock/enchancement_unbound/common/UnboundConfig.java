@@ -5,6 +5,7 @@
 package survivalblock.enchancement_unbound.common;
 
 import eu.midnightdust.lib.config.MidnightConfig;
+import net.minecraft.entity.boss.BossBar;
 
 
 public class UnboundConfig extends MidnightConfig {
@@ -116,6 +117,10 @@ public class UnboundConfig extends MidnightConfig {
 	}
 	@Entry(category = "client")
 	public static boolean berserkColorTint = true;
+	@Entry(category = "client")
+	public static BossBar.Color astralPlaneInsanityBarColor = BossBar.Color.PURPLE;
+	@Entry(category = "client")
+	public static BossBar.Style astralPlaneInsanityBarStyle = BossBar.Style.PROGRESS;
 
     public static int encode() {
 		String encoding = "I can put whatever I want here"
