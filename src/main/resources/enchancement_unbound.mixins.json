@@ -18,7 +18,6 @@
     "bury.BuryEventMixin",
     "bury.BuryEventMixin$UseMixin",
     "chaos.ChaosArrowComponentMixin",
-    "curtain.LivingEntityMixin",
     "dash.DashComponentMixin",
     "delay.DelayComponentMixin",
     "disarm.FishingBobberEntityMixinMixin",
@@ -56,7 +55,8 @@
     "torch.CrossbowItemMixinMixin",
     "unbounditems.phaser.EnchantmentTargetMixin",
     "unbounditems.phaser.EnchantmentTargetMixin$BOWMixin",
-    "util.enforceconfigmatch.PlayerManagerMixin",
+    "util.enforceconfigmatch.EnforceConfigMatchPacketMixin",
+    "util.enforceconfigmatch.PlayerManagerMixinMixin",
     "vanillachanges.allcrossbowshavemultishot.CrossbowItemMixin",
     "vanillachanges.correctenchantmenttarget.EnchantmentHelperMixin",
     "vanillachanges.cursepatch.AnvilScreenHandlerMixinMixin",
@@ -71,7 +71,9 @@
     "vanillachanges.weakerfireaspect.MobEntityMixinMixin",
     "vanillachanges.weakerfireaspect.PlayerEntityMixinMixin",
     "veil.EntityMixin",
+    "veil.LivingEntityMixin",
     "veil.PlayerEntityMixin",
+    "veil.client.keybind.EnchancementClientAccessor",
     "wardenspine.LivingEntityMixinMixin",
     "warp.PersistentProjectileEntityMixinMixin",
     "warp.TridentEntityAccessor"
@@ -80,9 +82,6 @@
     "ascension.PlayerEntityMixin",
     "ascension.client.ClientPlayerEntityMixin",
     "brimstone.client.BrimstoneEntityRendererMixin",
-    "curtain.client.Deadmau5FeatureRendererMixin",
-    "curtain.client.LivingEntityRendererMixin",
-    "curtain.client.PlayerEntityRendererMixin",
     "descriptions.client.EnchantmentDescriptionsEventMixin",
     "horseshoes.client.HorseArmorFeatureRendererMixin",
     "midastouch.client.ClientWorldMixin",
@@ -92,7 +91,14 @@
     "perception.client.MinecraftClientMixinMixin",
     "unbounditems.phaser.HeldItemRendererMixin",
     "unbounditems.shardminigun.client.HeldItemRendererMixin",
-    "unbounditems.shardminigun.client.PlayerEntityRendererMixin"
+    "unbounditems.shardminigun.client.PlayerEntityRendererMixin",
+    "veil.client.endportal.Deadmau5FeatureRendererMixin",
+    "veil.client.endportal.LivingEntityRendererMixin",
+    "veil.client.endportal.PlayerEntityRendererMixin",
+    "veil.client.particle.GlowParticleAccessor",
+    "veil.client.particle.ParticleAccessor",
+    "veil.client.screen.AbstractInventoryScreenMixin",
+    "veil.client.shader.GameRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
