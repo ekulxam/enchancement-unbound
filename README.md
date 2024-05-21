@@ -20,6 +20,10 @@ Can be disabled in the config under "Register This Mod's Items (Separate From En
 - Ice Shard Minigun : Amethyst Shard Minigun, but fires frostbite shards. Uses Packed Ice and Blue Ice for ammunition.
 - <obfuscated> : Bow but fires arrows every tick, compatible with enchantments from both vanilla and Enchancement.
 
+## Entities
+Do not summon naturally unless a config option is turned on.
+- Astral Phantom (in-game, obfuscated) : Spawns randomly when a player has been in the astral dimension (Astral Veil) for too long. Will not render if the player has never entered the astral dimension since their last death. The higher "insanity" a player has, the higher the chance an astral phantom will spawn. Has a very low chance to spawn more of itself when attacking a player.
+
 ## Enchantments
 Can be disabled in the config under "Register This Mod's Enchantments (Separate From Enchancement)" [Default = false, My Recommendation = true] WARNING: DISABLING THIS WILL REMOVE ALL ENCHANTMENTS FROM THIS MOD FROM ANY WORLD YOU ENTER. DATA MAY BE LOST; TREAD WITH CAUTION.
 - Ascension (idea by @duriangape on Discord) : Shovel enchantment. Inspired by the Ascend ability from Zelda: Tears of the Kingdom. Allows the user to phase through blocks upward when clicking on the bottom face of a block.
@@ -40,7 +44,7 @@ Can be disabled in the config under "Register This Mod's Enchantments (Separate 
 - Slam Impact Does Self Damage : Deals self-damage on slam impact (from hitting the ground too hard). Self-damage is 0.6 * damage value. Requires Deal Damage On (Slide) Slam to be on also. [Default = false, My Recommendation = true]
 - (Slide) Slam Impact Damage : Numerical value of impact damage. [Default = 4, My Recommendation = 4]
 - Veil Gets Permanent Invisibility : Self-explanatory. Wearing a veil helmet makes you invisible to people who don't have perception. [Default = false, My Recommendation = true]
-- Veil Users Separated From World : WIP feature. Inspired by Talon's end dust mod. When wearing a veil helmet, press the Veil Syzygy keybind (default bound to Enter) to enter the astral plane. While in the astral plane, you cannot take damage, but you cannot use items or interact with blocks or entities. [Default = false, My Recommendation = false]
+- Astral Veil : WIP feature. Inspired by Talon's end dust mod. When wearing a veil helmet, press the Veil Syzygy keybind (default bound to Enter) to enter the astral plane. While in the astral plane, you cannot take damage, but you cannot use items or interact with blocks or entities. [Default = false, My Recommendation = false]
 - Perception Makes Entities Glow : Makes perception show entity outlines even if the entity is not behind a wall [Default = false, My Recommendation = true]
 - Amphibious Allows Swimming In Air : Another WIP feature. Allows you to swim in air with an amphibious chestplate. [Default = false, My Recommendation = false]
 - Amphibious Always Applies Extended Water : Self-explanatory. [Default = false, My Recommendation = true]
@@ -78,4 +82,12 @@ Can be disabled in the config under "Register This Mod's Enchantments (Separate 
 ### CLIENT:
 - Brimstone Size Limit (purely visual) : Brimstone size scales with damage, so this puts a cap on how big brimstone can render (does not actually change the hitbox or raycast size of the brimstone). [Default = 50, My Recommendation = 50]
 - Lines Of Brimstone (purely visual) : How many lines of brimstone should render. High values add lots of lag, low values put less strain on your computer but makes brimstone look a bit strange. [Default = DEFAULT, My Recommendation = DEFAULT]
-- Berserk Color Tint (purely visual) : Whether or not berserk applies a red tint to the weapon. [Default = true, My Recommendation = true]
+- Berserk Color Tint (purely visual) : Whether berserk applies a red tint to the weapon. [Default = true, My Recommendation = true]
+- (Astral Veil) Insanity Bar Color (Purely Visual) : The color of the insanity bar. [Default = PURPLE, My Recommendation = WHITE]
+- (Astral Veil) Insanity Bar Style (Purely Visual) : The style (how many notches) of the insanity bar. [Default = PROGRESS, My Recommendation = NOTCHED_6]
+
+## Tags
+- enchancment_unbound:cannot_execute : Entities in this tag cannot be executed by the Executioner enchantment. By default, this includes bosses and wardens.
+- enchancment_unbound:midas_touch_immune : Entities in this tag cannot be turned into golden statues by Midas Touch. By default, this only includes astral phantoms.
+- enchancment_unbound:should_hit_in_veil : Entities in this tag can be hit be players in Astral Veil and can also hit and target players in Astral Veil. By default, this includes bosses, wardens, and astral phantoms.
+- enchancment_unbound:bypasses_midas_link : Damage Types in this tag will not activate Midas Link. By default, this only includes thorns to prevent an infinite damage cycle.

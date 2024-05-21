@@ -1,4 +1,4 @@
-Enchancement Unbound 1.0.0+1.20-20
-- Added the horseshoes config option.
-- Cleaned up code in general, especially for Midas Touch
-- TODO: Maybe remove curtain in the next update and remap Veil Separation
+Enchancement Unbound 1.0.2+1.20-20
+- Renamed the config option Veil Users Separated From World to Astral Veil (Euphorics Mod At Home)
+- Added Astral Phantoms
+- Added Insanity Bar for Astral Veil (configurable, see README)
