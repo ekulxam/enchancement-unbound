@@ -66,8 +66,9 @@ public class CurtainComponent implements AutoSyncedComponent, CommonTickingCompo
             if (this.obj instanceof ServerPlayerEntity serverPlayer) {
                 MinecraftServer server = serverPlayer.getServer();
                 if (server != null) {
-                    int chance = Math.max(0, MathHelper.nextInt(RANDOM, 0, MAX_INSANITY / 2 - 1));
-                    if (chance < (this.ticksInAstralPlane / 2)) {
+                    final int HALF_MAX_INSANITY = MAX_INSANITY / 2;
+                    int chance = Math.max(0, MathHelper.nextInt(RANDOM, 0, HALF_MAX_INSANITY - 1));
+                    if (chance < (ticksInAstralPlane - HALF_MAX_INSANITY)) {
                         server.execute(() -> {
                             ServerWorld serverWorld = serverPlayer.getServerWorld();
                             AstralPhantomEntity astralPhantom = AstralPhantomEntity.of(serverWorld, serverPlayer);
