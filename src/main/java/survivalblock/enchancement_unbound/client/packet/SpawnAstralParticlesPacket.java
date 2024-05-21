@@ -12,6 +12,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import survivalblock.enchancement_unbound.client.util.UnboundClientUtil;
 import survivalblock.enchancement_unbound.common.EnchancementUnbound;
 import survivalblock.enchancement_unbound.common.component.CurtainComponent;
 
@@ -40,7 +41,7 @@ public class SpawnAstralParticlesPacket {
         }
         client.execute(() -> {
             for(int i = 0; i < 48; ++i) {
-                GlowParticle glowParticle = CurtainComponent.createCustomGlowParticle(clientWorld, player.getParticleX(1.5), player.getRandomBodyY(), player.getParticleZ(1.5), 0.0, 0.0, 0.0);
+                GlowParticle glowParticle = UnboundClientUtil.createCustomGlowParticle(clientWorld, player.getParticleX(1.5), player.getRandomBodyY(), player.getParticleZ(1.5), 0.0, 0.0, 0.0);
                 if (glowParticle == null) continue;
                 client.particleManager.addParticle(glowParticle);
             }
