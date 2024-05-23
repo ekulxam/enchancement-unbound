@@ -3,8 +3,8 @@
 _**This mod, like Enchancement, requires client configurations to be synced with the server's.**_
 
 ### How to install this mod:
-Enchancement Unbound's versions will be put into this format:
-a.b.c+w.x-y+z
+Enchancement Unbound's versions will be put into this format:</br>
+**a.b.c+w.x-y+z</br>**
 All the user needs to care about is the w.y-x+z part. This part is the Enchancement version that it is compatible with.
 (The z may be omitted. Here are two examples, one without z and one with)
 For example, 1.0.1+1.20-20 will only be compatible with Enchancement 1.20-20.
