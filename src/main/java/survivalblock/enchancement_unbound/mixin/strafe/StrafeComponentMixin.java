@@ -12,8 +12,8 @@ import survivalblock.enchancement_unbound.common.UnboundConfig;
 @Mixin(value = StrafeComponent.class, remap = false)
 public class StrafeComponentMixin {
 
-    @WrapWithCondition(method = "handle", at = @At(value = "INVOKE", target = "Lmoriyashiine/enchancement/common/component/entity/StrafeComponent;setStrafeCooldown(I)V"))
-    private static boolean alwaysRefreshThatStrafe(StrafeComponent instance, int strafeCooldown){
+    @WrapWithCondition(method = "use", at = @At(value = "INVOKE", target = "Lmoriyashiine/enchancement/common/component/entity/StrafeComponent;setStrafeCooldown(I)V"))
+    private boolean alwaysRefreshThatStrafe(StrafeComponent instance, int strafeCooldown){
         return !UnboundConfig.infiniteStrafe;
     }
 }

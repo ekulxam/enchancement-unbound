@@ -8,8 +8,8 @@ import survivalblock.enchancement_unbound.common.UnboundConfig;
 
 @Mixin(value = DashComponent.class, remap = false)
 public class DashComponentMixin {
-    @WrapWithCondition(method = "handle", at = @At(value = "INVOKE", target = "Lmoriyashiine/enchancement/common/component/entity/DashComponent;setDashCooldown(I)V"))
-    private static boolean alwaysRefreshThatDash(DashComponent instance, int dashCooldown){
+    @WrapWithCondition(method = "use", at = @At(value = "INVOKE", target = "Lmoriyashiine/enchancement/common/component/entity/DashComponent;setDashCooldown(I)V"))
+    private boolean alwaysRefreshThatDash(DashComponent instance, int dashCooldown){
         return !UnboundConfig.infiniteDash;
     }
 }

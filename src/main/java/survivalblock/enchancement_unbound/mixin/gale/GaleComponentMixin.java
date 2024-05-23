@@ -11,8 +11,8 @@ import survivalblock.enchancement_unbound.common.UnboundConfig;
 @Mixin(value = GaleComponent.class, remap = false)
 public class GaleComponentMixin {
 
-    @WrapWithCondition(method = "handle", at = @At(value = "FIELD", target = "Lmoriyashiine/enchancement/common/component/entity/GaleComponent;jumpsLeft:I", opcode = Opcodes.PUTFIELD))
-    private static boolean whoSaidToDecrement(GaleComponent instance, int value){
+    @WrapWithCondition(method = "use", at = @At(value = "FIELD", target = "Lmoriyashiine/enchancement/common/component/entity/GaleComponent;jumpsLeft:I", opcode = Opcodes.PUTFIELD))
+    private boolean whoSaidToDecrement(GaleComponent instance, int value){
         return !UnboundConfig.infiniteGale;
     }
 }
