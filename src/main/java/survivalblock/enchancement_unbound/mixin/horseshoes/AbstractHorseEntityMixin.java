@@ -3,6 +3,7 @@ package survivalblock.enchancement_unbound.mixin.horseshoes;
 import com.llamalad7.mixinextras.sugar.Local;
 import moriyashiine.enchancement.common.init.ModEnchantments;
 import moriyashiine.enchancement.common.util.EnchancementUtil;
+import moriyashiine.enchancement.common.util.SubmersionGate;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
@@ -112,7 +113,7 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity {
                 }
                 realFallDistance = fallDistance;
             }
-            this.shouldBoost = EnchancementUtil.isSubmerged(this, true, true, true) && EnchancementUtil.isGroundedOrAirborne(this, true) && this.jumpStrength > 0 && this.jumping;
+            this.shouldBoost = EnchancementUtil.isSubmerged(this, SubmersionGate.ALL) && EnchancementUtil.isGroundedOrAirborne(this, true) && this.jumpStrength > 0 && this.jumping;
             if (shouldBoost) {
                 int buoyLevel = EnchantmentHelper.getEquipmentLevel(ModEnchantments.BUOY, this);
                 this.boost = (float) MathHelper.clamp((double) this.boost + 0.0025, (double)buoyLevel * 0.075, buoyLevel);
