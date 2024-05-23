@@ -58,7 +58,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 
     // literally everything else that enchancement needs or uses
-    // i have no idea what half of these do
+    // I have no idea what half of these do
+    // EDIT: After spending two months on enchancement 1.20-20, I now understand what most of these do
     include modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cardinal_components_version}")
     include modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${cardinal_components_version}")
     include modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-world:${cardinal_components_version}")
