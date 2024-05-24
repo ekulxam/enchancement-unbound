@@ -115,5 +115,7 @@
   "enchancement_unbound.midnightconfig.enum.Style.NOTCHED_6": "NOTCHED_6",
   "enchancement_unbound.midnightconfig.enum.Style.NOTCHED_10": "NOTCHED_10",
   "enchancement_unbound.midnightconfig.enum.Style.NOTCHED_12": "NOTCHED_12",
-  "enchancement_unbound.midnightconfig.enum.Style.NOTCHED_20": "NOTCHED_20"
+  "enchancement_unbound.midnightconfig.enum.Style.NOTCHED_20": "NOTCHED_20",
+  "enchancement_unbound.midnightconfig.orbitalBrimstoneExplosionPower": "Orbital Brimstone Explosion Power",
+  "enchancement_unbound.midnightconfig.orbitalBrimstoneGoesThroughWalls": "Orbital Brimstone Goes Through Walls"
 }

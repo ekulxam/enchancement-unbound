@@ -41,7 +41,8 @@
     "cardinal-components": [
       "enchancement_unbound:curtain",
       "enchancement_unbound:ascension",
-      "enchancement_unbound:midas_touch"
+      "enchancement_unbound:midas_touch",
+      "enchancement_unbound:brimstone_bypass"
     ]
   }
 }
