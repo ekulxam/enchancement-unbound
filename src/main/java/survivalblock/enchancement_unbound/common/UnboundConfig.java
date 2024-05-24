@@ -14,6 +14,10 @@ public class UnboundConfig extends MidnightConfig {
 	@Comment public static Comment welcome;
 	@Entry
 	public static boolean unboundItems = false;
+	@Entry(min = 0, max = 100)
+	public static float orbitalBrimstoneExplosionPower = 0;
+	@Entry
+	public static boolean orbitalBrimstoneGoesThroughWalls = false;
 	@Entry
 	public static boolean unboundEnchantments = false;
 	@Entry

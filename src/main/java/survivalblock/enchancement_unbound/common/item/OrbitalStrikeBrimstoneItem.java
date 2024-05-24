@@ -21,7 +21,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import survivalblock.enchancement_unbound.access.BrimstoneIgnoreDamageAccess;
+import survivalblock.enchancement_unbound.common.UnboundConfig;
+import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
+import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 
 import java.util.List;
 
@@ -32,23 +34,13 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
         super(settings);
     }
 
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 72000;
+    private static boolean shouldDoExplosion() {
+        return !UnboundUtil.isBasicallyOriginal(UnboundConfig.orbitalBrimstoneExplosionPower, 0);
     }
 
-    protected void createOrbitalStrike(World world, LivingEntity user, Vec3d pos, float pitch, float yaw, double damage){
-        double x = pos.getX();
-        double y = pos.getY();
-        double z = pos.getZ();
-        BrimstoneEntity brimstone = new BrimstoneEntity(world, user);
-        brimstone.setDamage(damage);
-        brimstone.setPosition(x, y+256, z);
-        brimstone.getDataTracker().set(BrimstoneEntity.FORCED_PITCH, pitch);
-        brimstone.getDataTracker().set(BrimstoneEntity.FORCED_YAW, yaw);
-        ((BrimstoneIgnoreDamageAccess) brimstone).enchancement_unbound$setBrimstoneIgnoresDamageLimit(true);
-        world.spawnEntity(brimstone);
-        world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), ModSoundEvents.ITEM_CROSSBOW_BRIMSTONE_6, SoundCategory.PLAYERS, 1.0F, 1.0F);
+    @Override
+    public int getMaxUseTime(ItemStack stack) {
+        return shouldDoExplosion() ? 1 : 72000;
     }
 
     @Override
@@ -57,6 +49,9 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
         ItemStack stack = user.getStackInHand(hand);
         if(world.isClient()){
             return TypedActionResult.pass(stack);
+        }
+        if (shouldDoExplosion()) {
+            strike(world, user, stack, true);
         }
         return TypedActionResult.success(stack);
     }
@@ -69,6 +64,14 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
         if(!(user instanceof PlayerEntity player)){
             return;
         }
+        if (shouldDoExplosion()) {
+            return;
+        }
+        strike(world, player, stack, false);
+        super.usageTick(world, player, stack, remainingUseTicks);
+    }
+
+    private void strike(World world, PlayerEntity player, ItemStack stack, boolean explosion) {
         BlockHitResult blockHitResult = OrbitalStrikeBrimstoneItem.raycast(world, player);
         if (blockHitResult.getType() == HitResult.Type.MISS) {
             return;
@@ -77,18 +80,37 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
             Vec3d pos = blockHitResult.getPos();
             int useTicks = stack.getOrCreateNbt().getInt(useKey);
             if(!(useTicks > MAX_USAGE_TICKS)){
-                createOrbitalStrike(world, player, pos, 90.0F, player.getYaw(), Integer.MAX_VALUE);
+                createOrbitalStrike(world, player, pos, player.getYaw(), Integer.MAX_VALUE);
+                if (explosion) {
+                    world.createExplosion(player, pos.x, pos.y, pos.z, UnboundConfig.orbitalBrimstoneExplosionPower, World.ExplosionSourceType.BLOCK);
+                    player.getItemCooldownManager().set(this, (int) UnboundConfig.orbitalBrimstoneExplosionPower / 10);
+                    player.stopUsingItem();
+                }
                 if (!player.isCreativeLevelTwoOp()) {
                     useTicks++;
                     stack.getOrCreateNbt().putInt(useKey, useTicks);
                 }
             } else {
-                world.sendEntityStatus(user, (byte) (player.getMainHandStack() == stack ? 47 : 48));
+                world.sendEntityStatus(player, (byte) (player.getMainHandStack() == stack ? 47 : 48));
                 stack.decrement(1);
                 player.incrementStat(Stats.BROKEN.getOrCreateStat(this));
             }
         }
-        super.usageTick(world, player, stack, remainingUseTicks);
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    protected void createOrbitalStrike(World world, LivingEntity user, Vec3d pos, float yaw, double damage){
+        double x = pos.getX();
+        double y = pos.getY();
+        double z = pos.getZ();
+        BrimstoneEntity brimstone = new BrimstoneEntity(world, user);
+        brimstone.setDamage(damage);
+        brimstone.setPosition(x, y+256, z);
+        brimstone.getDataTracker().set(BrimstoneEntity.FORCED_PITCH, (float) 90.0);
+        brimstone.getDataTracker().set(BrimstoneEntity.FORCED_YAW, yaw);
+        UnboundEntityComponents.BRIMSTONE_BYPASS.get(brimstone).setIgnoresDamageLimit(true);
+        world.spawnEntity(brimstone);
+        world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), ModSoundEvents.ITEM_CROSSBOW_BRIMSTONE_6, SoundCategory.PLAYERS, 1.0F, 1.0F);
     }
 
     protected static BlockHitResult raycast(World world, PlayerEntity player) {
