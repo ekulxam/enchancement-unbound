@@ -36,6 +36,8 @@ Can be disabled in the config under "Register This Mod's Enchantments (Separate 
 
 ## Other Config Options
 ### MAIN:
+- Orbital Brimstone Explosion Power : Makes orbital strike do explosions. Set to 0 to turn it off. [Default = 0, My Recommendation = 0]
+- Orbital Brimstone Goes Through Walls : Allows orbital strike brimstone to go through walls and ceilings. [Default = false, My Recommendation = true]
 - Remove Crossbow Cooldown : Prevents crossbow enchantments such as scatter and brimstone from putting the crossbow on cooldown after firing. [Default = false, My Recommendation = false]
 - Brimstone Self-Damage : Whether brimstone should deal life drain damage after firing. [Default = true, My Recommendation = true]
 - Maximum Brimstone Damage : The maximum damage a single brimstone projectile can do. [Default = 50, My Recommendation = 75]
@@ -53,6 +55,7 @@ Can be disabled in the config under "Register This Mod's Enchantments (Separate 
 - Infinite Gale : Self-explanatory. [Default = false, My Recommendation = false]
 - Infinite Dash : Self-explanatory. [Default = false, My Recommendation = false]
 - Infinite Strafe : Self-explanatory. [Default = false, My Recommendation = false]
+- Airbending : Pressing and holding the keybinds for gale, dash, or strafe will spam the ability. Only works if its respective infinity config option is turned on. (For example, pressing and holding the dash key with this on won't work unless Infinite Dash is also on.) [Default = false, My Recommendation = false]
 - Instant Eating with Assimilation : Assimilation only takes one tick to eat a piece of food. [Default = false, My Recommendation = true]
 - No Berserk Damage Cap : Removes the berserk damage cap (I can't really tell if this considerably boosts damage output or not). [Default = false, My Recommendation = true]
 - Scatter Projectile Multiplier : The number of shards that scatter fires will be multiplied by this amount. Also affects Amethyst Shard Minigun and Ice Shard Minigun. [Default = 1, My Recommendation = 1]
@@ -79,7 +82,8 @@ Can be disabled in the config under "Register This Mod's Enchantments (Separate 
 - Remove Movement Boost Limit : Prevents Enchancement from putting a cap on movement buffs gained from adrenaline. [Default = false, My Recommendation = true]
 - Adrenaline Speed Multiplier : The adrenaline speed boost will be multiplied by this amount. Doesn't do a lot without Remove Adrenaline Movement Boost Limit. [Default = 0.05, My Recommendation = 0.15]
 - Return Curse Patch : Curse Patch is applied to the game. All enchantable items can have a regular enchantment, plus unlimited curses. Curses do not count towards the enchantment limit. [Default = false, My Recommendation = TRUE, I TRIED SO HARD TO MAKE THIS ONE, YOU SHOULD DEFINITELY REAP THE BENEFITS]
-- Horseshoes: Allows all horse armor to be enchanted with vanilla and enchancement boot enchantments. Provides support for all vanilla and enchancement enchantments except for Gale. Does not support other modded enchantments. Also adds horse armor glint. [Default = false, My Recommendation = true]
+- Horseshoes : Allows all horse armor to be enchanted with vanilla and enchancement boot enchantments. Provides support for all vanilla and enchancement enchantments except for Gale. Does not support other modded enchantments. Also adds horse armor glint. [Default = false, My Recommendation = true]
+- Air Mobility Enchants Work When Using Elytra : Undoes https://github.com/MoriyaShiine/enchancement/commit/d65e4a08452c39f5bdfe9398dfc014a467e8840e#diff-b32d05c756ddd0d189e2de14ee645ec7fba30426f952092b70f8e7fd2141daf9. Self-explanatory. Air mobility enchants include gale, dash, strafe, and impact (built-in to slide). [Default = false, My Recommendation = true]
 
 ### CLIENT:
 - Brimstone Size Limit (purely visual) : Brimstone size scales with damage, so this puts a cap on how big brimstone can render (does not actually change the hitbox or raycast size of the brimstone). [Default = 50, My Recommendation = 50]
