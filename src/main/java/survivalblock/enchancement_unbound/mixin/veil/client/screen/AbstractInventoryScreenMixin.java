@@ -13,7 +13,6 @@ import survivalblock.enchancement_unbound.client.util.UnboundClientUtil;
 import survivalblock.enchancement_unbound.common.component.CurtainComponent;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 
-@Debug(export = true)
 @Mixin(AbstractInventoryScreen.class)
 public class AbstractInventoryScreenMixin {
 
