@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 
-@Debug(export = true)
 @Mixin(BrimstoneEntity.class)
 public abstract class BrimstoneEntityMixin extends PersistentProjectileEntity {
 

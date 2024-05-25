@@ -22,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 
-@Debug(export = true)
 @Mixin(HorseArmorFeatureRenderer.class)
 @SuppressWarnings("JavadocReference")
 public abstract class HorseArmorFeatureRendererMixin extends FeatureRenderer<HorseEntity, HorseEntityModel<HorseEntity>> {

@@ -1,5 +1,6 @@
 package survivalblock.enchancement_unbound.mixin.frostbite;
 
+import moriyashiine.enchancement.common.Enchancement;
 import moriyashiine.enchancement.common.ModConfig;
 import moriyashiine.enchancement.common.init.ModEnchantments;
 import net.minecraft.block.BlockState;
@@ -53,6 +54,9 @@ public abstract class TridentEntityMixin extends PersistentProjectileEntity {
             return;
         }
         ItemStack stack = this.asItemStack();
+        if (EnchantmentHelper.getLevel(ModEnchantments.FROSTBITE, stack) <= 0) {
+            return;
+        }
         if (this.dealtDamage && (this.dataTracker.get(LOYALTY) > 0 || ModConfig.allTridentsHaveLoyalty)) {
             return;
         }

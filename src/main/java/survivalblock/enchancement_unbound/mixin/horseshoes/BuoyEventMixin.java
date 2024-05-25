@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 
-@Debug(export = true)
 @Mixin(value = BuoyEvent.class, remap = false)
 public class BuoyEventMixin {
 

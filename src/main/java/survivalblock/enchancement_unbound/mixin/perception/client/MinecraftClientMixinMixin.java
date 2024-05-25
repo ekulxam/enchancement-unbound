@@ -23,7 +23,7 @@ public class MinecraftClientMixinMixin {
             )
     )
     private boolean nowIJustNeedAimbot(boolean canSee) {
-        return !(UnboundConfig.perceptionUsersGetESP || canSee); // logically equivalent to !(UnboundConfig.perceptionUsersGetESP ? true : canSee)
+        return !UnboundConfig.perceptionUsersGetESP && canSee;
         // inverse because the canSee is in an inverse
     }
 }
