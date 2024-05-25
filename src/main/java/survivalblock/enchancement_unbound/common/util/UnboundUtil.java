@@ -165,4 +165,16 @@ public class UnboundUtil {
         }
         return false;
     }
+
+    public static boolean galeAirbending() {
+        return UnboundConfig.infiniteGale && UnboundConfig.airbending;
+    }
+
+    public static boolean strafeAirbending() {
+        return UnboundConfig.infiniteStrafe && UnboundConfig.airbending;
+    }
+
+    public static boolean dashAirbending() {
+        return UnboundConfig.infiniteDash && UnboundConfig.airbending;
+    }
 }

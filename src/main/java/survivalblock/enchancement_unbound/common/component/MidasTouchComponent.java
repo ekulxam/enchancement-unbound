@@ -6,8 +6,10 @@ import moriyashiine.enchancement.common.init.ModDamageTypes;
 import moriyashiine.enchancement.common.init.ModEntityComponents;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -30,6 +32,8 @@ import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 import survivalblock.enchancement_unbound.mixin.midastouch.EntityAccessor;
 import survivalblock.enchancement_unbound.mixin.midastouch.MobEntityAccessor;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingComponent {
@@ -344,5 +348,22 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
 
     public float getForcedLimbAngle() {
         return this.forcedLimbAngle;
+    }
+
+    public @Nullable ItemFrameEntity getClosestItemFrame(Vec3d pos) {
+        World world = this.obj.getWorld();
+        if (world.isClient()) {
+            return null;
+        }
+        List<ItemFrameEntity> itemFrames = world.getEntitiesByClass(ItemFrameEntity.class, this.obj.getBoundingBox().expand(50), Objects::nonNull);
+        double d = -1.0;
+        ItemFrameEntity itemFrame = null;
+        for (ItemFrameEntity itemFrame2 : itemFrames) {
+            double e = itemFrame2.squaredDistanceTo(pos.x, pos.y, pos.z);
+            if (d != -1.0 && !(e < d)) continue;
+            d = e;
+            itemFrame = itemFrame2;
+        }
+        return itemFrame;
     }
 }

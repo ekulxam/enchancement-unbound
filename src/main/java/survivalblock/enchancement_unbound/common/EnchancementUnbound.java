@@ -6,9 +6,15 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.*;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FurnaceBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
@@ -23,6 +29,7 @@ public class EnchancementUnbound implements ModInitializer {
 	public static final String MOD_ID = "enchancement_unbound";
 	public static final String CAPITALIZED_MOD_ID = "Enchancement_Unbound";
 	public static final Logger LOGGER = LoggerFactory.getLogger(CAPITALIZED_MOD_ID);
+	public static boolean isDevEnv = false;
 
 	@SuppressWarnings({"CodeBlock2Expr", "PointlessBooleanExpression", "RedundantSuppression"})
 	@Override
@@ -41,7 +48,8 @@ public class EnchancementUnbound implements ModInitializer {
 		if (UnboundConfig.unboundEnchantments) UnboundEnchantments.init();
 		UnboundEntityTypes.init();
 		UnboundSoundEvents.init();
-		if(FabricLoader.getInstance().isDevelopmentEnvironment()){
+		isDevEnv = FabricLoader.getInstance().isDevelopmentEnvironment();
+		if(isDevEnv){
 			LOGGER.info("Removing enchancement handicaps since 2024");
 		}
 		AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {

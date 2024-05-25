@@ -80,7 +80,7 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
             Vec3d pos = blockHitResult.getPos();
             int useTicks = stack.getOrCreateNbt().getInt(useKey);
             if(!(useTicks > MAX_USAGE_TICKS)){
-                createOrbitalStrike(world, player, pos, player.getYaw(), Integer.MAX_VALUE);
+                createOrbitalStrike(world, player, pos, player.getYaw());
                 if (explosion) {
                     world.createExplosion(player, pos.x, pos.y, pos.z, UnboundConfig.orbitalBrimstoneExplosionPower, World.ExplosionSourceType.BLOCK);
                     player.getItemCooldownManager().set(this, (int) UnboundConfig.orbitalBrimstoneExplosionPower / 10);
@@ -98,13 +98,12 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
         }
     }
 
-    @SuppressWarnings("SameParameterValue")
-    protected void createOrbitalStrike(World world, LivingEntity user, Vec3d pos, float yaw, double damage){
+    protected void createOrbitalStrike(World world, LivingEntity user, Vec3d pos, float yaw){
         double x = pos.getX();
         double y = pos.getY();
         double z = pos.getZ();
         BrimstoneEntity brimstone = new BrimstoneEntity(world, user);
-        brimstone.setDamage(damage);
+        brimstone.setDamage(Integer.MAX_VALUE);
         brimstone.setPosition(x, y+256, z);
         brimstone.getDataTracker().set(BrimstoneEntity.FORCED_PITCH, (float) 90.0);
         brimstone.getDataTracker().set(BrimstoneEntity.FORCED_YAW, yaw);

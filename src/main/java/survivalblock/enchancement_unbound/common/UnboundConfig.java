@@ -57,6 +57,8 @@ public class UnboundConfig extends MidnightConfig {
 	@Entry
 	public static boolean infiniteStrafe = false;
 	@Entry
+	public static boolean airbending = false;
+	@Entry
 	public static boolean assimilationInhaleFood = false;
 	@Entry
 	public static boolean noBerserkDamageCap = false;
@@ -112,6 +114,8 @@ public class UnboundConfig extends MidnightConfig {
 	public static boolean cursePatch = false;
 	@Entry
 	public static boolean horseshoes = false;
+	@Entry
+	public static boolean airMobilityEnchantsWorkWhenUsingElytra = false;
 	@Entry(category = "client", min = 15)
 	public static double maxBrimstoneSize = 50; // visual
 	@Entry(category = "client")
@@ -129,6 +133,8 @@ public class UnboundConfig extends MidnightConfig {
     public static int encode() {
 		String encoding = "I can put whatever I want here"
 				+ unboundItems
+				+ orbitalBrimstoneExplosionPower
+				+ orbitalBrimstoneGoesThroughWalls
 				+ unboundEnchantments
 				+ noCrossbowCooldown
 				+ brimstoneSelfDamage
@@ -147,6 +153,7 @@ public class UnboundConfig extends MidnightConfig {
 				+ infiniteGale
 				+ infiniteDash
 				+ infiniteStrafe
+				+ airbending
 				+ assimilationInhaleFood
 				+ noBerserkDamageCap
 				+ scatterProjectileMultiplier
@@ -172,7 +179,8 @@ public class UnboundConfig extends MidnightConfig {
 				+ innateEfficiency
 				+ adrenalineSpeedMultiplier
 				+ cursePatch
-				+ horseshoes;
+				+ horseshoes
+				+ airMobilityEnchantsWorkWhenUsingElytra;
 		return encoding.hashCode();
 	}
 }

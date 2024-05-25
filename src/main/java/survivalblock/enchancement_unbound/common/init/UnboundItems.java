@@ -23,6 +23,7 @@ public class UnboundItems {
     public static final Item ICE_SHARD_MINIGUN = registerItem("ice_shard_minigun", new ShardMinigunItem(new FabricItemSettings().rarity(Rarity.EPIC).maxCount(1), Items.BLUE_ICE), ItemGroups.COMBAT);
     public static final Item AMETHYST_SHARD_MINIGUN = registerItem("amethyst_shard_minigun", new ShardMinigunItem(new FabricItemSettings().rarity(Rarity.EPIC).maxCount(1), Items.AMETHYST_SHARD), ItemGroups.COMBAT);
     public static final Item SLINGSHOT = registerItem("slingshot", new UnboundSlingshotItem(new FabricItemSettings().rarity(Rarity.RARE).maxCount(1)), null);
+
     private static Item registerItem(String name, Item item, RegistryKey<ItemGroup> group) {
         map.put(item, group);
         return Registry.register(Registries.ITEM, EnchancementUnbound.id(name), item);
