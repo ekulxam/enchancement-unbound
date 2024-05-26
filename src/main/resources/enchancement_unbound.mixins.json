@@ -47,6 +47,8 @@
     "midastouch.client.FrozenReloadListenerMixin",
     "phasing.PhasingComponentMixin",
     "scatter.CrossbowItemMixinMixin",
+    "sentientpants.ArmorItemMixin",
+    "sentientpants.LivingEntityMixin",
     "slide.LivingEntityMixinMixin",
     "slide.SlideComponentAccessor",
     "slide.SlideComponentMixin",
