@@ -19,6 +19,7 @@ public class UnboundEnchantments {
     public static final Enchantment ASCENSION = new ShovelEnchantment(Enchantment.Rarity.UNCOMMON, EnchantmentTarget.DIGGER, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND);
     public static final Enchantment EXECUTIONER = new AxeEnchantment(Enchantment.Rarity.RARE, EnchantmentTarget.DIGGER, EquipmentSlot.MAINHAND);
     public static final Enchantment MIDAS_TOUCH = new MidasTouchCurse(Enchantment.Rarity.RARE, EnchantmentTarget.WEAPON, EquipmentSlot.MAINHAND);
+    public static final Enchantment SENTIENT_PANTS = new EmptyEnchantment(1, Enchantment.Rarity.RARE, EnchantmentTarget.ARMOR_LEGS, EquipmentSlot.LEGS);
 
     public static void init() {
         Registry.register(Registries.ENCHANTMENT, EnchancementUnbound.id("ascension"), ASCENSION);
@@ -26,5 +27,6 @@ public class UnboundEnchantments {
         Registry.register(Registries.ENCHANTMENT, EnchancementUnbound.id("midas_touch"), MIDAS_TOUCH);
         Registry.register(Registries.ENCHANTMENT, EnchancementUnbound.id("apple_sauce"), APPLE_SAUCE);
         Registry.register(Registries.ENCHANTMENT, EnchancementUnbound.id("soul_reaper"), SOUL_REAPER);
+        Registry.register(Registries.ENCHANTMENT, EnchancementUnbound.id("sentient_pants"), SENTIENT_PANTS);
     }
 }

@@ -26,6 +26,7 @@ public class SpawnAstralParticlesPacket {
         ServerPlayNetworking.send(player, ID, buf);
     }
 
+    @SuppressWarnings("unused") // method reference looks nicer
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender sender) {
         ClientWorld clientWorld = client.world;
         if (clientWorld == null) {

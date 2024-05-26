@@ -75,7 +75,7 @@ public class UnboundConfig extends MidnightConfig {
 	@Entry
 	public static BouncyChargeSpeed bouncyChargeSpeed = BouncyChargeSpeed.DEFAULT;
 
-    public enum BouncyChargeSpeed {
+	public enum BouncyChargeSpeed {
 		DEFAULT, FAST, VERY_FAST, VERY_VERY_FAST, INSTANT
 	}
 	@Entry(min = 0.1, max = 15)
