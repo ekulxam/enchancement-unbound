@@ -1,8 +1,7 @@
 package survivalblock.enchancement_unbound.mixin.vanillachanges.allcrossbowshavemultishot;
 
-import moriyashiine.enchancement.common.ModConfig;
 import moriyashiine.enchancement.common.init.ModDataComponentTypes;
-import moriyashiine.enchancement.common.init.ModTags;
+import moriyashiine.enchancement.common.tag.ModEnchantmentTags;
 import net.minecraft.component.ComponentHolder;
 import net.minecraft.component.DataComponentType;
 import net.minecraft.enchantment.Enchantment;
@@ -32,7 +31,7 @@ public abstract class ItemStackMixin implements ComponentHolder {
 
     @Inject(method = "addEnchantment", at = @At("TAIL"))
     private void enchantedCrossbowsHaveMultishot(Enchantment enchantment, int level, CallbackInfo ci) {
-        if (UnboundConfig.allCrossbowsHaveMultishot && hasEnchantments() && isIn(ItemTags.CROSSBOW_ENCHANTABLE) && !Registries.ENCHANTMENT.getEntry(enchantment).isIn(ModTags.Enchantments.DISALLOWS_TOGGLEABLE_PASSIVE) && !contains(ModDataComponentTypes.TOGGLEABLE_PASSIVE)) {
+        if (UnboundConfig.allCrossbowsHaveMultishot && hasEnchantments() && isIn(ItemTags.CROSSBOW_ENCHANTABLE) && !Registries.ENCHANTMENT.getEntry(enchantment).isIn(ModEnchantmentTags.DISALLOWS_TOGGLEABLE_PASSIVE) && !contains(ModDataComponentTypes.TOGGLEABLE_PASSIVE)) {
             set(ModDataComponentTypes.TOGGLEABLE_PASSIVE, true);
         }
     }
