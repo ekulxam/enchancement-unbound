@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-	  {
-		"id": "enchancement_unbound:ascension",
-		"required": false
-	  }
-  ]
-}
