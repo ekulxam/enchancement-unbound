@@ -92,5 +92,6 @@ public class EnchancementUnbound implements ModInitializer {
 		// common payloads
 		PayloadTypeRegistry.playC2S().register(SyncCurtainComponentPayload.ID, SyncCurtainComponentPayload.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(SyncCurtainComponentPayload.ID, new SyncCurtainComponentPayload.Receiver());
+
 	}
 }

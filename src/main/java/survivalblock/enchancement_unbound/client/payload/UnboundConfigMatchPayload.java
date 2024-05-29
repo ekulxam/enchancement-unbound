@@ -13,9 +13,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import survivalblock.enchancement_unbound.common.EnchancementUnbound;
+import survivalblock.enchancement_unbound.common.UnboundConfig;
 
 public record UnboundConfigMatchPayload(int encoding) implements CustomPayload {
-    public static final CustomPayload.Id<UnboundConfigMatchPayload> ID = CustomPayload.id(EnchancementUnbound.id("enforce_config_match").toString());
+    public static final CustomPayload.Id<UnboundConfigMatchPayload> ID = CustomPayload.id(EnchancementUnbound.id("unbound_config_match").toString());
     public static final PacketCodec<PacketByteBuf, UnboundConfigMatchPayload> CODEC = PacketCodec.tuple(PacketCodecs.VAR_INT, UnboundConfigMatchPayload::encoding, UnboundConfigMatchPayload::new);
 
     private static final Text UNBOUND_DISCONNECT_TEXT = Text.literal("The server you are attempting to connect to has ")
@@ -33,13 +34,13 @@ public record UnboundConfigMatchPayload(int encoding) implements CustomPayload {
     }
 
     public static void send(ServerPlayerEntity player, int encoding) {
-        ServerPlayNetworking.send(player, new EnforceConfigMatchPayload(encoding));
+        ServerPlayNetworking.send(player, new UnboundConfigMatchPayload(encoding));
     }
 
     public static class Receiver implements ClientPlayNetworking.PlayPayloadHandler<UnboundConfigMatchPayload> {
         @Override
         public void receive(UnboundConfigMatchPayload payload, ClientPlayNetworking.Context context) {
-            if (ModConfig.encode() != payload.encoding()) {
+            if (UnboundConfig.encode() != payload.encoding()) {
                 context.player().networkHandler.getConnection().disconnect(UNBOUND_DISCONNECT_TEXT);
             }
         }
