@@ -19,12 +19,12 @@ public class UnboundEntityTypes {
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Entity> EntityType<T> registerEntity(String name, SpawnGroup group, EntityType.EntityFactory<T> factory , EntityDimensions dimensions, boolean fireImmune) {
+        EntityType.Builder<T> builder = EntityType.Builder.create(factory, group).dimensions(dimensions.width(), dimensions.height());
         if (fireImmune) {
-            return Registry.register(Registries.ENTITY_TYPE, EnchancementUnbound.id(name),
-                    FabricEntityTypeBuilder.create(group, factory).dimensions(dimensions).fireImmune().build());
+            builder = builder.makeFireImmune();
         }
         return Registry.register(Registries.ENTITY_TYPE, EnchancementUnbound.id(name),
-                FabricEntityTypeBuilder.create(group, factory).dimensions(dimensions).build());
+                builder.build());
     }
 
     public static void init() {
