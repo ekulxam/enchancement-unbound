@@ -34,7 +34,7 @@ public abstract class BrimstoneEntityMixin extends PersistentProjectileEntity {
     @ModifyExpressionValue(method = "lambda$tick$1", at = @At(value = "CONSTANT", args = "doubleValue=50"))
     private double enforceMyCapNotYours(double doubleValue, Entity entity) {
         if(this.getIgnoresDamageLimit()){
-            return doubleValue;
+            return Double.MAX_VALUE;
         }
         return Math.max(doubleValue, UnboundConfig.maxBrimstoneDamage);
     }
