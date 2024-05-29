@@ -1,6 +1,7 @@
 package survivalblock.enchancement_unbound.common.component;
 
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+import net.minecraft.registry.RegistryWrapper;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import moriyashiine.enchancement.common.entity.projectile.BrimstoneEntity;
 import net.minecraft.nbt.NbtCompound;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
@@ -15,12 +16,10 @@ public class BrimstoneBypassComponent implements AutoSyncedComponent {
         this.obj = obj;
     }
 
-    @Override
     public void readFromNbt(NbtCompound tag) {
         this.ignoresDamageLimit = tag.getBoolean("IgnoresDamageLimit");
     }
 
-    @Override
     public void writeToNbt(NbtCompound tag) {
         tag.putBoolean("IgnoresDamageLimit", this.ignoresDamageLimit);
     }
@@ -32,5 +31,15 @@ public class BrimstoneBypassComponent implements AutoSyncedComponent {
 
     public boolean getIgnoresDamageLimit() {
         return this.ignoresDamageLimit;
+    }
+
+    @Override
+    public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        this.readFromNbt(tag);
+    }
+
+    @Override
+    public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        this.writeToNbt(tag);
     }
 }

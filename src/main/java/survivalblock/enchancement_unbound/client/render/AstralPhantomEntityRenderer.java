@@ -50,8 +50,8 @@ public class AstralPhantomEntityRenderer extends MobEntityRenderer<AstralPhantom
     }
 
     @Override
-    protected void setupTransforms(AstralPhantomEntity astralPhantomEntity, MatrixStack matrixStack, float f, float g, float h) {
-        super.setupTransforms(astralPhantomEntity, matrixStack, f, g, h);
+    protected void setupTransforms(AstralPhantomEntity astralPhantomEntity, MatrixStack matrixStack, float animationProgress, float bodyYaw, float tickDelta, float scale) {
+        super.setupTransforms(astralPhantomEntity, matrixStack, animationProgress, bodyYaw, tickDelta, scale);
         matrixStack.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(astralPhantomEntity.getPitch()));
     }
 }

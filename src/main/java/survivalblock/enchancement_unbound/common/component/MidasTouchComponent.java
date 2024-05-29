@@ -1,12 +1,11 @@
 package survivalblock.enchancement_unbound.common.component;
 
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.component.tick.CommonTickingComponent;
 import moriyashiine.enchancement.common.init.ModDamageTypes;
 import moriyashiine.enchancement.common.init.ModEntityComponents;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.decoration.ItemFrameEntity;
@@ -15,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Unit;
@@ -159,7 +159,6 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         return this.statueTicks;
     }
 
-    @Override
     public void readFromNbt(NbtCompound tag) {
         this.isGolden = tag.getBoolean("Golden");
         this.karma = tag.getInt("Karma");
@@ -181,7 +180,6 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         this.forcedLimbDistance = tag.getFloat("ForcedLimbDistance");
     }
 
-    @Override
     public void writeToNbt(NbtCompound tag) {
         tag.putBoolean("Golden", this.isGolden);
         tag.putInt("Karma", this.karma);
@@ -365,5 +363,16 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
             itemFrame = itemFrame2;
         }
         return itemFrame;
+    }
+
+
+    @Override
+    public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        this.readFromNbt(tag);
+    }
+
+    @Override
+    public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        this.writeToNbt(tag);
     }
 }

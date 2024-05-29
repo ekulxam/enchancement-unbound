@@ -91,11 +91,6 @@ public class AstralPhantomEntity
         return new PhantomBodyControl(this);
     }
 
-    @Override
-    protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-        return dimensions.height * 0.35f;
-    }
-
     public int getWingFlapTickOffset() {
         return this.getId() * 3;
     }
@@ -192,11 +187,6 @@ public class AstralPhantomEntity
         return true;
     }
 
-    @Override
-    public double getMountedHeightOffset() {
-        return this.getStandingEyeHeight();
-    }
-
     class AstralPhantomMoveControl
             extends MoveControl {
 
@@ -262,7 +252,8 @@ public class AstralPhantomEntity
         }
     }
 
-    private void playSound(SoundEvent soundEvent) {
+    @Override
+    public void playSound(SoundEvent soundEvent) {
         this.getWorld().playSound(null, this.getBlockPos(), soundEvent, this.getSoundCategory(), 1.0f, 1.0f);
     }
 

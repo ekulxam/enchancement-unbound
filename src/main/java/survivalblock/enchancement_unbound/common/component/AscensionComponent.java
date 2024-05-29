@@ -1,8 +1,8 @@
 package survivalblock.enchancement_unbound.common.component;
 
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+import net.minecraft.registry.RegistryWrapper;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -54,7 +54,6 @@ public class AscensionComponent implements AutoSyncedComponent, ServerTickingCom
         }
     }
 
-    @Override
     public void readFromNbt(NbtCompound tag) {
         this.activated = tag.getBoolean("Ascending");
         this.originalX = tag.getDouble("OriginalX");
@@ -66,7 +65,6 @@ public class AscensionComponent implements AutoSyncedComponent, ServerTickingCom
         }
     }
 
-    @Override
     public void writeToNbt(NbtCompound tag) {
         tag.putBoolean("Ascending", this.activated);
         tag.putDouble("OriginalX", this.originalX);
@@ -91,5 +89,15 @@ public class AscensionComponent implements AutoSyncedComponent, ServerTickingCom
 
     public boolean isAscending() {
         return this.activated;
+    }
+
+    @Override
+    public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        this.readFromNbt(tag);
+    }
+
+    @Override
+    public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        this.writeToNbt(tag);
     }
 }

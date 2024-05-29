@@ -1,6 +1,7 @@
 package survivalblock.enchancement_unbound.common.entity;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -48,7 +49,7 @@ public class SentientPantsEntity extends PathAwareEntity implements Ownable {
     public SentientPantsEntity(World world, LivingEntity owner, ItemStack stack) {
         super(UnboundEntityTypes.SENTIENT_PANTS, world);
         this.setPosition(owner.getPos());
-        this.initialize((ServerWorldAccess) world, world.getLocalDifficulty(this.getBlockPos()), SpawnReason.REINFORCEMENT, null, null);
+        this.initialize((ServerWorldAccess) world, world.getLocalDifficulty(this.getBlockPos()), SpawnReason.REINFORCEMENT, null);
         this.setEquipmentDropChance(EquipmentSlot.LEGS, 1f);
         this.setOwner(owner);
         shouldDrop = !(owner instanceof PlayerEntity player) || !player.isCreative();
@@ -72,7 +73,7 @@ public class SentientPantsEntity extends PathAwareEntity implements Ownable {
 
     @Override
     public boolean isFireImmune() {
-        return super.isFireImmune() || this.getEquippedStack(EquipmentSlot.LEGS).getItem().isFireproof();
+        return super.isFireImmune() || this.getEquippedStack(EquipmentSlot.LEGS).getItem().getComponents().contains(DataComponentTypes.FIRE_RESISTANT);
     }
 
     public static DefaultAttributeContainer.Builder createPantsAttributes() {

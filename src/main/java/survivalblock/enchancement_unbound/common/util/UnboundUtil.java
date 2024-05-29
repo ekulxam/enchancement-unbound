@@ -1,37 +1,45 @@
 package survivalblock.enchancement_unbound.common.util;
 
 import moriyashiine.enchancement.common.component.entity.ExtendedWaterComponent;
-import moriyashiine.enchancement.common.enchantment.EmptyEnchantment;
-import moriyashiine.enchancement.common.init.ModEnchantments;
 import moriyashiine.enchancement.common.init.ModEntityComponents;
 import moriyashiine.enchancement.common.util.EnchancementUtil;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalEntityTypeTags;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.enchantment.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.AnimalArmorItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntryList;
+import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
-import survivalblock.enchancement_unbound.common.EnchancementUnbound;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 import survivalblock.enchancement_unbound.common.init.UnboundEnchantments;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 import survivalblock.enchancement_unbound.common.init.UnboundTags;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 public class UnboundUtil {
 
+
+    private static final Map<TagKey<Item>, Boolean> TAG_TO_HORSESHOES = new HashMap<>();
     public static final double CONFIG_FLOATING_POINT_PRECISION = 0.001;
 
     public static boolean isBasicallyOriginal(double value, double original) {
@@ -160,10 +168,30 @@ public class UnboundUtil {
         if (!UnboundConfig.horseshoes) {
             return false;
         }
-        if (enchantment.target.equals(EnchantmentTarget.ARMOR_FEET)) {
-            return enchantment instanceof EmptyEnchantment || enchantment instanceof SoulSpeedEnchantment || enchantment instanceof FrostWalkerEnchantment || enchantment instanceof DepthStriderEnchantment || enchantment instanceof ProtectionEnchantment;
+        if (!isPartOfFootArmorEnchantable(enchantment.getApplicableItems())) {
+            return false;
         }
-        return false;
+        return enchantment instanceof SoulSpeedEnchantment || enchantment instanceof FrostWalkerEnchantment || enchantment instanceof DepthStriderEnchantment || enchantment instanceof ProtectionEnchantment;
+    }
+
+    private static boolean isPartOfFootArmorEnchantable(TagKey<Item> tag) {
+        return TAG_TO_HORSESHOES.computeIfAbsent(tag, bl -> {
+            Optional<RegistryEntryList.Named<Item>> opt = Registries.ITEM.getEntryList(ItemTags.FOOT_ARMOR_ENCHANTABLE);
+            if (opt.isEmpty()) {
+                return false;
+            }
+            RegistryEntryList.Named<Item> named = opt.get();
+            for (RegistryEntry<Item> registryEntry : named) {
+                if (registryEntry.isIn(ItemTags.FOOT_ARMOR_ENCHANTABLE)) {
+                    return false;
+                }
+            }
+            return true;
+        });
+    }
+
+    public static boolean isHorseArmor(Item item) {
+        return item instanceof AnimalArmorItem animalArmorItem && animalArmorItem.getType().equals(AnimalArmorItem.Type.EQUESTRIAN);
     }
 
     public static boolean galeAirbending() {

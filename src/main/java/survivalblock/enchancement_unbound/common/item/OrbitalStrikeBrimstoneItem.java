@@ -2,12 +2,11 @@ package survivalblock.enchancement_unbound.common.item;
 
 import moriyashiine.enchancement.common.entity.projectile.BrimstoneEntity;
 import moriyashiine.enchancement.common.init.ModSoundEvents;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.item.TooltipType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Vanishable;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
@@ -20,14 +19,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
+import survivalblock.enchancement_unbound.common.init.UnboundDataComponentTypes;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 
 import java.util.List;
 
-public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
+public class OrbitalStrikeBrimstoneItem extends Item {
     private final String useKey = "TicksUsed";
     private final int MAX_USAGE_TICKS = 600;
     public OrbitalStrikeBrimstoneItem(Settings settings) {
@@ -41,6 +40,12 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
     @Override
     public int getMaxUseTime(ItemStack stack) {
         return shouldDoExplosion() ? 1 : 72000;
+    }
+
+    private static void setDefaultComponent(ItemStack stack) {
+        if (!stack.contains(UnboundDataComponentTypes.USE_TICKS)) {
+            stack.set(UnboundDataComponentTypes.USE_TICKS, 0);
+        }
     }
 
     @Override
@@ -64,6 +69,7 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
         if(!(user instanceof PlayerEntity player)){
             return;
         }
+        setDefaultComponent(stack);
         if (shouldDoExplosion()) {
             return;
         }
@@ -78,7 +84,7 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
         }
         if (blockHitResult.getType() == HitResult.Type.BLOCK) {
             Vec3d pos = blockHitResult.getPos();
-            int useTicks = stack.getOrCreateNbt().getInt(useKey);
+            int useTicks = stack.getOrDefault(UnboundDataComponentTypes.USE_TICKS, 0);
             if(!(useTicks > MAX_USAGE_TICKS)){
                 createOrbitalStrike(world, player, pos, player.getYaw());
                 if (explosion) {
@@ -88,7 +94,7 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
                 }
                 if (!player.isCreativeLevelTwoOp()) {
                     useTicks++;
-                    stack.getOrCreateNbt().putInt(useKey, useTicks);
+                    stack.set(UnboundDataComponentTypes.USE_TICKS, useTicks);
                 }
             } else {
                 world.sendEntityStatus(player, (byte) (player.getMainHandStack() == stack ? 47 : 48));
@@ -130,13 +136,15 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        return stack.getOrCreateNbt().getInt(useKey) > 0;
+        setDefaultComponent(stack);
+        return stack.getOrDefault(UnboundDataComponentTypes.USE_TICKS, 0) > 0;
     }
     @Override
     public int getItemBarStep(ItemStack stack) {
-        int useTicks = stack.getOrCreateNbt().getInt(useKey);
+        setDefaultComponent(stack);
+        int useTicks = stack.getOrDefault(UnboundDataComponentTypes.USE_TICKS, 0);
         useTicks = Math.max(useTicks, 0);
-        stack.getOrCreateNbt().putInt(useKey, useTicks);
+        stack.set(UnboundDataComponentTypes.USE_TICKS, useTicks);
         return Math.round((float) (MAX_USAGE_TICKS - useTicks) * 13.0f / (float) MAX_USAGE_TICKS);
     }
 
@@ -151,8 +159,8 @@ public class OrbitalStrikeBrimstoneItem extends Item implements Vanishable {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable("item.enchancement_unbound.orbital_strike_brimstone.alien").formatted(Formatting.DARK_RED));
-        super.appendTooltip(stack, world, tooltip, context);
+        super.appendTooltip(stack, context, tooltip, type);
     }
 }

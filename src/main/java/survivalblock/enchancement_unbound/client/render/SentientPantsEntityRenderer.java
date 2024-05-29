@@ -48,11 +48,11 @@ public class SentientPantsEntityRenderer<T extends SentientPantsEntity, M extend
     }
 
     @Override
-    protected void setupTransforms(T pants, MatrixStack matrixStack, float animationProgress, float bodyYaw, float tickDelta) {
+    protected void setupTransforms(T pants, MatrixStack matrixStack, float animationProgress, float bodyYaw, float tickDelta, float scale) {
         if (!SentientPantsEntityRenderer.shouldFlipUpsideDown(pants)) {
             matrixStack.translate(0, -0.16, 0);
         }
-        super.setupTransforms(pants, matrixStack, animationProgress, bodyYaw, tickDelta);
+        super.setupTransforms(pants, matrixStack, animationProgress, bodyYaw, tickDelta, scale);
     }
 
     @Nullable

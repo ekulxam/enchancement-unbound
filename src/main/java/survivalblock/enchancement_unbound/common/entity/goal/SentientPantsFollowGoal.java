@@ -131,7 +131,7 @@ public class SentientPantsFollowGoal
     }
 
     private boolean canTeleportTo(BlockPos pos) {
-        PathNodeType pathNodeType = LandPathNodeMaker.getLandNodeType(this.world, pos.mutableCopy());
+        PathNodeType pathNodeType = LandPathNodeMaker.getLandNodeType(this.pants, pos.mutableCopy());
         if (pathNodeType != PathNodeType.WALKABLE) {
             return false;
         }

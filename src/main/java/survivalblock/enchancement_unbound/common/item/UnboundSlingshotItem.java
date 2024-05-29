@@ -3,18 +3,20 @@ package survivalblock.enchancement_unbound.common.item;
 import moriyashiine.enchancement.common.component.entity.ChaosArrowComponent;
 import moriyashiine.enchancement.common.init.ModEnchantments;
 import moriyashiine.enchancement.common.init.ModEntityComponents;
-import moriyashiine.enchancement.mixin.util.PersistentProjectileEntityAccessor;
+import moriyashiine.enchancement.mixin.util.accessor.ArrowEntityAccessor;
+import moriyashiine.enchancement.mixin.util.accessor.PersistentProjectileEntityAccessor;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.item.TooltipType;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.*;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -25,12 +27,14 @@ import org.jetbrains.annotations.Nullable;
 import survivalblock.enchancement_unbound.access.PhaserChaosAccess;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
-public class UnboundSlingshotItem extends RangedWeaponItem implements Vanishable {
+public class UnboundSlingshotItem extends RangedWeaponItem {
     public UnboundSlingshotItem(Settings settings) {
         super(settings);
     }
+
     @Override
     public Predicate<ItemStack> getProjectiles() {
         return BOW_PROJECTILES;
@@ -39,6 +43,10 @@ public class UnboundSlingshotItem extends RangedWeaponItem implements Vanishable
     @Override
     public int getRange() {
         return BowItem.RANGE;
+    }
+
+    @Override
+    protected void shoot(LivingEntity shooter, ProjectileEntity projectile, int index, float speed, float divergence, float yaw, @Nullable LivingEntity target) {
     }
 
     @Override
@@ -97,7 +105,7 @@ public class UnboundSlingshotItem extends RangedWeaponItem implements Vanishable
             }));
             ChaosArrowComponent.applyChaos(player, stack, (statusEffects) -> {
                 ModEntityComponents.CHAOS_ARROW.get(arrow).setOriginalStack(((PersistentProjectileEntityAccessor)arrow).enchancement$asItemStack());
-                arrow.initFromStack(PotionUtil.setCustomPotionEffects(new ItemStack(Items.TIPPED_ARROW), statusEffects));
+                ((ArrowEntityAccessor)arrow).enchancement$setPotionContents(new PotionContentsComponent(Optional.empty(), Optional.empty(), statusEffects));
             });
         }
         persistentProjectileEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
@@ -111,7 +119,7 @@ public class UnboundSlingshotItem extends RangedWeaponItem implements Vanishable
         if (flame > 0) persistentProjectileEntity.setOnFireFor(100);
         persistentProjectileEntity.setPosition(player.getEyePos().add(player.getRotationVector().multiply(0.7)));
         world.spawnEntity(persistentProjectileEntity);
-        stack.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
+        stack.damage(1, player, PlayerEntity.getSlotForHand(player.getActiveHand()));
         player.incrementStat(Stats.USED.getOrCreateStat(this));
     }
 
@@ -136,11 +144,11 @@ public class UnboundSlingshotItem extends RangedWeaponItem implements Vanishable
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         if (FabricLoader.getInstance().isModLoaded("aylyth") || Screen.hasShiftDown()) {
             tooltip.add(Text.translatable("item.enchancement_unbound.slingshot.intro").formatted(Formatting.GRAY)
                     .append(Text.translatable("item.enchancement_unbound.slingshot.aylythian_origins").formatted(Formatting.GOLD)));
         }
-        super.appendTooltip(stack, world, tooltip, context);
+        super.appendTooltip(stack, context, tooltip, type);
     }
 }

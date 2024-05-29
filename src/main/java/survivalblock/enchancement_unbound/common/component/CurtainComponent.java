@@ -1,7 +1,8 @@
 package survivalblock.enchancement_unbound.common.component;
 
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
+import net.minecraft.registry.RegistryWrapper;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.component.tick.CommonTickingComponent;
 import moriyashiine.enchancement.common.init.ModEnchantments;
 import moriyashiine.enchancement.common.util.EnchancementUtil;
 import net.minecraft.client.MinecraftClient;
@@ -16,11 +17,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import survivalblock.enchancement_unbound.client.EnchancementUnboundClient;
-import survivalblock.enchancement_unbound.client.packet.SpawnAstralParticlesPacket;
+import survivalblock.enchancement_unbound.client.payload.SpawnAstralParticlesPayload;
 import survivalblock.enchancement_unbound.common.UnboundConfig;
 import survivalblock.enchancement_unbound.common.entity.AstralPhantomEntity;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
-import survivalblock.enchancement_unbound.common.packet.SyncCurtainComponentPacket;
+import survivalblock.enchancement_unbound.common.packet.SyncCurtainComponentPayload;
 
 public class CurtainComponent implements AutoSyncedComponent, CommonTickingComponent {
 
@@ -81,7 +82,6 @@ public class CurtainComponent implements AutoSyncedComponent, CommonTickingCompo
         CommonTickingComponent.super.serverTick();
     }
 
-    @Override
     public void readFromNbt(NbtCompound tag) {
         boolean isInCurtain = tag.getBoolean("IsInCurtain");
         if (this.activated != isInCurtain) {
@@ -93,7 +93,6 @@ public class CurtainComponent implements AutoSyncedComponent, CommonTickingCompo
         this.isAware = tag.getBoolean("IsAware");
     }
 
-    @Override
     public void writeToNbt(NbtCompound tag) {
         tag.putBoolean("IsInCurtain", this.activated);
         tag.putInt("SwapCooldownTicks", this.swapCooldownTicks);
@@ -133,7 +132,7 @@ public class CurtainComponent implements AutoSyncedComponent, CommonTickingCompo
             NbtCompound nbt = new NbtCompound();
             this.writeToNbt(nbt);
             nbt.putUuid("ObjUuid", this.obj.getUuid());
-            SyncCurtainComponentPacket.send(nbt);
+            SyncCurtainComponentPayload.send(nbt);
         } else {
             UnboundEntityComponents.CURTAIN.sync(this.obj);
         }
@@ -160,9 +159,7 @@ public class CurtainComponent implements AutoSyncedComponent, CommonTickingCompo
         if (world instanceof ServerWorld serverWorld) {
             this.obj.stopRiding();
             for (ServerPlayerEntity player : serverWorld.getPlayers()) {
-                NbtCompound nbt = new NbtCompound();
-                nbt.putUuid("ObjUuid", this.obj.getUuid());
-                SpawnAstralParticlesPacket.send(nbt, player);
+                SpawnAstralParticlesPayload.send(player, this.obj.getUuid());
             }
             return;
         }
@@ -183,5 +180,15 @@ public class CurtainComponent implements AutoSyncedComponent, CommonTickingCompo
         } catch (Exception ignored) {
 
         }
+    }
+
+    @Override
+    public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        this.readFromNbt(tag);
+    }
+
+    @Override
+    public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        this.writeToNbt(tag);
     }
 }

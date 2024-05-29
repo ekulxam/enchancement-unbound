@@ -4,25 +4,21 @@ package survivalblock.enchancement_unbound.common;
 import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.*;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FurnaceBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import survivalblock.enchancement_unbound.client.payload.PantsOfUndyingPayload;
+import survivalblock.enchancement_unbound.client.payload.SpawnAstralParticlesPayload;
+import survivalblock.enchancement_unbound.client.payload.UnboundConfigMatchPayload;
 import survivalblock.enchancement_unbound.common.component.MidasTouchComponent;
 import survivalblock.enchancement_unbound.common.init.*;
-import survivalblock.enchancement_unbound.common.packet.SyncCurtainComponentPacket;
+import survivalblock.enchancement_unbound.common.packet.SyncCurtainComponentPayload;
 import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 
 public class EnchancementUnbound implements ModInitializer {
@@ -43,9 +39,11 @@ public class EnchancementUnbound implements ModInitializer {
 				System.exit(-1);
 			}
 		}
+		initNetworking();
 		MidnightConfig.init(EnchancementUnbound.MOD_ID, UnboundConfig.class);
 		if (UnboundConfig.unboundItems) UnboundItems.init();
 		if (UnboundConfig.unboundEnchantments) UnboundEnchantments.init();
+		UnboundDataComponentTypes.init();
 		UnboundEntityTypes.init();
 		UnboundSoundEvents.init();
 		isDevEnv = FabricLoader.getInstance().isDevelopmentEnvironment();
@@ -80,10 +78,19 @@ public class EnchancementUnbound implements ModInitializer {
 			midasTouchComponent.setGolden(true);
 			return TypedActionResult.pass(stack);
 		});
-		ServerPlayNetworking.registerGlobalReceiver(SyncCurtainComponentPacket.ID, SyncCurtainComponentPacket::receive);
 	}
 
 	public static Identifier id(String value) {
 		return new Identifier(MOD_ID, value);
+	}
+
+	private void initNetworking() {
+		// client payloads
+		PayloadTypeRegistry.playS2C().register(PantsOfUndyingPayload.ID, PantsOfUndyingPayload.CODEC);
+		PayloadTypeRegistry.playS2C().register(SpawnAstralParticlesPayload.ID, SpawnAstralParticlesPayload.CODEC);
+		PayloadTypeRegistry.playS2C().register(UnboundConfigMatchPayload.ID, UnboundConfigMatchPayload.CODEC);
+		// common payloads
+		PayloadTypeRegistry.playC2S().register(SyncCurtainComponentPayload.ID, SyncCurtainComponentPayload.CODEC);
+		ServerPlayNetworking.registerGlobalReceiver(SyncCurtainComponentPayload.ID, new SyncCurtainComponentPayload.Receiver());
 	}
 }

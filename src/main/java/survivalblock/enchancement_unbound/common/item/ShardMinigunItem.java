@@ -2,18 +2,16 @@ package survivalblock.enchancement_unbound.common.item;
 
 import moriyashiine.enchancement.common.entity.projectile.AmethystShardEntity;
 import moriyashiine.enchancement.common.entity.projectile.IceShardEntity;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.item.TooltipType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
@@ -29,7 +27,7 @@ import survivalblock.enchancement_unbound.common.util.UnboundUtil;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class ShardMinigunItem extends RangedWeaponItem implements Vanishable {
+public class ShardMinigunItem extends RangedWeaponItem {
     private final Item shardItem;
     public ShardMinigunItem(Settings settings, Item shardItem) {
         super(settings);
@@ -140,12 +138,17 @@ public class ShardMinigunItem extends RangedWeaponItem implements Vanishable {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    protected void shoot(LivingEntity shooter, ProjectileEntity projectile, int index, float speed, float divergence, float yaw, @Nullable LivingEntity target) {
+
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         if (stack.isOf(UnboundItems.AMETHYST_SHARD_MINIGUN)) {
             tooltip.add(Text.translatable("item.enchancement_unbound.amethyst_shard_minigun.breakfast").formatted(Formatting.DARK_PURPLE));
         } else if (stack.isOf(UnboundItems.ICE_SHARD_MINIGUN)) {
             tooltip.add(Text.translatable("item.enchancement_unbound.ice_shard_minigun.breakfast").formatted(Formatting.AQUA));
         }
-        super.appendTooltip(stack, world, tooltip, context);
+        super.appendTooltip(stack, context, tooltip, type);
     }
 }

@@ -105,8 +105,6 @@ public class UnboundConfig extends MidnightConfig {
 	@Entry
 	public static boolean infiniteFireAspect = false;
 	@Entry
-	public static boolean innateEfficiency = false;
-	@Entry
 	public static boolean removeAdrenalineMovementBoostLimit = false;
 	@Entry(min = 0.05, max = 1)
 	public static float adrenalineSpeedMultiplier = 0.05F;
@@ -176,7 +174,6 @@ public class UnboundConfig extends MidnightConfig {
 				+ loyaltyWarpTridentsReturnFaster
 				+ infiniteFrostbite
 				+ infiniteFireAspect
-				+ innateEfficiency
 				+ adrenalineSpeedMultiplier
 				+ cursePatch
 				+ horseshoes
