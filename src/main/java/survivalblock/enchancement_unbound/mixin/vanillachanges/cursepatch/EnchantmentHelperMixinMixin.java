@@ -8,6 +8,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.util.math.random.Random;
@@ -19,6 +20,7 @@ import survivalblock.enchancement_unbound.common.UnboundConfig;
 
 import java.util.List;
 
+@Debug(export = true)
 @Mixin(value = EnchantmentHelper.class, priority = 1500)
 public class EnchantmentHelperMixinMixin {
 
@@ -54,20 +56,20 @@ public class EnchantmentHelperMixinMixin {
     /**
      * Bypasses limitCheck when calling EnchantmentHelper.set
      * @param original did it fail the check originally?
-     * @param curse the enchantment
+     * @param enchantments This varies based on version. Can be an enchantment, a List of enchantment registry entries, etc. All we do is get the curse from this parameter.
      * @return if it really failed the check according to cursepatch
      */
     @TargetHandler(
             mixin = "moriyashiine.enchancement.mixin.vanillachanges.enchantmentlimit.EnchantmentHelperMixin",
-            name = "lambda$enchancement$enchantmentLimit$0(Lnet/minecraft/component/type/ItemEnchantmentsComponent;Lnet/minecraft/registry/entry/RegistryEntry;)Z"
+            name = "lambda$enchancement$enchantmentLimit$0(Ljava/util/List;Lnet/minecraft/registry/entry/RegistryEntry;)Z"
     )
     @ModifyExpressionValue(
             method = "@MixinSquared:Handler",
             at = @At(
                     value = "INVOKE",
-                    target = "Lmoriyashiine/enchancement/common/util/EnchancementUtil;limitCheck(ZZ)Z", remap = false)
+                    target = "Ljava/util/List;contains(Ljava/lang/Object;)Z", remap = false)
     )
-    private static boolean cursePatchEnchantmentHelperSet(boolean original, ItemEnchantmentsComponent enchantmentsComponent, RegistryEntry<Enchantment> curse) {
+    private static boolean cursePatchEnchantmentHelperSet(boolean original, List<RegistryEntry<Enchantment>> enchantments, RegistryEntry<Enchantment> curse) {
         if (UnboundConfig.cursePatch && curse != null && curse.value() != null && curse.value().isCursed()) {
             return true;
         }
