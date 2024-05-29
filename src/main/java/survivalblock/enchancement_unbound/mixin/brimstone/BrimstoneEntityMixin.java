@@ -1,6 +1,7 @@
 package survivalblock.enchancement_unbound.mixin.brimstone;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import moriyashiine.enchancement.common.entity.projectile.BrimstoneEntity;
 import net.minecraft.entity.Entity;
@@ -31,10 +32,10 @@ public abstract class BrimstoneEntityMixin extends PersistentProjectileEntity {
         super(entityType, world);
     }
 
-    @ModifyExpressionValue(method = "lambda$tick$1", at = @At(value = "CONSTANT", args = "doubleValue=50"))
+    @ModifyExpressionValue(method = "lambda$tick$1", at = @At(value = "CONSTANT", args = "doubleValue=50.0"))
     private double enforceMyCapNotYours(double doubleValue, Entity entity) {
         if(this.getIgnoresDamageLimit()){
-            return doubleValue;
+            return Double.MAX_VALUE;
         }
         return Math.max(doubleValue, UnboundConfig.maxBrimstoneDamage);
     }
