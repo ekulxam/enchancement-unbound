@@ -51,6 +51,11 @@ dependencies {
 
     // clumps because lot of xp while testing damage
     modRuntimeOnly "maven.modrinth:clumps:${clumps_version}"
+    //modRuntimeOnly "maven.modrinth:torohealth-damage-indicators-updated:${torohealth_version}"
+    modRuntimeOnly "maven.modrinth:respawnable-pets:${respawnable_pets_version}"
+    modRuntimeOnly "maven.modrinth:cloth-config:${cloth_config_version}"
+    modRuntimeOnly "maven.modrinth:squeedometer:${squeedometer_version}"
+    //modRuntimeOnly "maven.modrinth:chais-elytra-enchants:${elytra_enchants_version}"
 
     // minecraft and fabric
     minecraft "com.mojang:minecraft:${minecraft_version}"
@@ -60,22 +65,22 @@ dependencies {
     // literally everything else that enchancement needs or uses
     // I have no idea what half of these do
     // EDIT: After spending two months on enchancement 1.20-20, I now understand what most of these do
-    include modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cardinal_components_version}")
-    include modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${cardinal_components_version}")
-    include modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-world:${cardinal_components_version}")
+    include modApi("org.ladysnake.cardinal-components-api:cardinal-components-base:${cardinal_components_version}")
+    include modApi("org.ladysnake.cardinal-components-api:cardinal-components-entity:${cardinal_components_version}")
+    include modApi("org.ladysnake.cardinal-components-api:cardinal-components-world:${cardinal_components_version}")
     include modApi("maven.modrinth:midnightlib:${midnightlib_version}")
-    include modApi("com.github.emilyploszaj:step-height-entity-attribute:${step_height_entity_attribute_version}")
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     modRuntimeOnly "maven.modrinth:tooltipfix:${tooltipfix_version}"
+    /*
     modCompileOnly("com.github.apace100:apoli:${apoli_version}") {
         exclude(group: "*")
     }
+    */
     modCompileOnly "maven.modrinth:architectury-api:${architectury_version}+fabric"
-    modCompileOnly "software.bernie.geckolib:geckolib-fabric-${geckolib_version}"
     modCompileOnly "maven.modrinth:sodium:${sodium_version}"
     modRuntimeOnly "maven.modrinth:sodium:${sodium_version}"
     implementation "org.joml:joml:1.10.4"
-    modCompileOnly "maven.modrinth:spectrum:${spectrum_version}"
+    //modCompileOnly "maven.modrinth:spectrum:${spectrum_version}"
     modRuntimeOnly "com.terraformersmc:modmenu:${mod_menu_version}"
 }
 
@@ -88,7 +93,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 17
+    it.options.release = 21
 }
 
 java {
