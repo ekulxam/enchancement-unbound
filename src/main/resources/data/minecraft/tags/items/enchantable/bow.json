@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "enchancement_unbound:slingshot",
+      "required": false
+    }
+  ]
+}
