@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface TridentEntityAccessor {
 
     @Accessor("LOYALTY")
-    static TrackedData<Byte> getLoyalty() {
+    static TrackedData<Byte> enchancement_unbound$getLoyalty() {
         throw new UnsupportedOperationException();
     }
 
     @Accessor("dealtDamage")
-    void setDealtDamage(boolean dealtDamage);
+    void enchancement_unbound$setDealtDamage(boolean dealtDamage);
 }

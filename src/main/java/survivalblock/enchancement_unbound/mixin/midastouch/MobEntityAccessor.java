@@ -7,6 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(MobEntity.class)
 public interface MobEntityAccessor {
 
-    @Accessor
-    void setPersistent(boolean newValue);
+    @Accessor("persistent")
+    void enchancement_unbound$setPersistent(boolean newValue);
 }

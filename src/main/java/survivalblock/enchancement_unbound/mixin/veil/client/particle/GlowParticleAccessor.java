@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface GlowParticleAccessor {
 
     @Invoker("<init>")
-    static GlowParticle invokeGlowParticleConstructor(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider spriteProvider) {
+    static GlowParticle enchancement_unbound$invokeConstructor(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider spriteProvider) {
         throw new UnsupportedOperationException();
     }
 }

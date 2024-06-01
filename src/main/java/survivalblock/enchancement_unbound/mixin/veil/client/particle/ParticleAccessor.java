@@ -7,17 +7,17 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(Particle.class)
 public interface ParticleAccessor {
 
-    @Accessor
-    double getVelocityX();
-    @Accessor
-    double getVelocityY();
-    @Accessor
-    double getVelocityZ();
+    @Accessor("velocityX")
+    double enchancement_unbound$getVelocityX();
+    @Accessor("velocityY")
+    double enchancement_unbound$getVelocityY();
+    @Accessor("velocityZ")
+    double enchancement_unbound$getVelocityZ();
 
-    @Accessor
-    void setVelocityX(double velocityX);
-    @Accessor
-    void setVelocityY(double velocityY);
-    @Accessor
-    void setVelocityZ(double velocityZ);
+    @Accessor("velocityX")
+    void enchancement_unbound$setVelocityX(double velocityX);
+    @Accessor("velocityY")
+    void enchancement_unbound$setVelocityY(double velocityY);
+    @Accessor("velocityZ")
+    void enchancement_unbound$setVelocityZ(double velocityZ);
 }

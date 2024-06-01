@@ -1,7 +1,6 @@
 package survivalblock.enchancement_unbound.mixin.warp;
 
 import com.bawnorton.mixinsquared.TargetHandler;
-import moriyashiine.enchancement.common.ModConfig;
 import moriyashiine.enchancement.common.util.EnchancementUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
@@ -12,7 +11,6 @@ import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -43,7 +41,7 @@ public abstract class PersistentProjectileEntityMixinMixin extends ProjectileEnt
         if (!((PersistentProjectileEntity) (Object) this instanceof TridentEntity trident)) {
             return;
         }
-        byte i = this.dataTracker.get(TridentEntityAccessor.getLoyalty());
+        byte i = this.dataTracker.get(TridentEntityAccessor.enchancement_unbound$getLoyalty());
         if (EnchancementUtil.shouldDisableLoyalty((PersistentProjectileEntity) (Object) this)) {
             i = 0;
         }
@@ -56,6 +54,6 @@ public abstract class PersistentProjectileEntityMixinMixin extends ProjectileEnt
         trident.setVelocity(Vec3d.ZERO);
         trident.setOnGround(true);
         trident.setNoClip(true);
-        ((TridentEntityAccessor) trident).setDealtDamage(true);
+        ((TridentEntityAccessor) trident).enchancement_unbound$setDealtDamage(true);
     }
 }

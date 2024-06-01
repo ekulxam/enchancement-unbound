@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface ModEnchantmentsAccessor {
 
     @Invoker(value = "properties")
-    static Enchantment.Properties invokeProperties(TagKey<Item> supportedItems, int maxLevel, EquipmentSlot... slots) {
+    static Enchantment.Properties enchancement_unbound$invokeProperties(TagKey<Item> supportedItems, int maxLevel, EquipmentSlot... slots) {
         throw new UnsupportedOperationException();
     }
 }

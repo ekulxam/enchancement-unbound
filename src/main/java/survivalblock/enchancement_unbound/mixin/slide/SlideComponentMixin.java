@@ -3,10 +3,8 @@ package survivalblock.enchancement_unbound.mixin.slide;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import moriyashiine.enchancement.common.component.entity.GaleComponent;
 import moriyashiine.enchancement.common.component.entity.SlideComponent;
 import moriyashiine.enchancement.common.init.ModDamageTypes;
-import moriyashiine.enchancement.common.init.ModEntityComponents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
@@ -33,7 +31,7 @@ public class SlideComponentMixin {
     @Inject(method = "slamTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;playSound(Lnet/minecraft/sound/SoundEvent;FF)V", shift = At.Shift.AFTER))
     private void goDamageYourself(Runnable onLand, CallbackInfo ci){
         if (UnboundConfig.shouldDealSlamDamage && UnboundConfig.slamSelfDamage) {
-            PlayerEntity player = ((SlideComponentAccessor) this).getPlayer();
+            PlayerEntity player = ((SlideComponentAccessor) this).enchancement_unbound$getPlayer();
             player.damage(player.getDamageSources().flyIntoWall(), (float) UnboundConfig.slideImpactDamage * 0.6F);
         }
     }

@@ -10,8 +10,8 @@ import java.util.function.Supplier;
 @Mixin(EnchancementClient.class)
 public interface EnchancementClientAccessor {
 
-    @Invoker
-    static KeyBinding invokeRegisterKeyBinding(Supplier<KeyBinding> supplier) {
+    @Invoker("registerKeyBinding")
+    static KeyBinding enchancement_unbound$invokeRegisterKeyBinding(Supplier<KeyBinding> supplier) {
         throw new UnsupportedOperationException();
     }
 }
