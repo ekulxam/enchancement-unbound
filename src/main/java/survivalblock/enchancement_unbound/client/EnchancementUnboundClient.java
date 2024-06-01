@@ -1,7 +1,6 @@
 package survivalblock.enchancement_unbound.client;
 
 
-import moriyashiine.enchancement.client.event.EnchantedToolsHaveEfficiencyEvent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -43,6 +42,6 @@ public class EnchancementUnboundClient implements ClientModInitializer {
 	}
 
 	public static KeyBinding registerKeyBinding(Supplier<KeyBinding> supplier) {
-		return EnchancementClientAccessor.invokeRegisterKeyBinding(supplier);
+		return EnchancementClientAccessor.enchancement_unbound$invokeRegisterKeyBinding(supplier);
 	}
 }

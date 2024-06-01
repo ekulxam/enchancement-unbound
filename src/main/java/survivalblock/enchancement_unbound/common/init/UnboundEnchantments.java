@@ -20,7 +20,7 @@ public class UnboundEnchantments {
     public static final Enchantment SENTIENT_PANTS = new Enchantment(properties(ItemTags.LEG_ARMOR_ENCHANTABLE, 1, EquipmentSlot.LEGS));
 
     public static Enchantment.Properties properties(TagKey<Item> supportedItems, int maxLevel, EquipmentSlot... slots) {
-        return ModEnchantmentsAccessor.invokeProperties(supportedItems, maxLevel, slots);
+        return ModEnchantmentsAccessor.enchancement_unbound$invokeProperties(supportedItems, maxLevel, slots);
     }
 
     public static void init() {

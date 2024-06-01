@@ -130,7 +130,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         if (!world.isClient()) {
             if (this.isGolden) {
                 this.incrementStatueTicks();
-                ((EntityAccessor) this.obj).invokeCheckWaterState();
+                ((EntityAccessor) this.obj).enchancement_unbound$invokeCheckWaterState();
                 if (shouldUndo()) {
                     undo();
                 }
@@ -283,7 +283,7 @@ public class MidasTouchComponent implements AutoSyncedComponent, CommonTickingCo
         } else {
             if (this.obj instanceof MobEntity mob) {
                 if (!hadNoAI) mob.setAiDisabled(false);
-                if (!wasPersistent) ((MobEntityAccessor) mob).setPersistent(false);
+                if (!wasPersistent) ((MobEntityAccessor) mob).enchancement_unbound$setPersistent(false);
             }
             this.obj.getBrain().forgetAll();
             if (this.obj instanceof WardenEntity warden) {

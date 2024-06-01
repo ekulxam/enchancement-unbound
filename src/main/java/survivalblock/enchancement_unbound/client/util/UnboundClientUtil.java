@@ -40,7 +40,7 @@ public class UnboundClientUtil {
         if (spriteProvider == null) {
             return null;
         }
-        GlowParticle glowParticle = GlowParticleAccessor.invokeGlowParticleConstructor(clientWorld, x, y, z, 0.5 - CurtainComponent.RANDOM.nextDouble(), velocityY, 0.5 - CurtainComponent.RANDOM.nextDouble(), spriteProvider);
+        GlowParticle glowParticle = GlowParticleAccessor.enchancement_unbound$invokeConstructor(clientWorld, x, y, z, 0.5 - CurtainComponent.RANDOM.nextDouble(), velocityY, 0.5 - CurtainComponent.RANDOM.nextDouble(), spriteProvider);
         int colorType = MathHelper.nextInt(CurtainComponent.RANDOM, 0, 3);
         if (colorType == 0) {
             // 232 174 182
@@ -55,10 +55,10 @@ public class UnboundClientUtil {
             // 42 92 128
             glowParticle.setColor((42 / 255f), (92 / 255f), (128 / 255f));
         }
-        ((ParticleAccessor) glowParticle).setVelocityY(((ParticleAccessor) glowParticle).getVelocityY() * 0.6f);
+        ((ParticleAccessor) glowParticle).enchancement_unbound$setVelocityY(((ParticleAccessor) glowParticle).enchancement_unbound$getVelocityY() * 0.6f);
         if (velocityX == 0.0 && velocityZ == 0.0) {
-            ((ParticleAccessor) glowParticle).setVelocityX(((ParticleAccessor) glowParticle).getVelocityX() * 0.1f);
-            ((ParticleAccessor) glowParticle).setVelocityZ(((ParticleAccessor) glowParticle).getVelocityZ() * 0.1f);
+            ((ParticleAccessor) glowParticle).enchancement_unbound$setVelocityX(((ParticleAccessor) glowParticle).enchancement_unbound$getVelocityX() * 0.1f);
+            ((ParticleAccessor) glowParticle).enchancement_unbound$setVelocityZ(((ParticleAccessor) glowParticle).enchancement_unbound$getVelocityZ() * 0.1f);
         }
         glowParticle.setMaxAge((int) (8.0 / (clientWorld.random.nextDouble() * 0.8 + 0.2)));
         return glowParticle;
