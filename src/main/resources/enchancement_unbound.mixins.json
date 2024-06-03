@@ -14,7 +14,7 @@
     "bouncy.BouncyComponentMixin",
     "bouncy.LivingEntityMixinMixin",
     "brimstone.BrimstoneEntityMixin",
-    "brimstone.CrossbowItemMixinMixin",
+    "brimstone.RangedWeaponItemMixinMixin",
     "bury.BuryEventMixin",
     "bury.BuryEventMixin$UseMixin",
     "chaos.ChaosArrowComponentMixin",
