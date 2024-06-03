@@ -1,3 +1,4 @@
-Enchancement Unbound 1.0.5+1.20.6-r4
-- Scatter bug is now fixed, so reimplemented No Crossbow Cooldown for scatter
-- Refactor usages of Enchancement's tags
+Enchancement Unbound 1.0.5+1.20.6-r5
+- Add pirate speak
+- Fix a remap
+- Bump enchancement version
