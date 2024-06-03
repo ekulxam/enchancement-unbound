@@ -142,7 +142,7 @@ public class UnboundUtil {
 
     public static void applyExtendedWater(LivingEntity living){
         ExtendedWaterComponent extendedWaterComponent = ModEntityComponents.EXTENDED_WATER.get(living);
-        extendedWaterComponent.markWet();
+        extendedWaterComponent.markWet(200);
         ModEntityComponents.EXTENDED_WATER.get(living).sync();
     }
 
