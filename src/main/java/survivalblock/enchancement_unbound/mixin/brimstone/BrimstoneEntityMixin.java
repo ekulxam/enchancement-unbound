@@ -21,7 +21,7 @@ import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
 @Mixin(BrimstoneEntity.class)
 public abstract class BrimstoneEntityMixin extends PersistentProjectileEntity {
 
-    @Shadow protected abstract void addParticles(double x, double y, double z);
+    @Shadow(remap = false) protected abstract void addParticles(double x, double y, double z);
 
     @Unique
     private boolean getIgnoresDamageLimit() {
