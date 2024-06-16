@@ -6,11 +6,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import survivalblock.enchancement_unbound.client.util.UnboundClientUtil;
 import survivalblock.enchancement_unbound.common.component.CurtainComponent;
 import survivalblock.enchancement_unbound.common.init.UnboundEntityComponents;
@@ -22,7 +24,7 @@ public abstract class GameRendererMixin {
     @Shadow abstract void loadPostProcessor(Identifier id);
 
 
-    @WrapOperation(method = "onCameraEntitySet", at = @At(value = "CONSTANT", args = "classValue=net/minecraft/entity/mob/EndermanEntity"))
+    @WrapOperation(method = "onCameraEntitySet", constant = @Constant(classValue = EndermanEntity.class))
     private boolean notSoSuperSecretSettingsAnymore(Object object, Operation<Boolean> original, Entity entity) {
         boolean isAnEnderman = original.call(object);
         if (!isAnEnderman) {
