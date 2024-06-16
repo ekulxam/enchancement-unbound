@@ -31,6 +31,6 @@ public class AbstractInventoryScreenMixin {
         if (percent <= 0) {
             return;
         }
-        UnboundClientUtil.BossBar.renderBossBar(context, percent);
+        UnboundClientUtil.BossBarUtil.renderBossBar(context, percent);
     }
 }
