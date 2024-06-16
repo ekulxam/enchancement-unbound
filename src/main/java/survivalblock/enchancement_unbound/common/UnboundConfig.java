@@ -126,9 +126,9 @@ public class UnboundConfig extends MidnightConfig {
 	@Entry(category = "client")
 	public static boolean berserkColorTint = true;
 	@Entry(category = "client")
-	public static BossBar.Color astralPlaneInsanityBarColor = BossBar.Color.PURPLE;
+	public static Color astralPlaneInsanityBarColor = Color.PURPLE;
 	@Entry(category = "client")
-	public static BossBar.Style astralPlaneInsanityBarStyle = BossBar.Style.PROGRESS;
+	public static Style astralPlaneInsanityBarStyle = Style.PROGRESS;
 
     public static int encode() {
 		String encoding = "I can put whatever I want here"
@@ -182,5 +182,43 @@ public class UnboundConfig extends MidnightConfig {
 				+ horseshoes
 				+ airMobilityEnchantsWorkWhenUsingElytra;
 		return encoding.hashCode();
+	}
+
+	public enum Color {
+		PINK("pink"),
+		BLUE("blue"),
+		RED("red"),
+		GREEN("green"),
+		YELLOW("yellow"),
+		PURPLE("purple"),
+		WHITE("white");
+
+		private final String name;
+
+		Color(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return this.name;
+		}
+	}
+
+	public enum Style {
+		PROGRESS("progress"),
+		NOTCHED_6("notched_6"),
+		NOTCHED_10("notched_10"),
+		NOTCHED_12("notched_12"),
+		NOTCHED_20("notched_20");
+
+		private final String name;
+
+		Style(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return this.name;
+		}
 	}
 }
