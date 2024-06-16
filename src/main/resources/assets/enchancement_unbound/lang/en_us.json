@@ -123,5 +123,6 @@
   "enchancement_unbound.midnightconfig.orbitalBrimstoneExplosionPower": "Orbital Brimstone Explosion Power",
   "enchancement_unbound.midnightconfig.orbitalBrimstoneGoesThroughWalls": "Orbital Brimstone Goes Through Walls",
   "enchancement_unbound.midnightconfig.airbending": "Airbending",
-  "enchancement_unbound.midnightconfig.airMobilityEnchantsWorkWhenUsingElytra": "Air Mobility Enchants Work When Using Elytra"
+  "enchancement_unbound.midnightconfig.airMobilityEnchantsWorkWhenUsingElytra": "Air Mobility Enchants Work When Using Elytra",
+  "enchancement_unbound.midnightconfig.dripstoneImpactInstakills": "Slamming On Pointed Dripstone Instakills"
 }
