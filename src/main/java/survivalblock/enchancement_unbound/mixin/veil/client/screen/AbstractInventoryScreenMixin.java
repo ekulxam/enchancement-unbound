@@ -4,7 +4,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -31,6 +30,6 @@ public class AbstractInventoryScreenMixin {
         if (percent <= 0) {
             return;
         }
-        UnboundClientUtil.BossBar.renderBossBar(context, percent);
+        UnboundClientUtil.BossBarUtil.renderBossBar(context, percent);
     }
 }

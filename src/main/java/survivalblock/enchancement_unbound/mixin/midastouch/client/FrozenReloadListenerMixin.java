@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Mixin(value = FrozenReloadListener.class, remap = false, priority = 5000)
+@Mixin(value = FrozenReloadListener.class, priority = 5000)
 public class FrozenReloadListenerMixin {
 
     @Unique
@@ -29,7 +29,7 @@ public class FrozenReloadListenerMixin {
     @Unique
     private final Map<Identifier, Identifier> GOLDEN_TEXTURE_CACHE = new HashMap<>();
 
-    @ModifyExpressionValue(method = "generateTexture", at = @At(value = "FIELD", target = "Lmoriyashiine/enchancement/client/reloadlisteners/FrozenReloadListener;PACKED_ICE_TEXTURE:Lnet/minecraft/util/Identifier;", remap = true))
+    @ModifyExpressionValue(method = "generateTexture", at = @At(value = "FIELD", target = "Lmoriyashiine/enchancement/client/reloadlisteners/FrozenReloadListener;PACKED_ICE_TEXTURE:Lnet/minecraft/util/Identifier;"))
     private static Identifier replaceWithGoldenTouch(Identifier original){
         return MidasTouchCurse.golden ? GOLD_BLOCK_TEXTURE : original;
     }
@@ -55,7 +55,7 @@ public class FrozenReloadListenerMixin {
         return MidasTouchCurse.golden ? GOLDEN_TEXTURE_CACHE : original;
     }
 
-    @WrapWithCondition(method = "lambda$getTexture$0", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;Ljava/lang/Throwable;)V"))
+    @WrapWithCondition(method = "lambda$getTexture$0", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;Ljava/lang/Throwable;)V"), remap = false)
     private static boolean changeLogger(Logger instance, String s, Throwable throwable, Identifier original, @Local IOException e){
         if (MidasTouchCurse.golden) {
             EnchancementUnbound.LOGGER.warn("Unable to generate golden texture for {}", original, e);
