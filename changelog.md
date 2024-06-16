@@ -1,2 +1,2 @@
-Enchancement Unbound 1.0.4+1.20-24+26
-- Fixed orbital strike brimstone not doing nearly as much damage as intended
+Enchancement Unbound 1.0.5+1.20-24+26
+- Fix mixins and remaps (sorry)
