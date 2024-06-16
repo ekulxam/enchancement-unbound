@@ -12,6 +12,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.Registries;
@@ -72,10 +73,10 @@ public class UnboundClientUtil {
     }
 
     public static Identifier getSuperSecretTikTokShaderThing() {
-        return EnchancementUnbound.id("shaders/post/sobel.json");
+        return new Identifier("shaders/post/sobel.json");
     }
 
-    public static class BossBar {
+    public static class BossBarUtil {
         public static final Identifier BARS_TEXTURE = new Identifier("textures/gui/bars.png");
         public static final int WIDTH = 182;
         public static final int HEIGHT = 5;
@@ -98,7 +99,7 @@ public class UnboundClientUtil {
             matrixStack.push();
             matrixStack.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(90), x, y, 0);
             context.drawTexture(BARS_TEXTURE, x, y, 0, UnboundConfig.astralPlaneInsanityBarColor.ordinal() * 5 * 2 + height, width, HEIGHT);
-            net.minecraft.entity.boss.BossBar.Style style = UnboundConfig.astralPlaneInsanityBarStyle;
+            BossBar.Style style = BossBar.Style.valueOf(UnboundConfig.astralPlaneInsanityBarStyle.name());
             if (style != net.minecraft.entity.boss.BossBar.Style.PROGRESS) {
                 RenderSystem.enableBlend();
                 context.drawTexture(BARS_TEXTURE, x, y, 0, NOTCHED_BAR_OVERLAY_V + (style.ordinal() - 1) * 5 * 2 + height, width, HEIGHT);
